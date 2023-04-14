@@ -95,6 +95,9 @@ public class TrangDangNhap extends JFrame {
 		JButton btnngK = new JButton("Đăng Kí");
 		btnngK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				trangDangKi tdk= new trangDangKi();
+				tdk.setVisible(true);
+				dispose();
 			}
 		});
 		btnngK.setFont(new Font("Tahoma", Font.PLAIN, 16));

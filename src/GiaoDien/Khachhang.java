@@ -119,77 +119,77 @@ public class Khachhang extends JFrame {
 				JLabel lblNewLabel = new JLabel("Thông tin Khách Hàng");
 				lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 				lblNewLabel.setBounds(40, 34, 321, 63);
-				f.add(lblNewLabel);
+				f.getContentPane().add(lblNewLabel);
 				
 				JLabel lblmanv = new JLabel("Mã Nhân Viên");
 				lblmanv.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblmanv.setBounds(39, 108, 114, 31);
-				f.add(lblmanv);
+				f.getContentPane().add(lblmanv);
 				
 				txtma = new JTextField();
 				txtma.setBounds(163, 110, 380, 31);
-				f.add(txtma);
+				f.getContentPane().add(txtma);
 				txtma.setColumns(10);
 				
 				JLabel lbltennv = new JLabel("Tên Nhân Viên");
 				lbltennv.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lbltennv.setBounds(39, 150, 114, 31);
-				f.add(lbltennv);
+				f.getContentPane().add(lbltennv);
 				
 				txtten = new JTextField();
 				txtten.setColumns(10);
 				txtten.setBounds(163, 152, 380, 31);
-				f.add(txtten);
+				f.getContentPane().add(txtten);
 				
 				JLabel lblSdt = new JLabel("SĐT");
 				lblSdt.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblSdt.setBounds(39, 192, 114, 31);
-				f.add(lblSdt);
+				f.getContentPane().add(lblSdt);
 				
 				txtSDT = new JTextField();
 				txtSDT.setColumns(10);
 				txtSDT.setBounds(163, 194, 380, 31);
-				f.add(txtSDT);
+				f.getContentPane().add(txtSDT);
 				
 				JLabel lblCmnd = new JLabel("CMND");
 				lblCmnd.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblCmnd.setBounds(40, 234, 114, 31);
-				f.add(lblCmnd);
+				f.getContentPane().add(lblCmnd);
 				
 				txtCMND = new JTextField();
 				txtCMND.setColumns(10);
 				txtCMND.setBounds(163, 236, 380, 31);
-				f.add(txtCMND);
+				f.getContentPane().add(txtCMND);
 				
 				JLabel lblngaythue = new JLabel("Ngày Thuê");
 				lblngaythue.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblngaythue.setBounds(39, 318, 114, 31);
-				f.add(lblngaythue);
+				f.getContentPane().add(lblngaythue);
 				
 				txtngayThue = new JTextField();
 				txtngayThue.setColumns(10);
 				txtngayThue.setBounds(163, 320, 380, 31);
-				f.add(txtngayThue);
+				f.getContentPane().add(txtngayThue);
 				
 				JLabel lblEmail = new JLabel("Email");
 				lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblEmail.setBounds(39, 276, 114, 31);
-				f.add(lblEmail);
+				f.getContentPane().add(lblEmail);
 				
 				txtEmail = new JTextField();
 				txtEmail.setColumns(10);
 				txtEmail.setBounds(163, 278, 380, 31);
-				f.add(txtEmail);
+				f.getContentPane().add(txtEmail);
 				
 				JLabel lblngaysinh = new JLabel("Ngày Sinh");
 				lblngaysinh.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblngaysinh.setBounds(39, 369, 114, 31);
-				f.add(lblngaysinh);
+				f.getContentPane().add(lblngaysinh);
 				
 				JRadioButton rdbtnNam = new JRadioButton("Nam");
 				rdbtnNam.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				rdbtnNam.setBounds(169, 426, 109, 23);
-				f.add(rdbtnNam);
+				f.getContentPane().add(rdbtnNam);
 				
 				JRadioButton rdbtnNu = new JRadioButton("Nữ");
 				rdbtnNu.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -199,12 +199,12 @@ public class Khachhang extends JFrame {
 				txtngaySinh = new JTextField();
 				txtngaySinh.setColumns(10);
 				txtngaySinh.setBounds(163, 367, 380, 31);
-				f.add(txtngaySinh);
+				f.getContentPane().add(txtngaySinh);
 				
 				JLabel lblGioiTinh = new JLabel("Giới Tính");
 				lblGioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 16));
 				lblGioiTinh.setBounds(39, 418, 114, 31);
-				f.add(lblGioiTinh);
+				f.getContentPane().add(lblGioiTinh);
 				
 			 
 				
@@ -218,27 +218,27 @@ public class Khachhang extends JFrame {
 			        // Định dạng ngày giờ
 			        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinner, "dd/MM/yyyy ");
 			        spinner.setEditor(dateEditor);
-			        f.add(spinner);
+			        f.getContentPane().add(spinner);
 			        
 			        JLabel lblloaikhach = new JLabel("Loại Khách");
 			        lblloaikhach.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			        lblloaikhach.setBounds(40, 475, 114, 31);
-			        f.add(lblloaikhach);
+			        f.getContentPane().add(lblloaikhach);
 			        
 			        txtLoaikhach = new JTextField();
 			        txtLoaikhach.setColumns(10);
 			        txtLoaikhach.setBounds(163, 475, 380, 31);
-			        f.add(txtLoaikhach);
+			        f.getContentPane().add(txtLoaikhach);
 			        
 			        JLabel lblsoPhong = new JLabel("Số Phòng");
 			        lblsoPhong.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			        lblsoPhong.setBounds(39, 527, 114, 31);
-			        f.add(lblsoPhong);
+			        f.getContentPane().add(lblsoPhong);
 			        
 			        JTextField txtsoPhong = new JTextField();
 			        txtsoPhong.setColumns(10);
 			        txtsoPhong.setBounds(163, 527, 380, 31);
-			        f.add(txtsoPhong);
+			        f.getContentPane().add(txtsoPhong);
 			        
 			        btnThemnv = new JButton("Thêm");
 			        btnThemnv.addActionListener(new ActionListener() {
@@ -252,7 +252,7 @@ public class Khachhang extends JFrame {
 			        });
 			        btnThemnv.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			        btnThemnv.setBounds(40, 588, 133, 51);
-			        f.add(btnThemnv);
+			        f.getContentPane().add(btnThemnv);
 			        
 			        JButton btnThoat = new JButton("Thoát");
 			        btnThoat.addActionListener(new ActionListener() {
@@ -262,7 +262,7 @@ public class Khachhang extends JFrame {
 			        });
 			        btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			        btnThoat.setBounds(228, 588, 133, 51);
-			        f.add(btnThoat);
+			        f.getContentPane().add(btnThoat);
 			        
 			        f.setVisible(true);
 			}

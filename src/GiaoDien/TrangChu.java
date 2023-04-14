@@ -86,6 +86,8 @@ public class TrangChu extends JFrame {
 		btnnhavien.setBorderPainted(false);
 		btnnhavien.setBounds(46, 188, 194, 48);
 		contentPane.add(btnnhavien);
+		 
+		
 		
 		JButton btnKhchHng = new JButton("Khách Hàng");
 		btnKhchHng.setIcon(new ImageIcon(TrangChu.class.getResource("/img/man-icon.png")));
@@ -167,15 +169,19 @@ public class TrangChu extends JFrame {
 			}
 		});
 		
-		JButton btnThngK = new JButton("Thống kê");
-		btnThngK.setIcon(new ImageIcon(TrangChu.class.getResource("/img/Numbers-icon.png")));
-		btnThngK.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		
-		
-		btnThngK.setBackground(new Color(242, 208, 183));
-		btnThngK.setBounds(56, 573, 184, 48);
-		contentPane.add(btnThngK);
-		btnThngK.setBorderPainted(false);
+//		JButton btnThngK = new JButton("Thống kê");
+//		btnThngK.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//			}
+//		});
+//		btnThngK.setIcon(new ImageIcon(TrangChu.class.getResource("/img/Numbers-icon.png")));
+//		btnThngK.setFont(new Font("Tahoma", Font.PLAIN, 17));
+//		
+//		
+//		btnThngK.setBackground(new Color(242, 208, 183));
+//		btnThngK.setBounds(56, 573, 184, 48);
+//		contentPane.add(btnThngK);
+//		btnThngK.setBorderPainted(false);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBackground(new Color(255, 153, 153));
@@ -268,22 +274,22 @@ public class TrangChu extends JFrame {
 						return null;
 					}
 				});
-				btnThngK.addMouseListener(new MouseAdapter() {
-				    @Override
-				    public void mouseEntered(MouseEvent e) {
-				    	btnThngK.setBackground(Color.white);
-				    }
-
-				    @Override
-				    public void mouseExited(MouseEvent e) {
-				    	btnThngK.setBackground(Color(255, 153, 153));
-				    }
-
-					private Color Color(int i, int j, int k) {
-						// TODO Auto-generated method stub
-						return null;
-					}
-				});
+//				btnThngK.addMouseListener(new MouseAdapter() {
+//				    @Override
+//				    public void mouseEntered(MouseEvent e) {
+//				    	btnThngK.setBackground(Color.white);
+//				    }
+//
+//				    @Override
+//				    public void mouseExited(MouseEvent e) {
+//				    	btnThngK.setBackground(Color(255, 153, 153));
+//				    }
+//
+//					private Color Color(int i, int j, int k) {
+//						// TODO Auto-generated method stub
+//						return null;
+//					}
+//				});
 	}
 
 }
