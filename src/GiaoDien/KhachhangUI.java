@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerDateModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -103,7 +106,8 @@ public class KhachhangUI extends JFrame {
 		model.addColumn("Ngày Sinh");
 		model.addColumn("Giới Tính");
 		model.addColumn("Loại Khách");
-		model.addColumn("Số Phòng");
+ 
+		model.addColumn("Trạng Thái");
 //		table = new JTable(model =new DefaultTableModel(
 //			new Object[][] {
 //				{"A01", "Nguy\u1EC5n Tunn", "0987654321", "89389231", "tuannguyn@gmail.com", "1/4/2023", "29/1/1998", "Nam", "Vip", "301"},
@@ -123,11 +127,33 @@ public class KhachhangUI extends JFrame {
 		
 		KHdao = new khachHangDAO();
 		for (KhachHang kh : KHdao.getAllKH()) {
-			Object []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky(),kh.getNgaysinh(),kh.getGioitinh(),kh.getMaloaiKhachHang(),kh.getSoPhong()};
+			Object []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky(),kh.getNgaysinh(),kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
 			model.addRow(obj);
 			
 		}
-		
+		ListSelectionModel selectionModel = table.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) {
+                        // Lấy dữ liệu từ JTable
+                        String firstName = (String) table.getValueAt(selectedRow, 0);
+                        String lastName = (String) table.getValueAt(selectedRow, 1);
+                        String lastName1 = (String) table.getValueAt(selectedRow, 2);
+
+                        // Tạo JFrame mới và hiển thị dữ liệu
+                        JFrame newFrame = new JFrame("Selected Row Data");
+                        JLabel label = new JLabel(firstName + " " + lastName + ", " + lastName1 + " years old");
+                        newFrame.getContentPane().add(label);
+                        newFrame.pack();
+                        newFrame.setLocationRelativeTo(null);
+                        newFrame.setVisible(true);
+                    }
+                }
+            }
+        });
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {

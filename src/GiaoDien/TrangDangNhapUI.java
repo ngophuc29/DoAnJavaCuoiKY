@@ -47,7 +47,7 @@ public class TrangDangNhapUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 208, 183));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
@@ -59,7 +59,7 @@ public class TrangDangNhapUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("Khách Sạn Bình Dương");
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-		lblNewLabel.setBounds(157, 11, 267, 66);
+		lblNewLabel.setBounds(192, 11, 267, 66);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tài Khoản");
@@ -92,16 +92,16 @@ public class TrangDangNhapUI extends JFrame {
 		btnNewButton.setBounds(192, 258, 134, 41);
 		contentPane.add(btnNewButton);
 		
-		JButton btnngK = new JButton("Đăng Kí");
+		JButton btnngK = new JButton("Đổi mật khẩu");
 		btnngK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				trangDangKiUI tdk= new trangDangKiUI();
+				trangDoiPass tdk= new trangDoiPass();
 				tdk.setVisible(true);
-				dispose();
+//				dispose();
 			}
 		});
 		btnngK.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnngK.setBounds(336, 258, 123, 41);
+		btnngK.setBounds(336, 258, 156, 41);
 		contentPane.add(btnngK);
 		
 		passwordField = new JPasswordField();

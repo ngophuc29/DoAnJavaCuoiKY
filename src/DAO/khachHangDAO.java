@@ -20,7 +20,7 @@ public class khachHangDAO {
 			Statement statement= con.createStatement();
 			ResultSet rs =statement.executeQuery(sql);
 			while(rs.next()) {
-				dskh.add(new  KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getDate(6)  , rs.getDate(7), rs.getString(8), rs.getString(9), rs.getInt(10)));
+				dskh.add(new  KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getDate(6)  , rs.getDate(7), rs.getString(8), rs.getString(9) , rs.getString(10)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

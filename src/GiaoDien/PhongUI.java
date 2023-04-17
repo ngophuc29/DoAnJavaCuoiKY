@@ -6,18 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import database.ConnectDB;
-
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class PhongUI extends JFrame {
 
@@ -43,12 +50,6 @@ public class PhongUI extends JFrame {
 	 * Create the frame.
 	 */
 	public PhongUI() {
-		try {
-			ConnectDB.getinstance().connect();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1396, 809);
 		contentPane = new JPanel();
@@ -59,7 +60,7 @@ public class PhongUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnPhng = new JButton("Phòng");
-		btnPhng.setIcon(new ImageIcon(PhongUI.class.getResource("/img/Shoji2-paper-sliding-door-icon.png")));
+//		btnPhng.setIcon(new ImageIcon(Phong.class.getResource("/img/Shoji2-paper-sliding-door-icon.png")));
 		btnPhng.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnPhng.setBorderPainted(false);
 		btnPhng.setBackground(new Color(242, 208, 183));
@@ -109,11 +110,55 @@ public class PhongUI extends JFrame {
 				JButton btnNewButton_1 = new JButton("<html><div style='text-align: center;'>Phòng 101<br> <br>(Thường)  <br> <br> Phòng Trống</div></html>");
 				btnNewButton_1.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
 					}
 				});
 				btnNewButton_1.setBackground(new Color(153, 204, 153));
 				panel.add(btnNewButton_1);
+				
+				JPopupMenu popupMenu = new JPopupMenu();
+				addPopup(btnNewButton_1, popupMenu);
+				
+				JMenuItem mntmdatphong = new JMenuItem("Đặt Phòng");
+				mntmdatphong.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(btnNewButton_1.getBackground().equals(Color.red)) {
+							  JOptionPane.showMessageDialog(null, "Phòng đã có người thuê");
+						}
+						else {
+							  if (JOptionPane.showConfirmDialog(null, "Ban Muon Đặt Phòng ??","Lưu Ý !!!",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+
+									 
+									JFrame hmm= new JFrame();
+									hmm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+									hmm.setBounds(100, 100, 450, 300);
+							 
+									setContentPane(contentPane);
+									hmm.getContentPane().setLayout(null);
+								 
+									JButton btnhmm = new JButton("hmm");
+									btnhmm.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent e) {
+											btnNewButton_1.setBackground(new Color(224, 63, 63));
+											btnNewButton_1.setText("<html><div style='text-align: center;'>Phòng 101<br> <br>(Thường)  <br> <br> Phòng Đã Có Khách</div></html>");
+											 hmm.setVisible(false);
+										}
+									});
+									btnhmm.setBounds(227, 202, 89, 23);
+									hmm.getContentPane().add(btnhmm);
+									 hmm.setVisible(true);
+							  }
+						}
+					}
+				});
+				popupMenu.add(mntmdatphong);
+				
+				JMenuItem mntmTraPhong = new JMenuItem("Trả Phòng");
+				mntmTraPhong.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null,"Phong chua dat Khong the tra");
+					}
+				});
+				popupMenu.add(mntmTraPhong);
 		
 		JButton btnNewButton_2 = new JButton("<html><div style='text-align: center;'>Phòng 102<br> <br>(Thường)  <br> <br> Phòng Trống</div></html>");
 		btnNewButton_2.setBackground(new Color(153, 204, 153));
@@ -155,7 +200,11 @@ public class PhongUI extends JFrame {
 		btnNewButton_11.setBackground(new Color(224, 63, 63));
 		panel.add(btnNewButton_11);
 		
-		JButton btnNewButton_13 = new JButton("<html><div style='text-align: center;'>Phòng 303<br> <br>(VIP)  <br> <br> Phòng Trống</div></html>");
+		JButton btnNewButton_13 = new JButton("<html><div style='text-align: center;'>Phòng 303<br> <br>(VIP)  <br> <br> Phòng Đã Có Khách</div></html>");
+		btnNewButton_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnNewButton_13.setBackground(new Color(224, 63, 63));
 		panel.add(btnNewButton_13);
 		
@@ -190,4 +239,21 @@ public class PhongUI extends JFrame {
 		contentPane.add(btnNewButton_6);
 	}
 
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 }
