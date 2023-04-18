@@ -15,13 +15,14 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
 
 public class TrangDangNhapUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
-
+	private JTextField txttk;
+	private JPasswordField txtpw;
+	String selectedOption;
 	/**
 	 * Launch the application.
 	 */
@@ -67,10 +68,10 @@ public class TrangDangNhapUI extends JFrame {
 		lblNewLabel_1.setBounds(68, 119, 93, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		textField.setBounds(192, 113, 267, 30);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txttk = new JTextField();
+		txttk.setBounds(192, 113, 267, 30);
+		contentPane.add(txttk);
+		txttk.setColumns(10);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Mật Khẩu");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -104,8 +105,31 @@ public class TrangDangNhapUI extends JFrame {
 		btnngK.setBounds(336, 258, 156, 41);
 		contentPane.add(btnngK);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(192, 167, 267, 30);
-		contentPane.add(passwordField);
+		txtpw = new JPasswordField();
+		txtpw.setBounds(192, 167, 267, 30);
+		contentPane.add(txtpw);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(269, 75, 106, 22);
+		comboBox.addItem("Nhân Viên");
+		comboBox.addItem("Quản Lý");
+		contentPane.add(comboBox);
+		
+		comboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                 selectedOption = (String) comboBox.getSelectedItem();
+                if (selectedOption.equals("Nhân Viên")) {
+                	txttk.setText("NV");
+                	  
+                }  if (selectedOption.equals("Quản Lý")) {
+                	txttk.setText("QL");
+                	 
+                }
+            }
+        });
+		JLabel lblNewLabel_3 = new JLabel("Bạn Là ?");
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_3.setBounds(202, 73, 141, 24);
+		contentPane.add(lblNewLabel_3);
 	}
 }
