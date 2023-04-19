@@ -5,7 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import database.ConnectDB;
+import database.ConnectDB;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Color;
@@ -13,6 +17,15 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
@@ -20,8 +33,8 @@ import javax.swing.JComboBox;
 public class TrangDangNhapUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txttk;
-	private JPasswordField txtpw;
+	public JTextField txttk;
+	public JPasswordField txtpw;
 	String selectedOption;
 	/**
 	 * Launch the application.
@@ -43,6 +56,11 @@ public class TrangDangNhapUI extends JFrame {
 	 * Create the frame.
 	 */
 	public TrangDangNhapUI() {
+		try {
+			ConnectDB.getinstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 535, 363);
 		contentPane = new JPanel();
@@ -79,6 +97,20 @@ public class TrangDangNhapUI extends JFrame {
 		contentPane.add(lblNewLabel_1_1);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox(" ");
+		chckbxNewCheckBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		chckbxNewCheckBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    txtpw.setEchoChar((char) 0); // Hiển thị mật khẩu
+                } else {
+                    txtpw.setEchoChar('\u2022'); // Ẩn mật khẩu
+                }
+            }
+        });
 		chckbxNewCheckBox.setBackground(new Color(242, 208, 183));
 		chckbxNewCheckBox.setBounds(192, 229, 29, 14);
 		contentPane.add(chckbxNewCheckBox);
@@ -88,22 +120,55 @@ public class TrangDangNhapUI extends JFrame {
 		lblNewLabel_2.setBounds(227, 226, 166, 16);
 		contentPane.add(lblNewLabel_2);
 		
-		JButton btnNewButton = new JButton("Đăng Nhập");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton.setBounds(192, 258, 134, 41);
-		contentPane.add(btnNewButton);
+		JButton btnDangNhap = new JButton("Đăng Nhập");
+		btnDangNhap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConnectDB.getinstance();
+				Connection con =ConnectDB.getConnection();
+				try {
+					
+					 
+					String sqlLogin="Select * From nhanvien where manv=? and password =?";
+				 
+						PreparedStatement pst = con.prepareStatement(sqlLogin);
+						pst.setString(1, txttk.getText());
+						pst.setString(2, txtpw.getText());
+						
+						ResultSet rs= pst.executeQuery();
+					
+						
+						if(txttk.getText().equals("")||txtpw.getText().equals("")) {
+							JOptionPane.showMessageDialog(null, "Chua nhap tai khoan va mat khau");
+						}
+						else if(rs.next()) {
+							TrangChuUI tc= new TrangChuUI();
+							tc.setVisible(true);
+							JOptionPane.showMessageDialog(null, "Đăng nhập thanh cong");
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
+						}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnDangNhap.setBounds(192, 258, 134, 41);
+		contentPane.add(btnDangNhap);
 		
-		JButton btnngK = new JButton("Đổi mật khẩu");
-		btnngK.addActionListener(new ActionListener() {
+		JButton btnDoiMK = new JButton("Đổi mật khẩu");
+		btnDoiMK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				trangDoiPass tdk= new trangDoiPass();
 				tdk.setVisible(true);
 //				dispose();
 			}
 		});
-		btnngK.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnngK.setBounds(336, 258, 156, 41);
-		contentPane.add(btnngK);
+		btnDoiMK.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnDoiMK.setBounds(336, 258, 156, 41);
+		contentPane.add(btnDoiMK);
 		
 		txtpw = new JPasswordField();
 		txtpw.setBounds(192, 167, 267, 30);
@@ -129,7 +194,20 @@ public class TrangDangNhapUI extends JFrame {
         });
 		JLabel lblNewLabel_3 = new JLabel("Bạn Là ?");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(202, 73, 141, 24);
+		lblNewLabel_3.setBounds(202, 72, 69, 24);
 		contentPane.add(lblNewLabel_3);
+		
+	}
+	
+	 public void itemStateChanged(ItemEvent e) {
+	        if (e.getStateChange() == ItemEvent.SELECTED) {
+	        	txtpw.setEchoChar((char) 0);
+	        } else {
+txtpw.setEchoChar('*');
+	        }
+	    }
+public void login() throws SQLException {
+		
+		
 	}
 }

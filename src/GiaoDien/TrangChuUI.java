@@ -169,19 +169,19 @@ public class TrangChuUI extends JFrame {
 			}
 		});
 		
-//		JButton btnThngK = new JButton("Thống kê");
-//		btnThngK.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//			}
-//		});
-//		btnThngK.setIcon(new ImageIcon(TrangChu.class.getResource("/img/Numbers-icon.png")));
-//		btnThngK.setFont(new Font("Tahoma", Font.PLAIN, 17));
-//		
-//		
-//		btnThngK.setBackground(new Color(242, 208, 183));
-//		btnThngK.setBounds(56, 573, 184, 48);
-//		contentPane.add(btnThngK);
-//		btnThngK.setBorderPainted(false);
+		JButton btnThngK = new JButton("Thống kê");
+		btnThngK.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnThngK.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Numbers-icon.png")));
+		btnThngK.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		
+		
+		btnThngK.setBackground(new Color(242, 208, 183));
+		btnThngK.setBounds(56, 573, 184, 48);
+		contentPane.add(btnThngK);
+		btnThngK.setBorderPainted(false);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBackground(new Color(255, 153, 153));
