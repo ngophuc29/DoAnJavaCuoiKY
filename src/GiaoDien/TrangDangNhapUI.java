@@ -35,7 +35,10 @@ public class TrangDangNhapUI extends JFrame {
 	private JPanel contentPane;
 	public JTextField txttk;
 	public JPasswordField txtpw;
-	String selectedOption;
+	public String selectedOption;
+	public JComboBox comboBoxPhanQuyen;
+	public String savema="";
+
 	/**
 	 * Launch the application.
 	 */
@@ -90,6 +93,7 @@ public class TrangDangNhapUI extends JFrame {
 		txttk.setBounds(192, 113, 267, 30);
 		contentPane.add(txttk);
 		txttk.setColumns(10);
+		txttk.setText("NV");
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Mật Khẩu");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -131,7 +135,7 @@ public class TrangDangNhapUI extends JFrame {
 					String sqlLogin="Select * From nhanvien where manv=? and password =?";
 				 
 						PreparedStatement pst = con.prepareStatement(sqlLogin);
-						pst.setString(1, txttk.getText());
+						 pst.setString(1, txttk.getText());
 						pst.setString(2, txtpw.getText());
 						
 						ResultSet rs= pst.executeQuery();
@@ -143,6 +147,25 @@ public class TrangDangNhapUI extends JFrame {
 						else if(rs.next()) {
 							TrangChuUI tc= new TrangChuUI();
 							tc.setVisible(true);
+							tc.txtmanvdn.setText(txttk.getText());
+							
+							//Phân quyền
+							String input =  txttk.getText(); // Lấy chuỗi đầu vào từ JTextField
+							String firstTwoChars = input.substring(0, 2);
+							
+							if(firstTwoChars.equals("NV")) {
+								tc.txtquyendangnhap.setText("Nhân Viên");
+								 
+								tc.btnnhavien.setEnabled(false);
+								tc.btnnhavien.setToolTipText("Mục Này Dành Cho Quản Lý");
+							}
+							else {
+								tc.txtquyendangnhap.setText("Quản Lý");
+								tc.btnnhavien.setEnabled(true);
+							}
+							
+							// End Phân Quyền
+							
 							JOptionPane.showMessageDialog(null, "Đăng nhập thanh cong");
 						}
 						else {
@@ -154,6 +177,8 @@ public class TrangDangNhapUI extends JFrame {
 				}
 			}
 		});
+		
+		
 		btnDangNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnDangNhap.setBounds(192, 258, 134, 41);
 		contentPane.add(btnDangNhap);
@@ -174,15 +199,15 @@ public class TrangDangNhapUI extends JFrame {
 		txtpw.setBounds(192, 167, 267, 30);
 		contentPane.add(txtpw);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(269, 75, 106, 22);
-		comboBox.addItem("Nhân Viên");
-		comboBox.addItem("Quản Lý");
-		contentPane.add(comboBox);
+		comboBoxPhanQuyen = new JComboBox();
+		comboBoxPhanQuyen.setBounds(269, 75, 106, 22);
+		comboBoxPhanQuyen.addItem("Nhân Viên");
+		comboBoxPhanQuyen.addItem("Quản Lý");
+		contentPane.add(comboBoxPhanQuyen);
 		
-		comboBox.addActionListener(new ActionListener() {
+		comboBoxPhanQuyen.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                 selectedOption = (String) comboBox.getSelectedItem();
+                 selectedOption = (String) comboBoxPhanQuyen.getSelectedItem();
                 if (selectedOption.equals("Nhân Viên")) {
                 	txttk.setText("NV");
                 	  
@@ -199,15 +224,19 @@ public class TrangDangNhapUI extends JFrame {
 		
 	}
 	
-	 public void itemStateChanged(ItemEvent e) {
+	 public JTextField getTxttk() {
+		return txttk;
+	}
+
+	public void itemStateChanged(ItemEvent e) {
 	        if (e.getStateChange() == ItemEvent.SELECTED) {
 	        	txtpw.setEchoChar((char) 0);
 	        } else {
 txtpw.setEchoChar('*');
 	        }
 	    }
-public void login() throws SQLException {
-		
+	 public  String savema  () {
+		return savema;
 		
 	}
 }

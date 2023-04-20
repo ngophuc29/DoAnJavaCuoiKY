@@ -36,29 +36,29 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
 
 public class FormThongTinPhongVaThanhToan extends JFrame {
-
-	private JPanel contentPane;
-	private JTextField txttenKH;
-	private JTextField txtngaytraphong;
-	private JTextField txtgiangay;
-	private JTextField txtgiagio;
-	private JTable tablekhachhang;
-	private DefaultTableModel modelkhachhang;
-	private JLabel txtTongTienPhong;
-	private JTable table_chitietdichvu;
-	private DefaultTableModel modelchitietdichVu;
-	private JLabel txttongtiendichvu;
-	private JTextField textField_2;
-	private JTextField soluongdichvucheck;
+	public JButton btnTraPhong; 
+	public JPanel contentPane;
+	public JTextField txttenKH;
+	public JTextField txtngaytraphong;
+	public JLabel txtgiangay;
+	public JLabel txtgiagio;
+	public JTable tablekhachhang;
+	public DefaultTableModel modelkhachhang;
+	public JLabel txtTongTienPhong;
+	public JTable table_chitietdichvu;
+	public DefaultTableModel modelchitietdichVu;
+	public JLabel txttongtiendichvu;
+	public JTextField textField_2;
+	public JTextField soluongdichvucheck;
 	String selectedOption;
 	int luusoluongdichvu=1;
 	JLabel txttongtienThanhToan ;
 	
 	double luutiendichvu;
-	private JTextField txtphuThu;
-	private JTextField txtstk;
-	private JTextField txttienKhachDua;
-	private JTextField txtTienkhachTraLai;
+	public JTextField txtphuThu;
+	public JTextField txtstk;
+	public JTextField txttienKhachDua;
+	public JTextField txtTienkhachTraLai;
 	/**
 	 * Launch the application.
 	 */
@@ -137,10 +137,13 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_1_1_1.setBounds(602, 53, 74, 20);
 		panel.add(lblNewLabel_1_1_1);
 		
-		txtgiangay = new JTextField();
-		txtgiangay.setColumns(10);
+		txtgiangay = new JLabel();
+		txtgiangay.setForeground(new Color(255, 0, 0));
+		txtgiangay.setFont(new Font("Tahoma", Font.BOLD, 15));
+		 
 		txtgiangay.setBackground(SystemColor.menu);
 		txtgiangay.setBounds(682, 53, 95, 20);
+		txtgiangay.setText("200");
 		panel.add(txtgiangay);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Giá Giờ");
@@ -148,10 +151,13 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(809, 53, 74, 20);
 		panel.add(lblNewLabel_1_1_1_1);
 		
-		txtgiagio = new JTextField();
-		txtgiagio.setColumns(10);
+		txtgiagio = new JLabel();
+		txtgiagio.setForeground(new Color(255, 0, 0));
+		txtgiagio.setFont(new Font("Tahoma", Font.BOLD, 15));
+		 
 		txtgiagio.setBackground(SystemColor.menu);
 		txtgiagio.setBounds(880, 53, 80, 20);
+		txtgiagio.setText("400");
 		panel.add(txtgiagio);
 		
 		JLabel lblNewLabel_2 = new JLabel("Hóa Đơn Chi Tiết");
@@ -163,15 +169,28 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		scrollPane.setBounds(20, 126, 938, 220);
 		panel.add(scrollPane);
 		
-		tablekhachhang = new JTable();
-		tablekhachhang.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", "1", "1", "1", "1", "1", "1", "1", "1", "120.000"},
-			},
-			new String[] {
-				"M\u00E3 H\u00F3a \u0110\u01A1n", "M\u00E3 Kh\u00E1ch H\u00E0ng", "M\u00E3 NV", "M\u00E3 Ph\u00F2ng", "Gi\u1EDD V\u00E0o", "Gi\u1EDD ra", "T\u1ED5ng th\u1EDDi gian", "T\u1ED5ng H\u00F3a \u0110\u01A1n", "T\u1ED5ng Thu", "Ti\u1EC1n Ph\u00F2ng"
-			}
-		));
+//		tablekhachhang.setModel(new DefaultTableModel(
+//				new Object[][] {
+//					{"1", "1", "1", "1", "1", "1", "1", "1", "1", "120.000"},
+//				},
+//				new String[] {
+//						"M\u00E3 H\u00F3a \u0110\u01A1n", "M\u00E3 Kh\u00E1ch H\u00E0ng", "M\u00E3 NV", "M\u00E3 Ph\u00F2ng", "Gi\u1EDD V\u00E0o", "Gi\u1EDD ra", "T\u1ED5ng th\u1EDDi gian", "T\u1ED5ng H\u00F3a \u0110\u01A1n", "T\u1ED5ng Thu", "Ti\u1EC1n Ph\u00F2ng"
+//				}
+//				));
+//		
+		
+		modelkhachhang= new DefaultTableModel();
+		modelkhachhang.addColumn("Mã Hóa ĐƠn");
+		modelkhachhang.addColumn("Mã Khách Hàng");
+		modelkhachhang.addColumn("Mã Nhân Viên");
+		modelkhachhang.addColumn("Mã Phòng");
+		modelkhachhang.addColumn("Giờ Vào");
+		modelkhachhang.addColumn("Giờ ra");
+		modelkhachhang.addColumn("Tổng Thời Gian");
+		modelkhachhang.addColumn("Tổng Hóa ĐƠn");
+		modelkhachhang.addColumn("Tổng Thu");
+		modelkhachhang.addColumn("Tiền Phòng");
+		tablekhachhang = new JTable(modelkhachhang);
 		tablekhachhang.getColumnModel().getColumn(1).setPreferredWidth(93);
 		tablekhachhang.getColumnModel().getColumn(6).setPreferredWidth(83);
 		tablekhachhang.getColumnModel().getColumn(7).setPreferredWidth(87);
@@ -498,8 +517,17 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		btnThanhToan.setForeground(new Color(255, 255, 255));
 		btnThanhToan.setBackground(new Color(128, 128, 255));
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnThanhToan.setBounds(30, 611, 375, 47);
+		btnThanhToan.setBounds(30, 637, 375, 47);
 		panel_2.add(btnThanhToan);
+		
+		  btnTraPhong = new JButton("Trả Phòng");
+		btnTraPhong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnTraPhong.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnTraPhong.setBounds(225, 702, 180, 44);
+		panel_2.add(btnTraPhong);
 		
 		
 		

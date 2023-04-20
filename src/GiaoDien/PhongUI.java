@@ -134,10 +134,36 @@ public class PhongUI extends JFrame {
 		
 		JPanel panelPhong101 = new JPanel();
 		panelPhong101.setBackground(new Color(153, 204, 153));
+		
+		
+		
+		panelPhong101.setBounds(0, 0, 300, 150);
+		panelPhongUITable.add(panelPhong101);
+		panelPhong101.setLayout(null);
+		
+		JLabel lblTenPhong101 = new JLabel("Phòng 101");
+		lblTenPhong101.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTenPhong101.setBounds(116, 28, 125, 27);
+		panelPhong101.add(lblTenPhong101);
+		
+		JLabel lblLoaiPhong101 = new JLabel("(Thường)");
+		lblLoaiPhong101.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblLoaiPhong101.setBounds(116, 65, 100, 27);
+		panelPhong101.add(lblLoaiPhong101);
+		
+		JLabel lblTrangThaiPhong101 = new JLabel("Phòng trống");
+		lblTrangThaiPhong101.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblTrangThaiPhong101.setBounds(107, 103, 152, 34);
+		panelPhong101.add(lblTrangThaiPhong101);
+		
+		
+		//sự kiện Phòng 1
+		
 		menuItem1.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // Xử lý sự kiện ở đây
 		    	panelPhong101.setBackground(new Color(238, 114, 96));
+		    	lblTrangThaiPhong101.setText("Phòng Đã Có Khách");
 		    }
 		});
 		
@@ -182,24 +208,9 @@ public class PhongUI extends JFrame {
 		});
 		
 		
-		panelPhong101.setBounds(0, 0, 300, 150);
-		panelPhongUITable.add(panelPhong101);
-		panelPhong101.setLayout(null);
+		//
 		
-		JLabel lblTenPhong101 = new JLabel("Phòng 101");
-		lblTenPhong101.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong101.setBounds(116, 28, 125, 27);
-		panelPhong101.add(lblTenPhong101);
 		
-		JLabel lblLoaiPhong101 = new JLabel("(Thường)");
-		lblLoaiPhong101.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblLoaiPhong101.setBounds(116, 65, 100, 27);
-		panelPhong101.add(lblLoaiPhong101);
-		
-		JLabel lblTrangThaiPhong101 = new JLabel("Phòng trống");
-		lblTrangThaiPhong101.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong101.setBounds(103, 102, 113, 34);
-		panelPhong101.add(lblTrangThaiPhong101);
 		
 		JPanel panelPhong102 = new JPanel();
 		panelPhong102.setBackground(new Color(153, 204, 153));

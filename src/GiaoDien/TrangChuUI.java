@@ -14,11 +14,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JTextField;
 
 public class TrangChuUI extends JFrame {
 
 	private JPanel contentPane;
-
+	private TrangDangNhapUI tdnui1;
+	public JLabel txtquyendangnhap;
+	public JLabel txtmanvdn;
+	public JButton btnnhavien;
 	/**
 	 * Launch the application.
 	 */
@@ -52,7 +56,7 @@ public class TrangChuUI extends JFrame {
 		JLabel lblNewLabel = new JLabel("Khách Sạn Bình Dương");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 20));
-		lblNewLabel.setBounds(21, 27, 296, 55);
+		lblNewLabel.setBounds(23, 51, 258, 55);
 		contentPane.add(lblNewLabel);
 		
 		JButton btnHome = new JButton("Home");
@@ -64,12 +68,12 @@ public class TrangChuUI extends JFrame {
 		btnHome.setFont(new Font("Tahoma", Font.BOLD, 17));
 		btnHome.setBorderPainted(false);
 		btnHome.setBackground(new Color(242, 208, 183));
-		btnHome.setBounds(50, 102, 194, 48);
+		btnHome.setBounds(50, 131, 194, 48);
 		contentPane.add(btnHome);
 		
 		
 		
-		JButton btnnhavien = new JButton("Nhân viên");
+		  btnnhavien = new JButton("Nhân viên");
 		btnnhavien.setBackground(new Color(242, 208, 183));
 		btnnhavien.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Administrator-icon.png")));
 		btnnhavien.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -84,7 +88,7 @@ public class TrangChuUI extends JFrame {
 			}
 		});
 		btnnhavien.setBorderPainted(false);
-		btnnhavien.setBounds(46, 188, 194, 48);
+		btnnhavien.setBounds(50, 225, 194, 48);
 		contentPane.add(btnnhavien);
 		 
 		
@@ -109,7 +113,7 @@ public class TrangChuUI extends JFrame {
 		
 		
 		btnKhchHng.setBackground(new Color(242, 208, 183));
-		btnKhchHng.setBounds(46, 287, 194, 48);
+		btnKhchHng.setBounds(50, 321, 194, 48);
 		contentPane.add(btnKhchHng);
 		
 		JButton btnPhng = new JButton("Phòng");
@@ -127,7 +131,7 @@ public class TrangChuUI extends JFrame {
 				
 				
 		btnPhng.setBackground(new Color(242, 208, 183));
-		btnPhng.setBounds(46, 381, 194, 48);
+		btnPhng.setBounds(50, 421, 194, 48);
 		contentPane.add(btnPhng);
 		btnPhng.setBorderPainted(false);
 		
@@ -146,7 +150,7 @@ public class TrangChuUI extends JFrame {
 				});
 		
 		btnDchV.setBackground(new Color(242, 208, 183));
-		btnDchV.setBounds(46, 477, 194, 48);
+		btnDchV.setBounds(50, 507, 194, 48);
 		contentPane.add(btnDchV);
 		
 
@@ -179,7 +183,7 @@ public class TrangChuUI extends JFrame {
 		
 		
 		btnThngK.setBackground(new Color(242, 208, 183));
-		btnThngK.setBounds(56, 573, 184, 48);
+		btnThngK.setBounds(60, 619, 184, 48);
 		contentPane.add(btnThngK);
 		btnThngK.setBorderPainted(false);
 		
@@ -188,9 +192,52 @@ public class TrangChuUI extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/homeslidehmm.png")));
 		lblNewLabel_1.setBounds(273, 77, 1101, 544);
 		 contentPane.add(lblNewLabel_1);
+		 
+		 JLabel lblNewLabel_2 = new JLabel("Quyền :");
+		 lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 20));
+		 lblNewLabel_2.setBounds(23, 21, 88, 31);
+		 contentPane.add(lblNewLabel_2);
+		 
+		 JLabel lblNewLabel_2_1 = new JLabel("Mã Nhân Viên :");
+		 lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 20));
+		 lblNewLabel_2_1.setBounds(248, 21, 155, 31);
+		 contentPane.add(lblNewLabel_2_1);
+		 
+		  txtmanvdn = new JLabel("New label");
+		 txtmanvdn.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		 txtmanvdn.setBounds(413, 25, 102, 26);
+		 contentPane.add(txtmanvdn);
+		 
+		   txtquyendangnhap = new JLabel("New label");
+		 txtquyendangnhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		 txtquyendangnhap.setBounds(110, 25, 102, 26);
+		 contentPane.add(txtquyendangnhap);
 		
+		TrangDangNhapUI tdnui=new TrangDangNhapUI();
+//	
+//		System.out.println(	 tdnui.selectedOption);
+//		
+//		if(tdnui.selectedOption.equals(tdnui))
 		
-		
+		 
+//		Phân QUyền
+//		 String input = tdnui.txttk.getText(); // Lấy chuỗi đầu vào từ JTextField
+//		 String firstTwoChars = input.substring(0, 2);
+//		 
+//		 
+//		if(firstTwoChars.equals("NV")) {
+//			txtquyendangnhap.setText("Nhân Viên");
+//			txttendk.setText(tdnui.txttk.getText());
+//			btnnhavien.setEnabled(false);
+//			btnnhavien.setToolTipText("Mục Này Dành Cho Quản Lý");
+//		}
+//		else {
+//			txtquyendangnhap.setText("Quản Lý");
+//			txttendk.setText(input);
+//		}
+		 
+		 
+		 
 		// sự kiện khi hover chuột vào và đổi màu jbutton
 		 
 		 btnHome.addMouseListener(new MouseAdapter() {
@@ -291,5 +338,4 @@ public class TrangChuUI extends JFrame {
 //					}
 //				});
 	}
-
 }
