@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
@@ -11,9 +12,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -26,11 +32,14 @@ import javax.swing.table.DefaultTableModel;
 import DAO.khachHangDAO;
 import database.ConnectDB;
 import entity.KhachHang;
-
+ 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import com.toedter.calendar.JCalendar;
 
 public class KhachhangUI extends JFrame {
 
@@ -55,6 +64,11 @@ public class KhachhangUI extends JFrame {
 	private JButton btnThemnv;
 	
 	private khachHangDAO KHdao;
+	private JTextField txtmakh;
+	private JTextField txthovaten;
+	private JTextField txtsdt;
+	private JTextField txtcmnd;
+	private JTextField txtemail;
 	/**
 	 * Launch the application.
 	 */
@@ -84,7 +98,7 @@ public class KhachhangUI extends JFrame {
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1399, 778);
+		setBounds(100, 100, 1834, 778);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 208, 183));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -93,12 +107,13 @@ public class KhachhangUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(74, 139, 1212, 478);
+		scrollPane.setBounds(74, 139, 1212, 476);
+		 
 		contentPane.add(scrollPane);
 		
 		model=new DefaultTableModel();
 		model.addColumn("Mã KH");
-		model.addColumn("Têm KH");
+		model.addColumn("Tên KH");
 		model.addColumn("SĐT");
 		model.addColumn("CMND");
 		model.addColumn("Email");
@@ -131,209 +146,33 @@ public class KhachhangUI extends JFrame {
 			model.addRow(obj);
 			
 		}
-		ListSelectionModel selectionModel = table.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) {
-                        // Lấy dữ liệu từ JTable
-                        String firstName = (String) table.getValueAt(selectedRow, 0);
-                        String lastName = (String) table.getValueAt(selectedRow, 1);
-                        String lastName1 = (String) table.getValueAt(selectedRow, 2);
-
-                        // Tạo JFrame mới và hiển thị dữ liệu
-                        JFrame newFrame = new JFrame("Selected Row Data");
-                        JLabel label = new JLabel(firstName + " " + lastName + ", " + lastName1 + " years old");
-                        newFrame.getContentPane().add(label);
-                        newFrame.pack();
-                        newFrame.setLocationRelativeTo(null);
-                        newFrame.setVisible(true);
-                    }
-                }
-            }
-        });
-		
-		JButton btnThem = new JButton("Thêm");
-		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				JFrame f=new JFrame();
-				f.setBounds(100, 100, 761, 507);
-        		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        		f.getContentPane().setLayout(null);
-        		f.setLocationRelativeTo(null);
-        		f.setSize(700,700);
-				
-				JLabel lblNewLabel = new JLabel("Thông tin Khách Hàng");
-				lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-				lblNewLabel.setBounds(40, 34, 321, 63);
-				f.getContentPane().add(lblNewLabel);
-				
-				JLabel lblmanv = new JLabel("Mã Nhân Viên");
-				lblmanv.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblmanv.setBounds(39, 108, 114, 31);
-				f.getContentPane().add(lblmanv);
-				
-				txtma = new JTextField();
-				txtma.setBounds(163, 110, 380, 31);
-				f.getContentPane().add(txtma);
-				txtma.setColumns(10);
-				
-				JLabel lbltennv = new JLabel("Tên Nhân Viên");
-				lbltennv.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lbltennv.setBounds(39, 150, 114, 31);
-				f.getContentPane().add(lbltennv);
-				
-				txtten = new JTextField();
-				txtten.setColumns(10);
-				txtten.setBounds(163, 152, 380, 31);
-				f.getContentPane().add(txtten);
-				
-				JLabel lblSdt = new JLabel("SĐT");
-				lblSdt.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblSdt.setBounds(39, 192, 114, 31);
-				f.getContentPane().add(lblSdt);
-				
-				txtSDT = new JTextField();
-				txtSDT.setColumns(10);
-				txtSDT.setBounds(163, 194, 380, 31);
-				f.getContentPane().add(txtSDT);
-				
-				JLabel lblCmnd = new JLabel("CMND");
-				lblCmnd.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblCmnd.setBounds(40, 234, 114, 31);
-				f.getContentPane().add(lblCmnd);
-				
-				txtCMND = new JTextField();
-				txtCMND.setColumns(10);
-				txtCMND.setBounds(163, 236, 380, 31);
-				f.getContentPane().add(txtCMND);
-				
-				JLabel lblngaythue = new JLabel("Ngày Thuê");
-				lblngaythue.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblngaythue.setBounds(39, 318, 114, 31);
-				f.getContentPane().add(lblngaythue);
-				
-				txtngayThue = new JTextField();
-				txtngayThue.setColumns(10);
-				txtngayThue.setBounds(163, 320, 380, 31);
-				f.getContentPane().add(txtngayThue);
-				
-				JLabel lblEmail = new JLabel("Email");
-				lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblEmail.setBounds(39, 276, 114, 31);
-				f.getContentPane().add(lblEmail);
-				
-				txtEmail = new JTextField();
-				txtEmail.setColumns(10);
-				txtEmail.setBounds(163, 278, 380, 31);
-				f.getContentPane().add(txtEmail);
-				
-				JLabel lblngaysinh = new JLabel("Ngày Sinh");
-				lblngaysinh.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblngaysinh.setBounds(39, 369, 114, 31);
-				f.getContentPane().add(lblngaysinh);
-				
-				JRadioButton rdbtnNam = new JRadioButton("Nam");
-				rdbtnNam.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				rdbtnNam.setBounds(169, 426, 109, 23);
-				f.getContentPane().add(rdbtnNam);
-				
-				JRadioButton rdbtnNu = new JRadioButton("Nữ");
-				rdbtnNu.setFont(new Font("Tahoma", Font.PLAIN, 15));
-				rdbtnNu.setBounds(296, 426, 109, 23);
-				contentPane.add(rdbtnNu);
-				
-				txtngaySinh = new JTextField();
-				txtngaySinh.setColumns(10);
-				txtngaySinh.setBounds(163, 367, 380, 31);
-				f.getContentPane().add(txtngaySinh);
-				
-				JLabel lblGioiTinh = new JLabel("Giới Tính");
-				lblGioiTinh.setFont(new Font("Tahoma", Font.PLAIN, 16));
-				lblGioiTinh.setBounds(39, 418, 114, 31);
-				f.getContentPane().add(lblGioiTinh);
-				
-			 
-				
-				
-//				
-				 SpinnerDateModel dateModel = new SpinnerDateModel(new Date(), null, null, java.util.Calendar.HOUR_OF_DAY);
-
-			        // Tạo JSpinner và thiết lập model cho nó
-			         spinner = new JSpinner(dateModel);
-
-			        // Định dạng ngày giờ
-			        JSpinner.DateEditor dateEditor = new JSpinner.DateEditor(spinner, "dd/MM/yyyy ");
-			        spinner.setEditor(dateEditor);
-			        f.getContentPane().add(spinner);
-			        
-			        JLabel lblloaikhach = new JLabel("Loại Khách");
-			        lblloaikhach.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			        lblloaikhach.setBounds(40, 475, 114, 31);
-			        f.getContentPane().add(lblloaikhach);
-			        
-			        txtLoaikhach = new JTextField();
-			        txtLoaikhach.setColumns(10);
-			        txtLoaikhach.setBounds(163, 475, 380, 31);
-			        f.getContentPane().add(txtLoaikhach);
-			        
-			        JLabel lblsoPhong = new JLabel("Số Phòng");
-			        lblsoPhong.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			        lblsoPhong.setBounds(39, 527, 114, 31);
-			        f.getContentPane().add(lblsoPhong);
-			        
-			        JTextField txtsoPhong = new JTextField();
-			        txtsoPhong.setColumns(10);
-			        txtsoPhong.setBounds(163, 527, 380, 31);
-			        f.getContentPane().add(txtsoPhong);
-			        
-			        btnThemnv = new JButton("Thêm");
-			        btnThemnv.addActionListener(new ActionListener() {
-			        	public void actionPerformed(ActionEvent e) {
-			        		
-			        		NhanVienUI nv=new NhanVienUI();
-			        		
-			        		String []obj= {txtma.getText(),txtten.getText(),txtSDT.getText(),txtCMND.getText(),txtngayThue.getText(),txtEmail.getText(),txtngaySinh.getText(),rdbtnNam.getText(),txtsoPhong.getText(),txtLoaikhach.getText() };
-			        		model.addRow(obj);;
-			        	}
-			        });
-			        btnThemnv.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			        btnThemnv.setBounds(40, 588, 133, 51);
-			        f.getContentPane().add(btnThemnv);
-			        
-			        JButton btnThoat = new JButton("Thoát");
-			        btnThoat.addActionListener(new ActionListener() {
-			        	public void actionPerformed(ActionEvent e) {
-			        		f.setVisible(false);
-			        	}
-			        });
-			        btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			        btnThoat.setBounds(228, 588, 133, 51);
-			        f.getContentPane().add(btnThoat);
-			        
-			        f.setVisible(true);
-			}
-		});
-		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnThem.setBounds(129, 659, 216, 54);
-		contentPane.add(btnThem);
-		
-		JButton btnXoa = new JButton("Xóa");
-		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnXoa.setBounds(383, 659, 216, 54);
-		contentPane.add(btnXoa);
-		
-		JButton btnSua = new JButton("Sửa");
-		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnSua.setBounds(630, 659, 216, 54);
-		contentPane.add(btnSua);
+//		ListSelectionModel selectionModel = table.getSelectionModel();
+//        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        selectionModel.addListSelectionListener(new ListSelectionListener() {
+//            public void valueChanged(ListSelectionEvent e) {
+//                if (!e.getValueIsAdjusting()) {
+//                    int selectedRow = table.getSelectedRow();
+//                    if (selectedRow != -1) {
+//                        // Lấy dữ liệu từ JTable
+//                        String firstName = (String) table.getValueAt(selectedRow, 0);
+//                        String lastName = (String) table.getValueAt(selectedRow, 1);
+//                        String lastName1 = (String) table.getValueAt(selectedRow, 2);
+//
+//                        // Tạo JFrame mới và hiển thị dữ liệu
+//                        JFrame newFrame = new JFrame("Selected Row Data");
+//                        JLabel label = new JLabel(firstName + " " + lastName + ", " + lastName1 + " years old");
+//                        newFrame.getContentPane().add(label);
+//                        newFrame.pack();
+//                        newFrame.setLocationRelativeTo(null);
+//                        newFrame.setVisible(true);
+//                    }
+//                }
+//            }
+//        });
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnLuu.setBounds(889, 659, 216, 54);
+		btnLuu.setBounds(1460, 545, 216, 54);
 		contentPane.add(btnLuu);
 		
 		JButton btnKhchHng = new JButton("Khách Hàng");
@@ -344,16 +183,259 @@ public class KhachhangUI extends JFrame {
 		btnKhchHng.setBounds(74, 31, 194, 48);
 		contentPane.add(btnKhchHng);
 		
-		JButton btnNewButton = new JButton("Thoát");
-		btnNewButton.addActionListener(new ActionListener() {
+		JLabel lblNewLabel_1 = new JLabel("Mã KH :");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1.setBounds(1301, 71, 67, 48);
+		contentPane.add(lblNewLabel_1);
+		
+		txtmakh = new JTextField();
+		txtmakh.setBounds(1374, 87, 102, 20);
+		contentPane.add(txtmakh);
+		txtmakh.setColumns(10);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Họ và tên KH :");
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_1.setBounds(1497, 71, 99, 48);
+		contentPane.add(lblNewLabel_1_1);
+		
+		txthovaten = new JTextField();
+		txthovaten.setColumns(10);
+		txthovaten.setBounds(1602, 87, 174, 20);
+		contentPane.add(txthovaten);
+		
+		txtsdt = new JTextField();
+		txtsdt.setColumns(10);
+		txtsdt.setBounds(1374, 137, 102, 20);
+		contentPane.add(txtsdt);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("SĐT :");
+		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_2.setBounds(1303, 121, 67, 48);
+		contentPane.add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_1_1_1 = new JLabel("CMND :");
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_1_1.setBounds(1497, 121, 99, 48);
+		contentPane.add(lblNewLabel_1_1_1);
+		
+		txtcmnd = new JTextField();
+		txtcmnd.setColumns(10);
+		txtcmnd.setBounds(1602, 137, 174, 20);
+		contentPane.add(txtcmnd);
+		
+		JLabel lblNewLabel_1_2_1_1 = new JLabel("Email :");
+		lblNewLabel_1_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_2_1_1.setBounds(1301, 168, 67, 48);
+		contentPane.add(lblNewLabel_1_2_1_1);
+		
+		txtemail = new JTextField();
+		txtemail.setColumns(10);
+		txtemail.setBounds(1378, 184, 174, 20);
+		contentPane.add(txtemail);
+		
+		JLabel lblNewLabel_1_2_1_2_1 = new JLabel("Giới Tính :");
+		lblNewLabel_1_2_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_2_1_2_1.setBounds(1585, 168, 67, 48);
+		contentPane.add(lblNewLabel_1_2_1_2_1);
+		
+		JRadioButton rdbtnam = new JRadioButton("Nam");
+		rdbtnam.setBackground(new Color(242, 208, 183));
+		rdbtnam.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnam.setSelected(true);
+		rdbtnam.setBounds(1662, 182, 78, 23);
+		contentPane.add(rdbtnam);
+		
+		JRadioButton rdbtnnu = new JRadioButton("Nữ");
+		rdbtnnu.setBackground(new Color(242, 208, 183));
+		rdbtnnu.setSelected(true);
+		rdbtnnu.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnnu.setBounds(1740, 182, 78, 23);
+		contentPane.add(rdbtnnu);
+		
+		
+		ButtonGroup btngioitinh= new ButtonGroup();
+		btngioitinh.add(rdbtnam);
+		btngioitinh.add(rdbtnnu);
+		
+		
+		JLabel lblNewLabel_1_2_1_2_2 = new JLabel("Ngày Vào Làm :");
+		lblNewLabel_1_2_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_2_1_2_2.setBounds(1301, 219, 121, 48);
+		contentPane.add(lblNewLabel_1_2_1_2_2);
+		
+		JCalendar calendarNgayVaoLam = new JCalendar();
+		calendarNgayVaoLam.setBounds(1298, 269, 198, 153);
+		contentPane.add(calendarNgayVaoLam);
+		
+		JLabel lblNewLabel_1_2_1_2_2_1 = new JLabel("Ngày Sinh :");
+		lblNewLabel_1_2_1_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1_2_1_2_2_1.setBounds(1531, 227, 121, 48);
+		contentPane.add(lblNewLabel_1_2_1_2_2_1);
+		
+		JCalendar calendarNgaySinh = new JCalendar();
+		calendarNgaySinh.setBounds(1531, 269, 198, 153);
+		contentPane.add(calendarNgaySinh);
+		
+		JButton btnThem = new JButton("Thêm");
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					String maKH = txtmakh.getText();
+					String tenKH = txthovaten.getText().toString();
+					String sdt = txtsdt.getText().toString();
+					String cccd = txtcmnd.getText().toString();
+					String email = txtemail.getText().toString();
+//					String gioiTinh = cbogioiTinh.getSelectedItem().toString();
+					String gioiTinh ="";
+					if(rdbtnam.isSelected()) {
+						gioiTinh+="Nam";
+					}
+					if(rdbtnnu.isSelected()) {
+						gioiTinh+="Nữ";
+					}
+					
+					
+					String loaiKH = "111";
+					Date datengayvaolam = calendarNgayVaoLam.getDate(); // Lấy giá trị ngày được chọn
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng chuỗi muốn chuyển đổi
+					String dateString = sdf.format(datengayvaolam); // Chuyển đổi thành chuỗi
+					
+					Date datensinh = calendarNgaySinh.getDate(); // Lấy giá trị ngày được chọn
+			 
+					String dateSinhs = sdf.format(datensinh); // Chuyển đổi thành chuỗi
+					String trangthai="kkk";
+//					int ngaydky = calendarNgayVaoLam.getDate().getDate();
+//					int ngaysinh = calendarNgaySinh.getDate().getDate();
+//					int namSinh = dateChooserNgaySinh.getDate().getYear();
+//
+//					int ngayDangKy = dateChooserNgayDangKy.getDate().getDate();
+//					int thangDangKy = dateChooserNgayDangKy.getDate().getMonth();
+//					int namDangKy = dateChooserNgayDangKy.getDate().getYear();
+//					int diemTichLuy = 0;
+//					int tuoi = nam - namSinh;
+
+//					if (regex.regexTen(txtHoTen) && regex.regexSDT(txtSDT) && regex.regexCCCD(txtCccd)&& regex.regexDiaChi(txtDiaChi) ) {
+//						if(tuoi >= 13) {
+//							if(daoKhachHang.checkSdtKH(sdt)== false) {
+								KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,null,null ,gioiTinh,loaiKH,trangthai);
+								khachHangDAO.themDanhSachKH(kh);
+//								loadThongTin(kh);
+//								resetAll();
+//								JOptionPane.showMessageDialog(txtma, this, "Thêm khách hàng thành công", securityWarningHeight);						
+//							}else {
+//								JOptionPane.showMessageDialog(this,"Số điện thoại đã đăng kí","Thông báo" , JOptionPane.ERROR_MESSAGE);
+//							}
+//						}else
+//						{
+//							JOptionPane.showMessageDialog(txtngayThue, this,"Khách hàng chưa đủ 13 tuổi", tuoi );
+//					}
+//					}
+
+
+				}  catch (Exception e1) {
+					// TODO: handle exception
+				}
+			}
+		});
+		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnThem.setBounds(1301, 457, 113, 54);
+		contentPane.add(btnThem);
+		
+		JButton btnXoa = new JButton("Xóa");
+		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnXoa.setBounds(1439, 457, 113, 54);
+		contentPane.add(btnXoa);
+		
+		JButton btnSua = new JButton("Sửa");
+		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnSua.setBounds(1587, 457, 89, 54);
+		contentPane.add(btnSua);
+		
+		JButton btnThoat = new JButton("Thoát");
+		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton.setBounds(1183, 659, 89, 54);
-		contentPane.add(btnNewButton);
+		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnThoat.setBounds(1707, 458, 89, 54);
+		contentPane.add(btnThoat);
 		
-		
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row=table.getSelectedRow();
+				txtmakh.setText(model.getValueAt(row, 0).toString());
+				txthovaten.setText(model.getValueAt(row, 1).toString());
+				txtsdt.setText(model.getValueAt(row, 2).toString());
+				
+//				if(model.getValueAt(row, 4).toString().equalsIgnoreCase("Nam")) {
+//					phaiNam.setSelected(true);
+//					phaiNu.setSelected(false);
+//				}else {
+//					phaiNam.setSelected(false);
+//					phaiNu.setSelected(true);
+//				}
+			 
+				SimpleDateFormat  format = new SimpleDateFormat("yyyy-MM-dd");
+				Date date;
+				try {
+					date = format.parse(model.getValueAt(row, 5).toString());
+					calendarNgayVaoLam.setDate(date);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+//				 
+				txtcmnd.setText(model.getValueAt(row, 3).toString());
+				txtemail.setText(model.getValueAt(row, 4).toString());
+//				txtemail.setText();
+				
+				try {
+					date = format.parse(model.getValueAt(row, 6).toString());
+					calendarNgaySinh.setDate(date);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if(model.getValueAt(row, 7).toString().equalsIgnoreCase("Nam")) {
+					rdbtnam.setSelected(true);
+					rdbtnnu.setSelected(false);
+				}else {
+					rdbtnam.setSelected(false);
+					rdbtnnu.setSelected(true);
+				}
+//				txtemail.setText(model.getValueAt(row, 7).toString());
+//				txtemail.setText(model.getValueAt(row, 8).toString());
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 }
