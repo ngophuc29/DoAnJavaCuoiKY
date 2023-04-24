@@ -28,6 +28,23 @@ public class khachHangDAO {
 		}
 		return dskh;
 	}
+	public String laymaKHtheoten(String hoten){
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		String maKH="";
+		try {
+			String sql = "SELECT * FROM khachhang WHERE hoten=?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, hoten);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()) {
+				 maKH=rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return maKH;
+	}
 	public static boolean themDanhSachKH(KhachHang kh) {
 
 		ConnectDB.getinstance();
@@ -61,5 +78,71 @@ public class khachHangDAO {
 
 		}
 		return n>0;
+	}
+	
+	public static boolean delete(String makh) {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n=0;
+		
+		try {
+			stmt=con.prepareStatement("delete from khachhang where makh =?");
+			stmt.setString(1,makh);
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+		 
+	}
+	
+	public static boolean update(KhachHang kh) {
+		
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n=0;
+		
+		try {
+			stmt = con.prepareStatement("update khachhang set hoten=?,sdt=?,cmnd=?,email=?,ngaydky=?,ngaysinh=?,gioitinh=?,maloaikhachhang=?,trangthai=?");
+			stmt.setString(1, kh.getMakh());
+			stmt.setString(2, kh.getHoten());
+			stmt.setString(3, kh.getSdt());
+			stmt.setString(4, kh.getCmnd());
+			stmt.setString(5, kh.getEmail());
+			stmt.setDate(6, kh.getNgaydky());
+			stmt.setDate(7, kh.getNgaysinh());
+			stmt.setString(8, kh.getGioitinh());
+			stmt.setString(9, kh.getMaloaiKhachHang());
+			stmt.setString(10, kh.getTrangthai());
+			
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		
+		return n>0;
+	}
+	
+	public List<KhachHang> KHCTT(){
+		List<KhachHang> dskh=new ArrayList<KhachHang>();
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		try {
+			String sql="select * from khachhang where trangthai='CTT' ";
+			PreparedStatement statement= con.prepareStatement(sql);
+			ResultSet rs =statement.executeQuery();
+			while(rs.next()) {
+				dskh.add(new  KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),rs.getDate(6)  , rs.getDate(7), rs.getString(8), rs.getString(9) , rs.getString(10)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dskh;
 	}
 }

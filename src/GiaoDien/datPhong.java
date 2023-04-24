@@ -11,10 +11,18 @@ import com.toedter.calendar.JDayChooser;
 import com.toedter.components.JLocaleChooser;
 import com.toedter.calendar.JYearChooser;
 import com.toedter.components.JSpinField;
+
+import DAO.khachHangDAO;
+import database.ConnectDB;
+import entity.KhachHang;
+
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Calendar;
@@ -30,19 +38,20 @@ import javax.swing.JButton;
 public class datPhong extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtmahoadon;
-	private JTextField txtmaKH;
-	private JTextField txtmanv;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField txtgiovao;
-	private JTextField txtgiora;
-	private JTextField txttongthoigian;
+	public JTextField txtmaKHtheoten;
+	public JTextField txtmaphongdat;
+	public JTextField txtgiovao;
+	public JTextField txtgiora;
+	public JTextField txttongthoigian;
     private Timer timer;
+    private khachHangDAO KHdao;
 	  private SimpleDateFormat sdf;
-	  private JTextField txttenKH;
-	  
+	  public String manvintable;
+	 public TrangChuUI kkk;
+	public JLabel txtmanvintable; 
+	public JButton btnDatPhong;
+	public JComboBox combotenKH;
+	private DAO.phongDAO phongDAO;
 	/**
 	 * Launch the application.
 	 */
@@ -63,83 +72,48 @@ public class datPhong extends JFrame {
 	 * Create the frame.
 	 */
 	public datPhong() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 407);
+		try {
+			ConnectDB.getinstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 476, 299);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Mã Hóa đơn");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel.setBounds(27, 21, 81, 26);
-		contentPane.add(lblNewLabel);
-		
-		txtmahoadon = new JTextField();
-		txtmahoadon.setBounds(128, 25, 86, 20);
-		contentPane.add(txtmahoadon);
-		txtmahoadon.setColumns(10);
-		
 		JLabel lblMKh = new JLabel("Mã KH");
 		lblMKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMKh.setBounds(27, 58, 68, 26);
+		lblMKh.setBounds(27, 27, 68, 26);
 		contentPane.add(lblMKh);
 		
-		txtmaKH = new JTextField();
-		txtmaKH.setColumns(10);
-		txtmaKH.setBounds(128, 62, 86, 20);
-		contentPane.add(txtmaKH);
+		txtmaKHtheoten = new JTextField();
+		txtmaKHtheoten.setColumns(10);
+		txtmaKHtheoten.setBounds(128, 31, 86, 20);
+		contentPane.add(txtmaKHtheoten);
 		
-		JLabel lblMNv = new JLabel("Mã NV");
-		lblMNv.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMNv.setBounds(27, 95, 68, 26);
-		contentPane.add(lblMNv);
-		
-		txtmanv = new JTextField();
-		txtmanv.setColumns(10);
-		txtmanv.setBounds(128, 99, 86, 20);
-		contentPane.add(txtmanv);
-		
-		JLabel lblMNv_1 = new JLabel("Mã NV");
+		JLabel lblMNv_1 = new JLabel("Mã Phòng");
 		lblMNv_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMNv_1.setBounds(27, 132, 68, 26);
+		lblMNv_1.setBounds(27, 64, 68, 26);
 		contentPane.add(lblMNv_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(128, 136, 86, 20);
-		contentPane.add(textField_1);
-		
-		JLabel lblMNv_1_1 = new JLabel("Mã Phòng");
-		lblMNv_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMNv_1_1.setBounds(27, 169, 68, 26);
-		contentPane.add(lblMNv_1_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(128, 173, 86, 20);
-		contentPane.add(textField_2);
-		
-		JLabel lblMNv_1_1_1 = new JLabel("Mã Phòng");
-		lblMNv_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMNv_1_1_1.setBounds(27, 206, 68, 26);
-		contentPane.add(lblMNv_1_1_1);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(128, 210, 142, 20);
-		contentPane.add(textField_3);
+		txtmaphongdat = new JTextField();
+		txtmaphongdat.setColumns(10);
+		txtmaphongdat.setBounds(128, 68, 86, 20);
+		contentPane.add(txtmaphongdat);
 		
 		JLabel lblMNv_1_1_1_1 = new JLabel("Giờ Vào");
 		lblMNv_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblMNv_1_1_1_1.setBounds(27, 262, 68, 26);
+		lblMNv_1_1_1_1.setBounds(27, 140, 68, 26);
 		contentPane.add(lblMNv_1_1_1_1);
 		
 		txtgiovao = new JTextField();
 		txtgiovao.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtgiovao.setColumns(10);
-		txtgiovao.setBounds(128, 265, 142, 20);
+		txtgiovao.setBounds(138, 143, 142, 20);
 		
 		sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
@@ -156,33 +130,60 @@ public class datPhong extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("Loại Hình Thuê");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_1.setBounds(27, 237, 102, 14);
+		lblNewLabel_1.setBounds(28, 114, 102, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		JComboBox comboBoxLoaiHInhThue = new JComboBox();
-		comboBoxLoaiHInhThue.setBounds(127, 232, 143, 22);
+		comboBoxLoaiHInhThue.setBounds(128, 111, 143, 22);
 		contentPane.add(comboBoxLoaiHInhThue);
 		comboBoxLoaiHInhThue.addItem("Theo ngày");
 		comboBoxLoaiHInhThue.addItem("Theo Giờ");
 		
 		
-		JButton btnDatPhong = new JButton("Đặt Phòng");
+		btnDatPhong = new JButton("Đặt Phòng");
 		
-		btnDatPhong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnDatPhong.setBounds(145, 318, 154, 23);
+		btnDatPhong.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnDatPhong.setBounds(157, 191, 154, 42);
 		contentPane.add(btnDatPhong);
 		
 		JLabel lblNewLabel_2 = new JLabel("Tên KH:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNewLabel_2.setBounds(224, 102, 46, 14);
+		lblNewLabel_2.setBounds(224, 33, 46, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		txttenKH = new JTextField();
-		txttenKH.setColumns(10);
-		txttenKH.setBounds(293, 99, 109, 20);
-		contentPane.add(txttenKH);
+		  combotenKH = new JComboBox();
+		combotenKH.setBounds(291, 30, 109, 22);
+		contentPane.add(combotenKH);
 		
+		  txtmanvintable = new JLabel("");
+		txtmanvintable.setBounds(128, 102, 86, 14);
 		
+//		txtmanvintable.setText(kkk.txtmanvdn.getText());
+		
+		contentPane.add(txtmanvintable);
+		KHdao = new khachHangDAO();
+		for (KhachHang kh : KHdao.KHCTT()) {
+			Object obj= kh.getHoten();
+			combotenKH.addItem(obj);
+		}
+		String name=combotenKH.getItemAt(0).toString();
+		String customerId = KHdao.laymaKHtheoten(name);
+		txtmaKHtheoten.setText(customerId);
+		combotenKH.addItemListener(new ItemListener() {
+		    public void itemStateChanged(ItemEvent event) {
+		        if (event.getStateChange() == ItemEvent.SELECTED) {
+		            String name = event.getItem().toString();
+		            String customerId = KHdao.laymaKHtheoten(name);
+		            
+		            // Cập nhật mã khách hàng vào label nào đó trên giao diện
+		            txtmaKHtheoten.setText(customerId);
+		            //
+		            FormThongTinPhongVaThanhToan abc= new FormThongTinPhongVaThanhToan();
+		            abc.txttenKH.setText(name);
+		            //
+		        }
+		    }
+		});
 		timer = new Timer(1000, new ActionListener() {
  	        @Override
  	        public void actionPerformed(ActionEvent e) {
@@ -207,8 +208,15 @@ public class datPhong extends JFrame {
  	        }
  	    });
 		btnDatPhong.addActionListener(new ActionListener() {
+
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				dispose();
+//			}
 			public void actionPerformed(ActionEvent e) {
 				TrangChuUI tcuil= new TrangChuUI();
+				TrangDangNhapUI tdnui= new TrangDangNhapUI();
 				FormThongTinPhongVaThanhToan ftt= new FormThongTinPhongVaThanhToan();
 				
 			    ftt.btnTraPhong.addActionListener(new ActionListener() {
@@ -219,21 +227,24 @@ public class datPhong extends JFrame {
 	    	    });
 //			    txtgiora.getText().toString()
 //			    txttongthoigian.getText().toString()
-				String []obj= {txtmahoadon.getText().toString(),
-						txtmaKH.getText().toString()
-						,tcuil.txtmanvdn.getText().toString()
-						,"111"
-						,txtgiovao.getText().toString()
-						,txtmahoadon.getText().toString()
-						,""
-						,""
-						,"11"
-						,ftt.txtgiagio.getText().toString()
-						};
-				ftt.modelkhachhang.addRow(obj);
-				
-				
-				ftt.setVisible(true);
+//			    String manvintable="";
+//				String []obj= {
+//						txtmaKHtheoten.getText().toString(),
+//						combotenKH.getSelectedItem().toString()
+//						, txtmanvintable.getText()
+//						,txtmaphongdat.getText()
+//						,txtgiovao.getText().toString()
+//						,""
+//						,""
+//						,"11"
+//						,ftt.txtgiagio.getText().toString()
+//						};
+//				ftt.modelkhachhang.addRow(obj);
+//				
+//			    phongDAO.update("Phòng Đã Có Khách");
+				dispose();
+//				ftt.setVisible(true);
+			
 			}
 		});
 	}

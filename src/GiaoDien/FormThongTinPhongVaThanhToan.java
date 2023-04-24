@@ -10,17 +10,28 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+
+import DAO.khachHangDAO;
+
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -53,12 +64,14 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 	String selectedOption;
 	int luusoluongdichvu=1;
 	JLabel txttongtienThanhToan ;
-	
+	  private SimpleDateFormat sdf;
 	double luutiendichvu;
 	public JTextField txtphuThu;
 	public JTextField txtstk;
 	public JTextField txttienKhachDua;
 	public JTextField txtTienkhachTraLai;
+	String gioraa="";
+	private khachHangDAO khdao;
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +92,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 	 * Create the frame.
 	 */
 	public FormThongTinPhongVaThanhToan() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1445, 824);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "D\u1ECBch V\u1EE5", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -116,10 +129,18 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		panel.add(lblNewLabel_1);
 		
 		txttenKH = new JTextField();
+		txttenKH.setEditable(false);
 		txttenKH.setBackground(new Color(240, 240, 240));
 		txttenKH.setBounds(122, 53, 117, 20);
 		panel.add(txttenKH);
+		
+		
 		txttenKH.setColumns(10);
+		
+		
+		//
+		
+		//
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Ngày Trả Phòng");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -143,7 +164,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		 
 		txtgiangay.setBackground(SystemColor.menu);
 		txtgiangay.setBounds(682, 53, 95, 20);
-		txtgiangay.setText("200");
+		txtgiangay.setText("800");
 		panel.add(txtgiangay);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Giá Giờ");
@@ -180,20 +201,20 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //		
 		
 		modelkhachhang= new DefaultTableModel();
-		modelkhachhang.addColumn("Mã Hóa ĐƠn");
-		modelkhachhang.addColumn("Mã Khách Hàng");
-		modelkhachhang.addColumn("Mã Nhân Viên");
-		modelkhachhang.addColumn("Mã Phòng");
-		modelkhachhang.addColumn("Giờ Vào");
-		modelkhachhang.addColumn("Giờ ra");
-		modelkhachhang.addColumn("Tổng Thời Gian");
-		modelkhachhang.addColumn("Tổng Hóa ĐƠn");
-		modelkhachhang.addColumn("Tổng Thu");
-		modelkhachhang.addColumn("Tiền Phòng");
+		modelkhachhang.addColumn("Mã chi tiet dat phong");
+		modelkhachhang.addColumn("Mã Phong");
+		modelkhachhang.addColumn("So Luong Phong");
+		modelkhachhang.addColumn("Ma hoa don");
+//		modelkhachhang.addColumn("Giờ Vào");
+//		modelkhachhang.addColumn("Giờ ra");
+		modelkhachhang.addColumn("Gia Phong");
+		modelkhachhang.addColumn("Gio vao ");
+//		modelkhachhang.addColumn("Tổng Thu");
+		modelkhachhang.addColumn("Gio ra");
 		tablekhachhang = new JTable(modelkhachhang);
 		tablekhachhang.getColumnModel().getColumn(1).setPreferredWidth(93);
 		tablekhachhang.getColumnModel().getColumn(6).setPreferredWidth(83);
-		tablekhachhang.getColumnModel().getColumn(7).setPreferredWidth(87);
+//		tablekhachhang.getColumnModel().getColumn(7).setPreferredWidth(87);
 		scrollPane.setViewportView(tablekhachhang);
 		
 		JLabel lblNewLabel_3 = new JLabel("Tổng Tiền Phòng : ");
@@ -270,8 +291,14 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //			new String[] {
 //				"M\u00E3 D\u1ECBch V\u1EE5", "Ph\u00F2ng", "T\u00EAn D\u1ECBch V\u1EE5", "\u0110\u01A1n Gi\u00E1", "S\u1ED1 L\u01B0\u1EE3ng", "Th\u00E0nh Ti\u1EC1n"
 //			}
+		
 //		));
 		
+		
+		sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+	    // Cập nhật giá trị cho textfield 1
+//		txtgiovao.setText(sdf.format(new Date()));
 		
 		
 		
@@ -520,14 +547,67 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		btnThanhToan.setBounds(30, 637, 375, 47);
 		panel_2.add(btnThanhToan);
 		
+		
+		String []testtablekhachhang= {"1","2","3","4","5",sdf.format(new Date()),gioraa};
+		String []testtablekhachhang1= {"1","2","3","4","5",sdf.format(new Date()),gioraa};
+		modelkhachhang.addRow(testtablekhachhang);
+		modelkhachhang.addRow(testtablekhachhang1);
 		  btnTraPhong = new JButton("Trả Phòng");
 		btnTraPhong.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
+			 @Override
+			    public void actionPerformed(ActionEvent e) {
+				 
+				 //
+				 
+				// Lấy đối tượng TableModel từ JTable
+				 TableModel model = tablekhachhang.getModel();
+
+				 // Lấy số hàng trong JTable
+				 int rowCount = model.getRowCount();
+
+				 // Duyệt qua tất cả các hàng và set giá trị mới cho cột thứ 2
+				 for (int i = 0; i < rowCount; i++) {
+				     model.setValueAt(sdf.format(new Date()), i, 6);
+				 }
+
+				 //
+//			        int selectedRow = tablekhachhang.getSelectedRow();
+//			        if (selectedRow != -1) {
+//			            TableModel model = tablekhachhang.getModel();
+//			            model.setValueAt("new value", selectedRow, 6); // thay "new value" bằng giá trị mới muốn set
+//			        }
+			    }
 		});
 		btnTraPhong.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTraPhong.setBounds(225, 702, 180, 44);
 		panel_2.add(btnTraPhong);
+		
+	
+		//TESt
+		
+		
+		
+		
+		ListSelectionModel selectionModel = tablekhachhang.getSelectionModel();
+		selectionModel.addListSelectionListener((ListSelectionListener) new ListSelectionListener() {
+		    public void valueChanged1(ListSelectionEvent e) {
+		        if (!e.getValueIsAdjusting()) {
+		            int row = tablekhachhang.getSelectedRow();
+		            int col = tablekhachhang.getSelectedColumn();
+		            if (col == 0) { // chỉnh sửa giá trị cột thứ nhất
+		                String value = (String) tablekhachhang.getValueAt(row, col);
+		                // code xử lý để thay đổi giá trị cột
+		            }
+		        }
+		    }
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		//
 		
 		
 		
@@ -763,11 +843,11 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 					TableModel model1 = tablekhachhang.getModel();
 
 					// đặt chỉ số của cột để tính tổng
-					int columnIndex1 = 9; // giả sử chỉ số cột là 2
+					int columnIndex1 = 3; // giả sử chỉ số cột là 2
 
 					// khởi tạo biến tổng
 					double doubleValue = 0.0;
-
+					
 					// lặp qua từng dòng trong bảng
 					for (int rowIndex = 0; rowIndex < model1.getRowCount(); rowIndex++) {
 					    // lấy giá trị của ô trong cột được chỉ định
@@ -786,8 +866,6 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 				}
 			});
  
-			 
-			 
 			
 			
 			 
@@ -801,7 +879,16 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			btnCancale.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			btnCancale.setBounds(228, 157, 132, 42);
 			f.getContentPane().add(btnCancale);
-			
+			 int sum=0;
+			int rowCount = tablekhachhang.getRowCount();
+			for (int i = 0; i < rowCount; i++) {
+			    int col1Value =  Integer.parseInt(tablekhachhang.getValueAt(i, 1).toString()); // Lấy giá trị của cột col1
+			    int col2Value =Integer.parseInt(tablekhachhang.getValueAt(i, 2).toString()); // Lấy giá trị của cột col2
+			    int col3Value = col1Value * (col2Value - col1Value); // Tính giá trị mới của cột col3
+			    sum+=col3Value;
+			    
+			}
+			System.out.println("Giá trị mới của cột col3 tại dòng " + sum);
 		
 			f.setVisible(true);
 	    }

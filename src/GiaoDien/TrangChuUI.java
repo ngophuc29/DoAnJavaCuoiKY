@@ -23,6 +23,9 @@ public class TrangChuUI extends JFrame {
 	public JLabel txtquyendangnhap;
 	public JLabel txtmanvdn;
 	public JButton btnnhavien;
+	public datPhong ftt= new datPhong();
+	private static String loggedInUser;
+	public JButton btnPhng;
 	/**
 	 * Launch the application.
 	 */
@@ -52,6 +55,9 @@ public class TrangChuUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+
+
 		
 		JLabel lblNewLabel = new JLabel("Khách Sạn Bình Dương");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
@@ -116,7 +122,7 @@ public class TrangChuUI extends JFrame {
 		btnKhchHng.setBounds(50, 321, 194, 48);
 		contentPane.add(btnKhchHng);
 		
-		JButton btnPhng = new JButton("Phòng");
+		btnPhng = new JButton("Phòng");
 		btnPhng.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Shoji2-paper-sliding-door-icon.png")));
 		btnPhng.setFont(new Font("Tahoma", Font.PLAIN, 17));
 	
@@ -213,6 +219,8 @@ public class TrangChuUI extends JFrame {
 		 txtquyendangnhap.setBounds(110, 25, 102, 26);
 		 contentPane.add(txtquyendangnhap);
 		
+		 
+		  
 		TrangDangNhapUI tdnui=new TrangDangNhapUI();
 //	
 //		System.out.println(	 tdnui.selectedOption);
@@ -338,4 +346,11 @@ public class TrangChuUI extends JFrame {
 //					}
 //				});
 	}
+	public static void setLoggedInUser(String username) {
+        loggedInUser = username;
+    }
+
+    public static String getLoggedInUser() {
+        return loggedInUser;
+    }
 }

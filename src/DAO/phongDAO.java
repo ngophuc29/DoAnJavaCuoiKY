@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,45 @@ public class phongDAO {
 		}
 		return dsphong;
 	}
+	public List<phong> laytenPhongtheott(String tt){
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		List<phong> dsphong=new ArrayList<phong>();
+		try {
+			String sql = "SELECT * FROM phong WHERE trangThaiPhong=?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, tt);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()) {
+				dsphong.add(new  phong(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getString(5)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsphong;
+	}
 	
+	public boolean update(String phongtrong,String id) {
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		
+		
+		PreparedStatement stmt=null;
+		int n=0;
+		
+		
+		try {
+			stmt=con.prepareStatement("update phong set trangThaiPhong =? where maphong =?");
+			stmt.setString (1,phongtrong);
+			stmt.setString(2,id);
+			n= stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		return n>0;
+		
+	}
 }
-;

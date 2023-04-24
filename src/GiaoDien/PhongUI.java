@@ -7,6 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import DAO.phongDAO;
+import database.ConnectDB;
+import entity.phong;
+
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
@@ -22,15 +27,23 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class PhongUI extends JFrame {
 
 	private JPanel contentPane;
-
+	private phongDAO phongdaoo = new phongDAO();
 	/**
 	 * Launch the application.
 	 */
@@ -51,6 +64,12 @@ public class PhongUI extends JFrame {
 	 * Create the frame.
 	 */
 	public PhongUI() {
+		try {
+			ConnectDB.getinstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1396, 809);
 		contentPane = new JPanel();
@@ -61,7 +80,7 @@ public class PhongUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JButton btnPhng = new JButton("Phòng");
-//		btnPhng.setIcon(new ImageIcon(Phong.class.getResource("/img/Shoji2-paper-sliding-door-icon.png")));
+//		btnPhng.setIcon(new ImageIcon(Phong.class.getResource("/img/Shoji2-paper-sliding-door-icon.png"))); 	
 		btnPhng.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnPhng.setBorderPainted(false);
 		btnPhng.setBackground(new Color(242, 208, 183));
@@ -141,9 +160,9 @@ public class PhongUI extends JFrame {
 		panelPhongUITable.add(panelPhong101);
 		panelPhong101.setLayout(null);
 		
-		JLabel lblTenPhong101 = new JLabel("Phòng 101");
-		lblTenPhong101.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong101.setBounds(116, 28, 125, 27);
+		JLabel lblTenPhong101 = new JLabel("101");
+		lblTenPhong101.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong101.setBounds(127, 27, 43, 27);
 		panelPhong101.add(lblTenPhong101);
 		
 		JLabel lblLoaiPhong101 = new JLabel("(Thường)");
@@ -162,8 +181,31 @@ public class PhongUI extends JFrame {
 		menuItem1.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        // Xử lý sự kiện ở đây
-		    	panelPhong101.setBackground(new Color(238, 114, 96));
-		    	lblTrangThaiPhong101.setText("Phòng Đã Có Khách");
+		    	 JPanel panel = (JPanel) popupMenu.getInvoker();
+		    	 JLabel label1 = (JLabel) panel.getComponent(0);
+		    	 //them form dat phong
+		    	 datPhong dt=new datPhong();
+		    	 dt.setVisible(true);
+		    	 dt.txtmaphongdat.setText(label1.getText());
+		    	 dt.btnDatPhong.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+				    	 panel.setBackground(new Color(238, 114, 96));
+				    	 JLabel label = (JLabel) panel.getComponent(2);
+				    	  label.setText("Phòng đã có khách");				    	  
+						    	 
+				    	  JLabel label1 = (JLabel) panel.getComponent(0);
+				    	  phongdaoo.update("Phòng đã có khách",label1.getText());
+//							ConnectDB.getinstance();
+//							Connection con =ConnectDB.getConnection();
+//							String sql="select c. from chitietPhong c join ";
+					}
+				});
+		    	 //
+		        
+//		    	panelPhong101.setBackground(new Color(238, 114, 96));
+//		    	lblTrangThaiPhong101.setText("Phòng Đã Có Khách");
 		    }
 		});
 		
@@ -174,9 +216,38 @@ public class PhongUI extends JFrame {
 //		    	panelPhong101.setBackground(new Color(238, 114, 96));
 		    	FormThongTinPhongVaThanhToan f=new FormThongTinPhongVaThanhToan();
 		    	f.setVisible(true);
+		    	
+		    	datPhong dt= new datPhong();
+		    	
+		    	f.txttenKH.setText(dt.combotenKH.getSelectedItem().toString());
 		    }
 		});
-		panelPhong101.addMouseListener(new MouseAdapter() {
+		
+		MouseListener mouseListener = new MouseAdapter() {
+		    @Override
+		    public void mouseReleased(MouseEvent e) {
+		  
+		        if (e.getSource() instanceof JPanel) {
+		            JPanel panel = (JPanel) e.getSource();
+		            if(panel.getBackground().equals(new Color(238, 114, 96))) {
+						 
+						 if (e.isPopupTrigger()) {
+							 menuItem2.setEnabled(true);
+							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
+						 }
+					 }
+					 
+					 else {
+						 
+						 if (e.isPopupTrigger()) {
+							 menuItem2.setEnabled(false);
+							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
+						 }
+					 }
+		        }
+		    }
+		};
+//		panelPhong101.addMouseListener(new MouseAdapter() {
 //		    public void mousePressed(MouseEvent e) {
 //		        if (e.isPopupTrigger()) {
 //		            popupMenu.show(e.getComponent(), e.getX(), e.getY());
@@ -184,43 +255,43 @@ public class PhongUI extends JFrame {
 //		    }
 		 
 			
-			 public void mouseReleased(MouseEvent e) {
-				 
-				 if(panelPhong101.getBackground().equals(new Color(238, 114, 96))) {
-					 
-					 if (e.isPopupTrigger()) {
-						 menuItem2.setEnabled(true);
-						 popupMenu.show(e.getComponent(), e.getX(), e.getY());
-					 }
-				 }
-				 
-				 else {
-					 
-					 if (e.isPopupTrigger()) {
-						 menuItem2.setEnabled(false);
-						 popupMenu.show(e.getComponent(), e.getX(), e.getY());
-					 }
-				 }
-			 
-			 
-			 }
-		   
-		});
-		
+//			 public void mouseReleased(MouseEvent e) {
+//				 
+//				 if(panelPhong101.getBackground().equals(new Color(238, 114, 96))) {
+//					 
+//					 if (e.isPopupTrigger()) {
+//						 menuItem2.setEnabled(true);
+//						 popupMenu.show(e.getComponent(), e.getX(), e.getY());
+//					 }
+//				 }
+//				 
+//				 else {
+//					 
+//					 if (e.isPopupTrigger()) {
+//						 menuItem2.setEnabled(false);
+//						 popupMenu.show(e.getComponent(), e.getX(), e.getY());
+//					 }
+//				 }
+//			 
+//			 
+//			 }
+//		   
+//		});
+//		
 		
 		//
 		
 		
-		
+		panelPhong101.addMouseListener(mouseListener);
 		JPanel panelPhong102 = new JPanel();
 		panelPhong102.setBackground(new Color(153, 204, 153));
 		panelPhong102.setLayout(null);
 		panelPhong102.setBounds(299, 0, 300, 150);
 		panelPhongUITable.add(panelPhong102);
-		
-		JLabel lblTenPhong102 = new JLabel("Phòng 102");
-		lblTenPhong102.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong102.setBounds(116, 28, 125, 27);
+		panelPhong102.addMouseListener(mouseListener);
+		JLabel lblTenPhong102 = new JLabel("102");
+		lblTenPhong102.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong102.setBounds(132, 28, 48, 27);
 		panelPhong102.add(lblTenPhong102);
 		
 		JLabel lblLoaiPhong102 = new JLabel("(Thường)");
@@ -239,16 +310,20 @@ public class PhongUI extends JFrame {
 		panelPhong103.setBounds(599, 0, 300, 150);
 		panelPhongUITable.add(panelPhong103);
 		
-		JLabel lblTenPhong103 = new JLabel("Phòng 103");
-		lblTenPhong103.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong103.setBounds(116, 28, 125, 27);
+		//sk
+		panelPhong103.addMouseListener(mouseListener);
+		//
+		
+		JLabel lblTenPhong103 = new JLabel("103");
+		lblTenPhong103.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong103.setBounds(136, 28, 125, 27);
 		panelPhong103.add(lblTenPhong103);
 		
 		JLabel lblLoaiPhong103 = new JLabel("(Thường)");
 		lblLoaiPhong103.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblLoaiPhong103.setBounds(116, 65, 100, 27);
 		panelPhong103.add(lblLoaiPhong103);
-		
+		panelPhong103.addMouseListener(mouseListener);
 		JLabel lblTrangThaiPhong103 = new JLabel("Phòng đã có khách");
 		lblTrangThaiPhong103.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblTrangThaiPhong103.setBounds(79, 102, 167, 34);
@@ -260,9 +335,13 @@ public class PhongUI extends JFrame {
 		panelPhong104.setBounds(900, 0, 300, 150);
 		panelPhongUITable.add(panelPhong104);
 		
-		JLabel lblTenPhong104 = new JLabel("Phòng 104");
-		lblTenPhong104.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong104.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong104.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong104 = new JLabel("104");
+		lblTenPhong104.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong104.setBounds(132, 29, 125, 27);
 		panelPhong104.add(lblTenPhong104);
 		
 		JLabel lblLoaiPhong104 = new JLabel("(Thường)");
@@ -281,9 +360,13 @@ public class PhongUI extends JFrame {
 		panelPhong202.setBounds(299, 149, 300, 150);
 		panelPhongUITable.add(panelPhong202);
 		
-		JLabel lblTenPhong202 = new JLabel("Phòng 202");
-		lblTenPhong202.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong202.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong202.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong202 = new JLabel("202");
+		lblTenPhong202.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong202.setBounds(126, 27, 125, 27);
 		panelPhong202.add(lblTenPhong202);
 		
 		JLabel lblLoaiPhong202 = new JLabel("(Thường)");
@@ -301,10 +384,12 @@ public class PhongUI extends JFrame {
 		panelPhong203.setLayout(null);
 		panelPhong203.setBounds(599, 149, 300, 150);
 		panelPhongUITable.add(panelPhong203);
-		
-		JLabel lblTenPhong203 = new JLabel("Phòng 203");
-		lblTenPhong203.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong203.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong203.addMouseListener(mouseListener);
+				//
+		JLabel lblTenPhong203 = new JLabel("203");
+		lblTenPhong203.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong203.setBounds(126, 27, 125, 27);
 		panelPhong203.add(lblTenPhong203);
 		
 		JLabel lblLoaiPhong203 = new JLabel("(Thường)");
@@ -323,9 +408,14 @@ public class PhongUI extends JFrame {
 		panelPhong204.setBounds(900, 149, 300, 150);
 		panelPhongUITable.add(panelPhong204);
 		
-		JLabel lblTenPhong204 = new JLabel("Phòng 204");
-		lblTenPhong204.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong204.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong204.addMouseListener(mouseListener);
+				//
+		
+		
+		JLabel lblTenPhong204 = new JLabel("204");
+		lblTenPhong204.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong204.setBounds(130, 27, 125, 27);
 		panelPhong204.add(lblTenPhong204);
 		
 		JLabel lblLoaiPhong204 = new JLabel("(Thường)");
@@ -344,9 +434,14 @@ public class PhongUI extends JFrame {
 		panelPhong304.setBounds(900, 298, 300, 150);
 		panelPhongUITable.add(panelPhong304);
 		
-		JLabel lblTenPhong304 = new JLabel("Phòng 304");
-		lblTenPhong304.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong304.setBounds(116, 28, 125, 27);
+		
+		//sk
+				panelPhong304.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong304 = new JLabel("304");
+		lblTenPhong304.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong304.setBounds(136, 27, 125, 27);
 		panelPhong304.add(lblTenPhong304);
 		
 		JLabel lblLoaiPhong304 = new JLabel("(VIP)");
@@ -365,9 +460,14 @@ public class PhongUI extends JFrame {
 		panelPhong402.setBounds(299, 450, 300, 150);
 		panelPhongUITable.add(panelPhong402);
 		
-		JLabel lblTenPhong402 = new JLabel("Phòng 402");
-		lblTenPhong402.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong402.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong402.addMouseListener(mouseListener);
+				//
+		
+		
+		JLabel lblTenPhong402 = new JLabel("402");
+		lblTenPhong402.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong402.setBounds(134, 27, 125, 27);
 		panelPhong402.add(lblTenPhong402);
 		
 		JLabel lblLoaiPhong402 = new JLabel("(Thường)");
@@ -386,9 +486,14 @@ public class PhongUI extends JFrame {
 		panelPhong403.setBounds(599, 450, 300, 150);
 		panelPhongUITable.add(panelPhong403);
 		
-		JLabel lblTenPhong403 = new JLabel("Phòng 403");
-		lblTenPhong403.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong403.setBounds(116, 28, 125, 27);
+		
+		//sk
+				panelPhong403.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong403 = new JLabel("403");
+		lblTenPhong403.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong403.setBounds(132, 28, 125, 27);
 		panelPhong403.add(lblTenPhong403);
 		
 		JLabel lblLoaiPhong403 = new JLabel("(Thường)");
@@ -407,9 +512,14 @@ public class PhongUI extends JFrame {
 		panelPhong404.setBounds(900, 450, 300, 150);
 		panelPhongUITable.add(panelPhong404);
 		
-		JLabel lblTenPhong404 = new JLabel("Phòng 404");
-		lblTenPhong404.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong404.setBounds(116, 28, 125, 27);
+		
+		//sk
+				panelPhong404.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong404 = new JLabel("404");
+		lblTenPhong404.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong404.setBounds(133, 27, 125, 27);
 		panelPhong404.add(lblTenPhong404);
 		
 		JLabel lblLoaiPhong404 = new JLabel("(Thường)");
@@ -428,9 +538,13 @@ public class PhongUI extends JFrame {
 		panelPhong201.setBounds(0, 149, 300, 150);
 		panelPhongUITable.add(panelPhong201);
 		
-		JLabel lblTenPhong201 = new JLabel("Phòng 201");
-		lblTenPhong201.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong201.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong201.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong201 = new JLabel("201");
+		lblTenPhong201.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong201.setBounds(126, 27, 125, 27);
 		panelPhong201.add(lblTenPhong201);
 		
 		JLabel lblLoaiPhong201 = new JLabel("(Thường)");
@@ -450,9 +564,13 @@ public class PhongUI extends JFrame {
 		panelPhong301.setBounds(0, 298, 300, 150);
 		panelPhongUITable.add(panelPhong301);
 		
-		JLabel lblTenPhong301 = new JLabel("Phòng 301");
-		lblTenPhong301.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong301.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong301.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong301 = new JLabel("301");
+		lblTenPhong301.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong301.setBounds(126, 27, 125, 27);
 		panelPhong301.add(lblTenPhong301);
 		
 		JLabel lblLoaiPhong301 = new JLabel("(VIP)");
@@ -471,9 +589,14 @@ public class PhongUI extends JFrame {
 		panelPhong302.setBounds(299, 298, 300, 150);
 		panelPhongUITable.add(panelPhong302);
 		
-		JLabel lblTenPhong302 = new JLabel("Phòng 302");
-		lblTenPhong302.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong302.setBounds(116, 28, 125, 27);
+		
+		//sk
+				panelPhong302.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong302 = new JLabel("302");
+		lblTenPhong302.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong302.setBounds(126, 27, 125, 27);
 		panelPhong302.add(lblTenPhong302);
 		
 		JLabel lblLoaiPhong302 = new JLabel("(VIP)");
@@ -493,9 +616,14 @@ public class PhongUI extends JFrame {
 		panelPhong303.setBounds(599, 298, 300, 150);
 		panelPhongUITable.add(panelPhong303);
 		
-		JLabel lblTenPhong303 = new JLabel("Phòng 303");
-		lblTenPhong303.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong303.setBounds(116, 28, 125, 27);
+		
+		//sk
+				panelPhong303.addMouseListener(mouseListener);
+				//
+		
+		JLabel lblTenPhong303 = new JLabel("303");
+		lblTenPhong303.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong303.setBounds(121, 28, 125, 27);
 		panelPhong303.add(lblTenPhong303);
 		
 		JLabel lblLoaiPhong303 = new JLabel("(VIP)");
@@ -514,9 +642,14 @@ public class PhongUI extends JFrame {
 		panelPhong401.setBounds(0, 450, 300, 150);
 		panelPhongUITable.add(panelPhong401);
 		
-		JLabel lblTenPhong401 = new JLabel("Phòng 401");
-		lblTenPhong401.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTenPhong401.setBounds(116, 28, 125, 27);
+		//sk
+				panelPhong401.addMouseListener(mouseListener);
+				//
+		String a =TrangDangNhapUI.getMaNV();
+		
+		JLabel lblTenPhong401 = new JLabel(a);
+		lblTenPhong401.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblTenPhong401.setBounds(132, 27, 125, 27);
 		panelPhong401.add(lblTenPhong401);
 		
 		JLabel lblLoaiPhong401 = new JLabel("(Thường)");
@@ -528,8 +661,41 @@ public class PhongUI extends JFrame {
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		lblNewLabel_1_1_1_1_1.setBounds(72, 102, 205, 34);
 		panelPhong401.add(lblNewLabel_1_1_1_1_1);
+		phongDAO dsphong=new phongDAO();
+		List<phong> ds= dsphong.laytenPhongtheott("Phòng đã có khách");
+		List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
+		for (phong phong : ds) {
+			  Component[] components =panelPhongUITable.getComponents();
+			    for (Component component : components) {
+			        if (component instanceof JPanel) {
+			          JPanel panel=(JPanel)component;
+			          JLabel label=(JLabel) panel.getComponent(0);
+			          JLabel label1=(JLabel) panel.getComponent(2);
+			            if(label.getText().equals(phong.getMaPhong())) {		            
+			            	panel.setBackground(new Color(238, 114, 96));
+			            	label1.setText("Phòng đã có khách");
+			            }
+			        }
+			    }
+		}
+		for (phong phong : ds1) {
+			  Component[] components =panelPhongUITable.getComponents();
+			    for (Component component : components) {
+			        if (component instanceof JPanel) {
+			          JPanel panel=(JPanel)component;
+			          JLabel label=(JLabel) panel.getComponent(0);
+			          JLabel label1=(JLabel) panel.getComponent(2);
+			            if(label.getText().equals(phong.getMaPhong())) {		            
+			            	panel.setBackground(new Color(153, 204, 153));
+			            	label1.setText("Phòng trống");
+			            }
+			        }
+			    }
+		}
 	}
 
+	
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -547,4 +713,5 @@ public class PhongUI extends JFrame {
 			}
 		});
 	}
+	
 }

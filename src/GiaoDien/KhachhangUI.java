@@ -40,7 +40,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JCalendar;
-
+import java.time.LocalDate;
 public class KhachhangUI extends JFrame {
 
 	private JPanel contentPane;
@@ -97,7 +97,7 @@ public class KhachhangUI extends JFrame {
 		
 		
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1834, 778);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 208, 183));
@@ -258,7 +258,7 @@ public class KhachhangUI extends JFrame {
 		btngioitinh.add(rdbtnnu);
 		
 		
-		JLabel lblNewLabel_1_2_1_2_2 = new JLabel("Ngày Vào Làm :");
+		JLabel lblNewLabel_1_2_1_2_2 = new JLabel("Ngày Nhận Phòng :");
 		lblNewLabel_1_2_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_2_1_2_2.setBounds(1301, 219, 121, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2);
@@ -278,7 +278,7 @@ public class KhachhangUI extends JFrame {
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			 public void actionPerformed(ActionEvent e) {
 
 				try {
 					String maKH = txtmakh.getText();
@@ -295,44 +295,44 @@ public class KhachhangUI extends JFrame {
 						gioiTinh+="Nữ";
 					}
 					
-					
+					String trangthai="CTT";
 					String loaiKH = "111";
-					Date datengayvaolam = calendarNgayVaoLam.getDate(); // Lấy giá trị ngày được chọn
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // Định dạng chuỗi muốn chuyển đổi
-					String dateString = sdf.format(datengayvaolam); // Chuyển đổi thành chuỗi
+					 
+					 
+					// lay ngay thang
 					
-					Date datensinh = calendarNgaySinh.getDate(); // Lấy giá trị ngày được chọn
-			 
-					String dateSinhs = sdf.format(datensinh); // Chuyển đổi thành chuỗi
-					String trangthai="kkk";
-//					int ngaydky = calendarNgayVaoLam.getDate().getDate();
-//					int ngaysinh = calendarNgaySinh.getDate().getDate();
-//					int namSinh = dateChooserNgaySinh.getDate().getYear();
-//
-//					int ngayDangKy = dateChooserNgayDangKy.getDate().getDate();
-//					int thangDangKy = dateChooserNgayDangKy.getDate().getMonth();
-//					int namDangKy = dateChooserNgayDangKy.getDate().getYear();
-//					int diemTichLuy = 0;
-//					int tuoi = nam - namSinh;
+					Date datevaolam = calendarNgayVaoLam.getDate();
 
-//					if (regex.regexTen(txtHoTen) && regex.regexSDT(txtSDT) && regex.regexCCCD(txtCccd)&& regex.regexDiaChi(txtDiaChi) ) {
-//						if(tuoi >= 13) {
-//							if(daoKhachHang.checkSdtKH(sdt)== false) {
-								KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,null,null ,gioiTinh,loaiKH,trangthai);
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String strDatevaolam = dateFormat.format(datevaolam);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatevaolam = java.sql.Date.valueOf(strDatevaolam);
+					
+					
+					//lay ngay sinh
+					
+					Date datengaysinh= calendarNgaySinh.getDate();
+
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					 
+					String strDatengaysinh = dateFormat.format(datengaysinh);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+					
+					
+					//
+					 
+//							 
+								KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai);
 								khachHangDAO.themDanhSachKH(kh);
-//								loadThongTin(kh);
-//								resetAll();
-//								JOptionPane.showMessageDialog(txtma, this, "Thêm khách hàng thành công", securityWarningHeight);						
-//							}else {
-//								JOptionPane.showMessageDialog(this,"Số điện thoại đã đăng kí","Thông báo" , JOptionPane.ERROR_MESSAGE);
-//							}
-//						}else
-//						{
-//							JOptionPane.showMessageDialog(txtngayThue, this,"Khách hàng chưa đủ 13 tuổi", tuoi );
-//					}
-//					}
+//								 
+								Object []obj= {maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai};
+								model.addRow(obj);
 
-
+								 
 				}  catch (Exception e1) {
 					// TODO: handle exception
 				}
@@ -343,11 +343,92 @@ public class KhachhangUI extends JFrame {
 		contentPane.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row=table.getSelectedRow();
+				if(row>=0) {
+					String makh= (String) table.getValueAt(row, 0);
+					if(khachHangDAO.delete(makh)) {
+						model.removeRow(row);
+						
+					}
+				}
+				
+				
+			}
+		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnXoa.setBounds(1439, 457, 113, 54);
 		contentPane.add(btnXoa);
 		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				int row=table.getSelectedRow();
+				
+				if(row>0) {
+					String maKH = txtmakh.getText();
+					String tenKH = txthovaten.getText().toString();
+					String sdt = txtsdt.getText().toString();
+					String cccd = txtcmnd.getText().toString();
+					String email = txtemail.getText().toString();
+//					String gioiTinh = cbogioiTinh.getSelectedItem().toString();
+					String gioiTinh ="";
+					if(rdbtnam.isSelected()) {
+						gioiTinh+="Nam";
+					}
+					if(rdbtnnu.isSelected()) {
+						gioiTinh+="Nữ";
+					}
+					
+					String trangthai="CTT";
+					String loaiKH = "111";
+					 
+					 
+					// lay ngay thang
+					
+					Date datevaolam = calendarNgayVaoLam.getDate();
+
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String strDatevaolam = dateFormat.format(datevaolam);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatevaolam = java.sql.Date.valueOf(strDatevaolam);
+					
+					
+					//lay ngay sinh
+					
+					Date datengaysinh= calendarNgaySinh.getDate();
+
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					 
+					String strDatengaysinh = dateFormat.format(datengaysinh);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+					
+					
+					KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai);
+					
+					
+					if(khachHangDAO.update(kh)) {
+						
+						table.setValueAt(txthovaten, row, 1);
+						table.setValueAt(txtsdt, row, 2);
+						table.setValueAt(txtcmnd, row, 3);
+						table.setValueAt(txtemail, row, 4);
+						table.setValueAt(calendarNgayVaoLam.getDate(), row, 5);
+						table.setValueAt(calendarNgaySinh,row,6);
+//						table.setValueAt(txthovaten, row, 8);
+//						table.setValueAt(txthovaten, row, 9);
+						
+						
+					}
+				}
+			}
+		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnSua.setBounds(1587, 457, 89, 54);
 		contentPane.add(btnSua);

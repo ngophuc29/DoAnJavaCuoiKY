@@ -38,7 +38,7 @@ public class TrangDangNhapUI extends JFrame {
 	public String selectedOption;
 	public JComboBox comboBoxPhanQuyen;
 	public String savema="";
-
+	private static String maNV;
 	/**
 	 * Launch the application.
 	 */
@@ -146,9 +146,11 @@ public class TrangDangNhapUI extends JFrame {
 						}
 						else if(rs.next()) {
 							TrangChuUI tc= new TrangChuUI();
+							datPhong dt= new datPhong();
 							tc.setVisible(true);
 							tc.txtmanvdn.setText(txttk.getText());
-							
+							dt.txtmanvintable.setText(txttk.getText());
+							maNV=txttk.getText();
 							//Phân quyền
 							String input =  txttk.getText(); // Lấy chuỗi đầu vào từ JTextField
 							String firstTwoChars = input.substring(0, 2);
@@ -166,7 +168,7 @@ public class TrangDangNhapUI extends JFrame {
 							
 							// End Phân Quyền
 							
-							JOptionPane.showMessageDialog(null, "Đăng nhập thanh cong");
+							JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
@@ -227,7 +229,7 @@ public class TrangDangNhapUI extends JFrame {
 	 public JTextField getTxttk() {
 		return txttk;
 	}
-
+	
 	public void itemStateChanged(ItemEvent e) {
 	        if (e.getStateChange() == ItemEvent.SELECTED) {
 	        	txtpw.setEchoChar((char) 0);
@@ -239,4 +241,13 @@ txtpw.setEchoChar('*');
 		return savema;
 		
 	}
+
+	public static String getMaNV() {
+		return maNV;
+	}
+
+	public static void setMaNV(String maNV) {
+		TrangDangNhapUI.maNV = maNV;
+	}
+	 
 }

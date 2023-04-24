@@ -29,6 +29,22 @@ public class KhachHang {
 	 
 		this.trangthai = trangthai;
 	}
+	 
+	 
+
+ 
+
+
+	public KhachHang(String maKH2, String tenKH, String sdt2, String cccd, String email2, java.util.Date date,
+			java.util.Date date2, String gioiTinh2, String loaiKH, String trangthai2) {
+		// TODO Auto-generated constructor stub
+	}
+
+
+
+
+
+
 	public String getMakh() {
 		return makh;
 	}
