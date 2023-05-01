@@ -172,7 +172,7 @@ public class KhachhangUI extends JFrame {
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnLuu.setBounds(1460, 545, 216, 54);
+		btnLuu.setBounds(1560, 544, 216, 54);
 		contentPane.add(btnLuu);
 		
 		JButton btnKhchHng = new JButton("Khách Hàng");
@@ -442,6 +442,11 @@ public class KhachhangUI extends JFrame {
 		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnThoat.setBounds(1707, 458, 89, 54);
 		contentPane.add(btnThoat);
+		
+		JButton btnNewButton = new JButton("Loc Theo Trang Thai");
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnNewButton.setBounds(1307, 545, 189, 54);
+		contentPane.add(btnNewButton);
 		
 		table.addMouseListener(new MouseListener() {
 			

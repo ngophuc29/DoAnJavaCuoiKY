@@ -145,4 +145,6 @@ public class khachHangDAO {
 		}
 		return dskh;
 	}
+	
+	 
 }
