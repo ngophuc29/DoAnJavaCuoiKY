@@ -108,7 +108,7 @@ public class KhachhangUI extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1834, 778);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(242, 208, 183));
+		contentPane.setBackground(new Color(182, 208, 252));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -179,6 +179,10 @@ public class KhachhangUI extends JFrame {
 //        });
 		
 		JButton btnLuu = new JButton("Lưu");
+		btnLuu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLuu.setBounds(1554, 439, 216, 54);
 		contentPane.add(btnLuu);
@@ -187,7 +191,7 @@ public class KhachhangUI extends JFrame {
 		btnKhchHng.setIcon(new ImageIcon(KhachhangUI.class.getResource("/img/man-icon.png")));
 		btnKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnKhchHng.setBorderPainted(false);
-		btnKhchHng.setBackground(new Color(242, 208, 183));
+		btnKhchHng.setBackground(new Color(182, 208, 252));
 		btnKhchHng.setBounds(74, 31, 194, 48);
 		contentPane.add(btnKhchHng);
 		
@@ -242,14 +246,14 @@ public class KhachhangUI extends JFrame {
 		contentPane.add(lblNewLabel_1_2_1_2_1);
 		
 		 rdbtnam = new JRadioButton("Nam");
-		rdbtnam.setBackground(new Color(242, 208, 183));
+		rdbtnam.setBackground(new Color(182, 208, 252));
 		rdbtnam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnam.setSelected(true);
 		rdbtnam.setBounds(1662, 182, 78, 23);
 		contentPane.add(rdbtnam);
 		
 		 rdbtnnu = new JRadioButton("Nữ");
-		rdbtnnu.setBackground(new Color(242, 208, 183));
+		rdbtnnu.setBackground(new Color(182, 208, 252));
 		rdbtnnu.setSelected(true);
 		rdbtnnu.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnnu.setBounds(1740, 182, 78, 23);
@@ -448,7 +452,7 @@ riphet();
 		btnThoat.setBounds(1687, 363, 89, 54);
 		contentPane.add(btnThoat);
 		
-		JButton btnLocCTT = new JButton("Loc Theo Trang Thai");
+		JButton btnLocCTT = new JButton("Lọc Theo Trạng Thái");
 		btnLocCTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -467,7 +471,8 @@ riphet();
 		btnLocCTT.setBounds(1301, 440, 189, 54);
 		contentPane.add(btnLocCTT);
 		
-		JButton btntailai = new JButton("Refesh !!");
+		JButton btntailai = new JButton("Cài lại");
+		btntailai.setIcon(new ImageIcon(KhachhangUI.class.getResource("/img/Button-Load-icon.png")));
 		btntailai.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -483,7 +488,7 @@ riphet();
 			}
 		});
 		btntailai.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btntailai.setBounds(1159, 74, 113, 43);
+		btntailai.setBounds(1151, 74, 121, 43);
 		contentPane.add(btntailai);
 		
 		 dateNhanPhong = new JDateChooser();

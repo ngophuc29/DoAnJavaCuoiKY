@@ -88,7 +88,7 @@ public class PhongUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1396, 809);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(242, 208, 183));
+		contentPane.setBackground(new Color(182, 208, 252));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -98,7 +98,7 @@ public class PhongUI extends JFrame {
 //		btnPhng.setIcon(new ImageIcon(Phong.class.getResource("/img/Shoji2-paper-sliding-door-icon.png"))); 	
 		btnPhng.setFont(new Font("Tahoma", Font.PLAIN, 25));
 		btnPhng.setBorderPainted(false);
-		btnPhng.setBackground(new Color(242, 208, 183));
+		btnPhng.setBackground(new Color(182, 208, 252));
 		btnPhng.setBounds(41, 24, 206, 51);
 		contentPane.add(btnPhng);
 		
