@@ -37,10 +37,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JCalendar;
 import java.time.LocalDate;
+import com.toedter.calendar.JDateChooser;
 public class KhachhangUI extends JFrame {
 
 	private JPanel contentPane;
@@ -69,6 +72,11 @@ public class KhachhangUI extends JFrame {
 	private JTextField txtsdt;
 	private JTextField txtcmnd;
 	private JTextField txtemail;
+	private JRadioButton rdbtnam ;
+	private JRadioButton rdbtnnu;
+	
+	private JDateChooser dateNhanPhong;
+	private JDateChooser datangaysinh;
 	/**
 	 * Launch the application.
 	 */
@@ -122,7 +130,7 @@ public class KhachhangUI extends JFrame {
 		model.addColumn("Giới Tính");
 		model.addColumn("Loại Khách");
  
-		model.addColumn("Trạng Thái");
+//		model.addColumn("Trạng Thái");
 //		table = new JTable(model =new DefaultTableModel(
 //			new Object[][] {
 //				{"A01", "Nguy\u1EC5n Tunn", "0987654321", "89389231", "tuannguyn@gmail.com", "1/4/2023", "29/1/1998", "Nam", "Vip", "301"},
@@ -172,7 +180,7 @@ public class KhachhangUI extends JFrame {
 		
 		JButton btnLuu = new JButton("Lưu");
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnLuu.setBounds(1560, 544, 216, 54);
+		btnLuu.setBounds(1554, 439, 216, 54);
 		contentPane.add(btnLuu);
 		
 		JButton btnKhchHng = new JButton("Khách Hàng");
@@ -183,24 +191,19 @@ public class KhachhangUI extends JFrame {
 		btnKhchHng.setBounds(74, 31, 194, 48);
 		contentPane.add(btnKhchHng);
 		
-		JLabel lblNewLabel_1 = new JLabel("Mã KH :");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(1301, 71, 67, 48);
-		contentPane.add(lblNewLabel_1);
-		
 		txtmakh = new JTextField();
-		txtmakh.setBounds(1374, 87, 102, 20);
+		txtmakh.setBounds(1307, 31, -6, -3);
 		contentPane.add(txtmakh);
 		txtmakh.setColumns(10);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Họ và tên KH :");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_1.setBounds(1497, 71, 99, 48);
+		lblNewLabel_1_1.setBounds(1307, 71, 99, 48);
 		contentPane.add(lblNewLabel_1_1);
 		
 		txthovaten = new JTextField();
 		txthovaten.setColumns(10);
-		txthovaten.setBounds(1602, 87, 174, 20);
+		txthovaten.setBounds(1416, 87, 174, 20);
 		contentPane.add(txthovaten);
 		
 		txtsdt = new JTextField();
@@ -238,14 +241,14 @@ public class KhachhangUI extends JFrame {
 		lblNewLabel_1_2_1_2_1.setBounds(1585, 168, 67, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_1);
 		
-		JRadioButton rdbtnam = new JRadioButton("Nam");
+		 rdbtnam = new JRadioButton("Nam");
 		rdbtnam.setBackground(new Color(242, 208, 183));
 		rdbtnam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnam.setSelected(true);
 		rdbtnam.setBounds(1662, 182, 78, 23);
 		contentPane.add(rdbtnam);
 		
-		JRadioButton rdbtnnu = new JRadioButton("Nữ");
+		 rdbtnnu = new JRadioButton("Nữ");
 		rdbtnnu.setBackground(new Color(242, 208, 183));
 		rdbtnnu.setSelected(true);
 		rdbtnnu.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -263,18 +266,10 @@ public class KhachhangUI extends JFrame {
 		lblNewLabel_1_2_1_2_2.setBounds(1301, 219, 121, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2);
 		
-		JCalendar calendarNgayVaoLam = new JCalendar();
-		calendarNgayVaoLam.setBounds(1298, 269, 198, 153);
-		contentPane.add(calendarNgayVaoLam);
-		
 		JLabel lblNewLabel_1_2_1_2_2_1 = new JLabel("Ngày Sinh :");
 		lblNewLabel_1_2_1_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_2_1_2_2_1.setBounds(1531, 227, 121, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2_1);
-		
-		JCalendar calendarNgaySinh = new JCalendar();
-		calendarNgaySinh.setBounds(1531, 269, 198, 153);
-		contentPane.add(calendarNgaySinh);
 		
 		JButton btnThem = new JButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
@@ -301,7 +296,7 @@ public class KhachhangUI extends JFrame {
 					 
 					// lay ngay thang
 					
-					Date datevaolam = calendarNgayVaoLam.getDate();
+					Date datevaolam = dateNhanPhong.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -313,7 +308,7 @@ public class KhachhangUI extends JFrame {
 					
 					//lay ngay sinh
 					
-					Date datengaysinh= calendarNgaySinh.getDate();
+					Date datengaysinh= datangaysinh.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					 
@@ -325,13 +320,23 @@ public class KhachhangUI extends JFrame {
 					
 					//
 					 
-//							 
-								KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai);
-								khachHangDAO.themDanhSachKH(kh);
-//								 
-								Object []obj= {maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai};
-								model.addRow(obj);
+////							 
+//								KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai);
+//								khachHangDAO.themDanhSachKH(kh);
+////								 
+//								Object []obj= {maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai};
+//								model.addRow(obj);
 
+					
+					if(validData()) {
+						KhachHang kh = new KhachHang(maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai);
+						khachHangDAO.themDanhSachKH(kh);
+//						 
+						Object []obj= {maKH, tenKH,  sdt, cccd,email,  sqlDatevaolam,sqlDatengaysinh,gioiTinh,loaiKH,trangthai};
+						model.addRow(obj);
+						
+riphet();
+					}
 								 
 				}  catch (Exception e1) {
 					// TODO: handle exception
@@ -339,7 +344,7 @@ public class KhachhangUI extends JFrame {
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnThem.setBounds(1301, 457, 113, 54);
+		btnThem.setBounds(1296, 362, 113, 54);
 		contentPane.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
@@ -358,7 +363,7 @@ public class KhachhangUI extends JFrame {
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnXoa.setBounds(1439, 457, 113, 54);
+		btnXoa.setBounds(1439, 362, 113, 54);
 		contentPane.add(btnXoa);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -388,7 +393,7 @@ public class KhachhangUI extends JFrame {
 					 
 					// lay ngay thang
 					
-					Date datevaolam = calendarNgayVaoLam.getDate();
+					Date datevaolam = dateNhanPhong.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -400,7 +405,7 @@ public class KhachhangUI extends JFrame {
 					
 					//lay ngay sinh
 					
-					Date datengaysinh= calendarNgaySinh.getDate();
+					Date datengaysinh= datangaysinh.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					 
@@ -419,8 +424,8 @@ public class KhachhangUI extends JFrame {
 						table.setValueAt(txtsdt, row, 2);
 						table.setValueAt(txtcmnd, row, 3);
 						table.setValueAt(txtemail, row, 4);
-						table.setValueAt(calendarNgayVaoLam.getDate(), row, 5);
-						table.setValueAt(calendarNgaySinh,row,6);
+						table.setValueAt(dateNhanPhong.getDate(), row, 5);
+						table.setValueAt(datangaysinh,row,6);
 //						table.setValueAt(txthovaten, row, 8);
 //						table.setValueAt(txthovaten, row, 9);
 						
@@ -430,7 +435,7 @@ public class KhachhangUI extends JFrame {
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnSua.setBounds(1587, 457, 89, 54);
+		btnSua.setBounds(1573, 362, 89, 54);
 		contentPane.add(btnSua);
 		
 		JButton btnThoat = new JButton("Thoát");
@@ -440,13 +445,56 @@ public class KhachhangUI extends JFrame {
 			}
 		});
 		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnThoat.setBounds(1707, 458, 89, 54);
+		btnThoat.setBounds(1687, 363, 89, 54);
 		contentPane.add(btnThoat);
 		
-		JButton btnNewButton = new JButton("Loc Theo Trang Thai");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnNewButton.setBounds(1307, 545, 189, 54);
-		contentPane.add(btnNewButton);
+		JButton btnLocCTT = new JButton("Loc Theo Trang Thai");
+		btnLocCTT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			List<KhachHang>dsctt=KHdao.KHCTT();
+			
+			model.getDataVector().removeAllElements();
+			for (KhachHang kh : dsctt) {
+				String []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky()+"",kh.getNgaysinh()+"",kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
+				
+				model.addRow(obj);
+			}
+			table.setModel(model);
+			}
+		});
+		btnLocCTT.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnLocCTT.setBounds(1301, 440, 189, 54);
+		contentPane.add(btnLocCTT);
+		
+		JButton btntailai = new JButton("Refesh !!");
+		btntailai.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				List<KhachHang>dsctt=KHdao.getAllKH();
+				
+				model.getDataVector().removeAllElements();
+				for (KhachHang kh : dsctt) {
+					String []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky()+"",kh.getNgaysinh()+"",kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
+					
+					model.addRow(obj);
+				}
+				table.setModel(model);
+			}
+		});
+		btntailai.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btntailai.setBounds(1159, 74, 113, 43);
+		contentPane.add(btntailai);
+		
+		 dateNhanPhong = new JDateChooser();
+		dateNhanPhong.setBounds(1301, 288, 189, 30);
+		contentPane.add(dateNhanPhong);
+		
+		dateNhanPhong.setDate(Calendar.getInstance().getTime());
+		
+		 datangaysinh = new JDateChooser();
+		datangaysinh.setBounds(1541, 286, 216, 32);
+		contentPane.add(datangaysinh);
 		
 		table.addMouseListener(new MouseListener() {
 			
@@ -470,7 +518,8 @@ public class KhachhangUI extends JFrame {
 				Date date;
 				try {
 					date = format.parse(model.getValueAt(row, 5).toString());
-					calendarNgayVaoLam.setDate(date);
+//					calendarNgayVaoLam.setDate(date);
+					dateNhanPhong.setDate(date);
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -482,7 +531,7 @@ public class KhachhangUI extends JFrame {
 				
 				try {
 					date = format.parse(model.getValueAt(row, 6).toString());
-					calendarNgaySinh.setDate(date);
+					datangaysinh.setDate(date);
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -523,5 +572,93 @@ public class KhachhangUI extends JFrame {
 				
 			}
 		});
+	}
+	
+	private boolean validData() {
+		String maKH = txtmakh.getText();
+		String tenKH = txthovaten.getText().toString();
+		String sdt = txtsdt.getText().toString();
+		String cccd = txtcmnd.getText().toString();
+		String email = txtemail.getText().toString();
+//		String gioiTinh = cbogioiTinh.getSelectedItem().toString();
+		String gioiTinh ="";
+		if(rdbtnam.isSelected()) {
+			gioiTinh+="Nam";
+		}
+		if(rdbtnnu.isSelected()) {
+			gioiTinh+="Nữ";
+		}
+		
+		String trangthai="CTT";
+		String loaiKH = "111";
+		 
+		 
+		// lay ngay thang
+		
+		Date datevaolam = dateNhanPhong.getDate();
+
+		// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String strDatevaolam = dateFormat.format(datevaolam);
+
+		// Chuyển đổi chuỗi thành kiểu java.sql.Date
+		java.sql.Date sqlDatevaolam = java.sql.Date.valueOf(strDatevaolam);
+		
+		
+		//lay ngay sinh
+		
+		Date datengaysinh= datangaysinh.getDate();
+
+		// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+		 
+		String strDatengaysinh = dateFormat.format(datengaysinh);
+
+		// Chuyển đổi chuỗi thành kiểu java.sql.Date
+		java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+		
+//		if(!(maSach.length() > 0 && maSach.matches("[A-Z]\\d{3}"))) {
+//			JOptionPane.showMessageDialog(this, "Error: ma sach theo mau : [A-Z]\\d{3}");
+//			return false;
+//		}
+		if(!(tenKH.length() >0 && tenKH.matches("[a-zA-Z' ]+"))) {
+//			JOp ( "Error: Ten Kh khong duoc de trong ",tenKH);
+			JOptionPane.showMessageDialog(null, "Error: Ten Kh khong duoc de trong");
+			return false;
+		}
+		if(!(sdt.length() >0 && sdt.matches("^[0]+\\d{9}"))) {
+//			showMessage( "Error: Số điện thoại phải gồm 10 số ",sdt);
+			JOptionPane.showMessageDialog(null, "Error:  Số điện thoại phải gồm 10 số");
+			return false;
+		}
+		if(!(cccd.length() >0 && cccd.matches("\\d{12}"))) {
+//			showMessage( "Error: Số điện thoại phải gồm 10 số ",cccd);
+			JOptionPane.showMessageDialog(null, "Error:  CCCD phải gồm 12 số");
+			return false;
+		}
+		if(!(email.length() >0 && email.matches("[a-zA-Z0-9]+@[+a-zA-Z]+(.com)"))) {
+//			showMessage( "Error: Số điện thoại phải gồm 10 số ",email);
+			JOptionPane.showMessageDialog(null, "Error:  Định dạng email không hợp lệ");
+			return false;
+		}
+//
+		
+		return true;
+	}
+
+	private void showMessage(String string, String tenKH) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void riphet() {
+		List<KhachHang>dsctt=KHdao.getAllKH();
+		
+		model.getDataVector().removeAllElements();
+		for (KhachHang kh : dsctt) {
+			String []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky()+"",kh.getNgaysinh()+"",kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
+			
+			model.addRow(obj);
+		}
+		table.setModel(model);
 	}
 }

@@ -25,7 +25,12 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import DAO.chitietPhongDAO;
+import DAO.chitietdichVuDAO;
 import DAO.khachHangDAO;
+import DAO.phongDAO;
+import entity.chitietDatPhong;
+import entity.chitietdichVu;
 
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
@@ -54,12 +59,12 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 	public JLabel txtgiangay;
 	public JLabel txtgiagio;
 	public JTable tablekhachhang;
-	public DefaultTableModel modelkhachhang;
+	public static DefaultTableModel modelkhachhang;
 	public JLabel txtTongTienPhong;
 	public JTable table_chitietdichvu;
 	public DefaultTableModel modelchitietdichVu;
 	public JLabel txttongtiendichvu;
-	public JTextField textField_2;
+
 	public JTextField soluongdichvucheck;
 	String selectedOption;
 	int luusoluongdichvu=1;
@@ -67,11 +72,21 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 	  private SimpleDateFormat sdf;
 	double luutiendichvu;
 	public JTextField txtphuThu;
+	public JButton btnInHoaDon;
 	public JTextField txtstk;
 	public JTextField txttienKhachDua;
 	public JTextField txtTienkhachTraLai;
 	String gioraa="";
+	public JComboBox comboBox ;
+	public JButton themdichvu;
+	public JSpinner spinner;
 	private khachHangDAO khdao;
+	public JFrame f;
+	private phongDAO phongdaoo = new phongDAO();
+	private chitietdichVuDAO ctdvdao= new chitietdichVuDAO();
+	private chitietPhongDAO ctdpdao= new chitietPhongDAO();
+	
+	public JButton btnThanhToan;
 	/**
 	 * Launch the application.
 	 */
@@ -203,7 +218,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		modelkhachhang= new DefaultTableModel();
 		modelkhachhang.addColumn("Mã chi tiet dat phong");
 		modelkhachhang.addColumn("Mã Phong");
-		modelkhachhang.addColumn("So Luong Phong");
+//		modelkhachhang.addColumn("So Luong Phong");
 		modelkhachhang.addColumn("Ma hoa don");
 //		modelkhachhang.addColumn("Giờ Vào");
 //		modelkhachhang.addColumn("Giờ ra");
@@ -213,9 +228,15 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		modelkhachhang.addColumn("Gio ra");
 		tablekhachhang = new JTable(modelkhachhang);
 		tablekhachhang.getColumnModel().getColumn(1).setPreferredWidth(93);
-		tablekhachhang.getColumnModel().getColumn(6).setPreferredWidth(83);
+//		tablekhachhang.getColumnModel().getColumn(6).setPreferredWidth(83);
 //		tablekhachhang.getColumnModel().getColumn(7).setPreferredWidth(87);
 		scrollPane.setViewportView(tablekhachhang);
+		
+		
+		
+//		for (chitietDatPhon ctdp : ctdpdao.getAllchiTietPhongCoMaKh(gioraa)) {
+//			
+//		}
 		
 		JLabel lblNewLabel_3 = new JLabel("Tổng Tiền Phòng : ");
 		lblNewLabel_3.setForeground(new Color(255, 0, 0));
@@ -275,7 +296,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		modelchitietdichVu= new DefaultTableModel();
 		modelchitietdichVu.addColumn("Mã Dịch Vụ");
-		modelchitietdichVu.addColumn("Phòng");
+//		modelchitietdichVu.addColumn("Phòng");
 		modelchitietdichVu.addColumn("Tên Dịch Vụ");
 		modelchitietdichVu.addColumn("Đơn giá");
 		modelchitietdichVu.addColumn("Số Lượng");
@@ -293,6 +314,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //			}
 		
 //		));
+		
 		
 		
 		sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -335,15 +357,10 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		JLabel lblNewLabel_5 = new JLabel("Tìm Kiếm Dịch Vụ");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_5.setBounds(567, 89, 173, 25);
+		lblNewLabel_5.setBounds(571, 120, 173, 25);
 		panelChivietDichVu.add(lblNewLabel_5);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(567, 125, 219, 20);
-		panelChivietDichVu.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JComboBox comboBox = new JComboBox();
+		  comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 //		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nước CoCa", "Nước Nước Pepsi", "Nước 7UP", "Cà Phê", "Bạc Xĩu", "Bia Heneiken", "Bia Sài Gòn Bạc", "Bia 333"}));
 		comboBox.addItem("Nước CoCa");
@@ -357,41 +374,41 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		 
 		comboBox.setBounds(567, 156, 219, 22);
 		panelChivietDichVu.add(comboBox);
-		comboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                 selectedOption = (String) comboBox.getSelectedItem();
-                if (selectedOption.equals("Nước CoCa")) {
-                    // Mở ra JFrame tương ứng với Option 1
-                	  openOptionFrame();
-                }  if (selectedOption.equals("Nước Pepsi")) {
-                    // Mở ra JFrame tương ứng với Option 2
-                	openOptionFrame();
-                }  if (selectedOption.equals("Nước 7UP")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-                if (selectedOption.equals("Cà Phê")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-                if (selectedOption.equals("Bạc Xỉu")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-                if (selectedOption.equals("Bia Heneiken")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-                if (selectedOption.equals("Bia Sài Gòn Bạc")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-                if (selectedOption.equals("Bia 333")) {
-                    // Mở ra JFrame tương ứng với Option 3
-                	openOptionFrame();
-                }
-            }
-        });
+//		comboBox.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                 selectedOption = (String) comboBox.getSelectedItem();
+//                if (selectedOption.equals("Nước CoCa")) {
+//                    // Mở ra JFrame tương ứng với Option 1
+//                	  openOptionFrame();
+//                }  if (selectedOption.equals("Nước Pepsi")) {
+//                    // Mở ra JFrame tương ứng với Option 2
+//                	openOptionFrame();
+//                }  if (selectedOption.equals("Nước 7UP")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//                if (selectedOption.equals("Cà Phê")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//                if (selectedOption.equals("Bạc Xỉu")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//                if (selectedOption.equals("Bia Heneiken")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//                if (selectedOption.equals("Bia Sài Gòn Bạc")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//                if (selectedOption.equals("Bia 333")) {
+//                    // Mở ra JFrame tương ứng với Option 3
+//                	openOptionFrame();
+//                }
+//            }
+//        });
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(1002, -15, 415, 774);
 		contentPane.add(panel_2);
@@ -523,7 +540,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_8.setBounds(30, 431, 93, 14);
 		panel_2.add(lblNewLabel_8);
 		
-		JButton btnThanhToan = new JButton("Thanh Toán");
+		  btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -537,6 +554,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 					else {
 						JOptionPane.showMessageDialog(null, "Thanh Toán Thành Công");
 						txtTienkhachTraLai.setText(Double.toString(Double.parseDouble(txttienKhachDua.getText())-Double.parseDouble(txttongtienThanhToan.getText())));
+						btnInHoaDon.setVisible(true);
 					}
 				}
 			}
@@ -547,11 +565,11 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		btnThanhToan.setBounds(30, 637, 375, 47);
 		panel_2.add(btnThanhToan);
 		
-		
-		String []testtablekhachhang= {"1","2","3","4","5",sdf.format(new Date()),gioraa};
-		String []testtablekhachhang1= {"1","2","3","4","5",sdf.format(new Date()),gioraa};
-		modelkhachhang.addRow(testtablekhachhang);
+//		
+//		String []testtablekhachhang= {"1","2","3","4","5",sdf.format(new Date()),gioraa};
+		String []testtablekhachhang1= {"1","2","4","5",sdf.format(new Date()),gioraa};
 		modelkhachhang.addRow(testtablekhachhang1);
+//		modelkhachhang.addRow(testtablekhachhang1);
 		  btnTraPhong = new JButton("Trả Phòng");
 		btnTraPhong.addActionListener(new ActionListener() {
 			 @Override
@@ -567,22 +585,32 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 
 				 // Duyệt qua tất cả các hàng và set giá trị mới cho cột thứ 2
 				 for (int i = 0; i < rowCount; i++) {
-				     model.setValueAt(sdf.format(new Date()), i, 6);
+				     model.setValueAt(sdf.format(new Date()), i, 5);
 				 }
-
+				 txtngaytraphong.setText((sdf.format(new Date()).toString()));
 				 //
 //			        int selectedRow = tablekhachhang.getSelectedRow();
 //			        if (selectedRow != -1) {
 //			            TableModel model = tablekhachhang.getModel();
 //			            model.setValueAt("new value", selectedRow, 6); // thay "new value" bằng giá trị mới muốn set
 //			        }
+				 
+				 
+				 
 			    }
 		});
 		btnTraPhong.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnTraPhong.setBounds(225, 702, 180, 44);
 		panel_2.add(btnTraPhong);
 		
+		  btnInHoaDon = new JButton("In Hóa Đơn");
+		btnInHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnInHoaDon.setBounds(34, 704, 153, 42);
+		panel_2.add(btnInHoaDon);
+		
 	
+		
+		btnInHoaDon.setVisible(false);
 		//TESt
 		
 		
@@ -619,14 +647,14 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		 
 	}
-	 private void openOptionFrame() {
+	 public void openOptionFrame(String sp,String mhd,String madv) {
 //	        JFrame option1Frame = new JFrame("Option 1 Frame");
 //	        option1Frame.setSize(300, 200);
 //	        option1Frame.setLocationRelativeTo(null);
 //	        
 //	        
 //	        option1Frame.setVisible(true);
-		 JFrame f=new JFrame();
+		   f=new JFrame();
 			f.setBounds(0,0,434,225);
 			f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			f.getContentPane().setLayout(null);
@@ -644,57 +672,17 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			lblSLng.setBounds(53, 104, 110, 42);
 			f.getContentPane().add(lblSLng);
 			
-			JLabel lblNewLabel_2 = new JLabel(selectedOption);
+			JLabel lblNewLabel_2 = new JLabel(sp);
 			lblNewLabel_2.setBounds(185, 58, 140, 14);
 			f.getContentPane().add(lblNewLabel_2);
-			
-//			JButton btntru = new JButton("-");
-//			btntru.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//
-//			soluongdichvucheck = new JTextField();
-//			soluongdichvucheck.setText("1");
-//			soluongdichvucheck.setBounds(228, 118, 29, 23);
-//			f.getContentPane().add(soluongdichvucheck);
-//			soluongdichvucheck.setColumns(10);
-//			
-//			
-//			btntru.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					int a=Integer.parseInt( soluongdichvucheck.getText()  );
-//					 int k=a;
-//					 k--;
-//					 soluongdichvucheck.setText(Integer.toString(k));
-//					 luusoluongdichvu+=k;
-//				}
-//			});
-//			btntru.setBounds(158, 117, 61, 23);
-//			f.getContentPane().add(btntru);
-//			
-//			JButton btncong = new JButton("+");
-//			btncong.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					int a=Integer.parseInt( soluongdichvucheck.getText()  );
-//
-//					 int k=a;
-//					 k++;
-//					 soluongdichvucheck.setText(Integer.toString(k));
-//					 luusoluongdichvu+=k;
-//				}
-//			});
-//			
-//		 
-//			
-//			btncong.setFont(new Font("Tahoma", Font.PLAIN, 18));
-//			btncong.setBounds(267, 117, 75, 23);
-//			f.getContentPane().add(btncong);
-			
-			JSpinner spinner = new JSpinner();
+		
+			  spinner = new JSpinner();
 			spinner.setFont(new Font("Tahoma", Font.PLAIN, 15));
 			spinner.setBounds(179, 118, 40, 20);
 			f.getContentPane().add(spinner);
 			spinner.setValue(1);
 			
-			JButton themdichvu = new JButton("Thêm");
+			  themdichvu = new JButton("Thêm");
 			themdichvu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			themdichvu.setBounds(93,159, 89, 42);
 			f.getContentPane().add(themdichvu);
@@ -704,105 +692,107 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //					String []obj= {"a","b","c","d","e","đ"};
 //					
 //					modelchitietdichVu.addRow(obj);
-					String ma="";
-					String ten="";
-					String phong ="";
-					String dongia="";
-					String soluong ="";
-					String thanhtien="";
-					double tinhthanhtien=0.0;
-					double tongtiendichvu=0.0;
+//					String ma="";
+//					String ten="";
+//					String phong ="";
+//					String dongia="";
+//					String soluong ="";
+//					String thanhtien="";
+//					double tinhthanhtien=0.0;
+//					double tongtiendichvu=0.0;
+//					
+//					if(selectedOption.equals("Nước CoCa")) {
+//						ma+="DV101";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="15.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//						 
+//					}
+//				 
+//					if(selectedOption.equals("Nước Pepsi")) {
+//						ma+="DV102";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="15.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//				 
+//					}
+//					
+//					if(selectedOption.equals("Nước 7UP")) {
+//						ma+="DV103";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="15.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//						 
+//					}
+//					if(selectedOption.equals("Cà Phê")) {
+//						ma+="DV104";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="25.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//					 
+//					}
+//					if(selectedOption.equals("Bạc Xỉu")) {
+//						ma+="DV105";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="20.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//						 
+//					}
+//					if(selectedOption.equals("Bia Heneiken")) {
+//						ma+="DV106";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="30.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//					 
+//					}
+//					if(selectedOption.equals("Bia Sài Gòn Bạc")) {
+//						ma+="DV107";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="30.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//						 
+//					}
+//				 
+//					if(selectedOption.equals("Bia 333")) {
+//						ma+="DV108";
+//						phong+="chua lam";
+//						ten+=selectedOption;
+//						dongia+="25.000";
+//						soluong+=spinner.getValue();
+//						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
+//						thanhtien+=Double.toString(tinhthanhtien);
+//						 
+//					}
+//					
+//					
+//					
+//					String []obj= {ma,phong,ten,dongia,soluong,thanhtien};
+//					modelchitietdichVu.addRow(obj);
+					int soluong=Integer.parseInt(spinner.getValue().toString());
+					chitietdichVu ctdv=new chitietdichVu(mhd, madv, soluong);
+					ctdvdao.insert(ctdv);
 					
-					if(selectedOption.equals("Nước CoCa")) {
-						ma+="701";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="15.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-						 
-					}
-				 
-					if(selectedOption.equals("Nước Pepsi")) {
-						ma+="702";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="15.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-				 
-					}
-					
-					if(selectedOption.equals("Nước 7UP")) {
-						ma+="703";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="15.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-						 
-					}
-					if(selectedOption.equals("Cà Phê")) {
-						ma+="704";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="25.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-					 
-					}
-					if(selectedOption.equals("Bạc Xỉu")) {
-						ma+="705";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="20.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-						 
-					}
-					if(selectedOption.equals("Bia Heneiken")) {
-						ma+="706";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="30.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-					 
-					}
-					if(selectedOption.equals("Bia Sài Gòn Bạc")) {
-						ma+="707";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="30.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-						 
-					}
-				 
-					if(selectedOption.equals("Bia 333")) {
-						ma+="708";
-						phong+="chua lam";
-						ten+=selectedOption;
-						dongia+="25.000";
-						soluong+=spinner.getValue();
-						tinhthanhtien=Integer.parseInt(soluong)*Double.parseDouble(dongia);
-						thanhtien+=Double.toString(tinhthanhtien);
-						 
-					}
-					
-					
-					
-					String []obj= {ma,phong,ten,dongia,soluong,thanhtien};
-					modelchitietdichVu.addRow(obj);
-			
- 				
 //					 
 					
 					//TÍNH TỔNG TIỀN DỊCH VỤ QUA CỘT THÀNH TIỀN
@@ -816,13 +806,13 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 					double sum = 0.0;
 
 					// lặp qua từng dòng trong bảng
-					for (int rowIndex = 0; rowIndex < model.getRowCount(); rowIndex++) {
-					    // lấy giá trị của ô trong cột được chỉ định
-					    String cellValue = model.getValueAt(rowIndex, columnIndex).toString();
-					    
-					    // chuyển đổi giá trị ô từ chuỗi sang số thực và thêm vào tổng
-					    sum += Double.parseDouble(cellValue);
-					}
+//					for (int rowIndex = 0; rowIndex < model.getRowCount(); rowIndex++) {
+//					    // lấy giá trị của ô trong cột được chỉ định
+//					    String cellValue = model.getValueAt(rowIndex, columnIndex).toString();
+//					    
+//					    // chuyển đổi giá trị ô từ chuỗi sang số thực và thêm vào tổng
+//					    sum += Double.parseDouble(cellValue);
+//					}
 
 					   
 					// hiển thị tổng trong một nhãn hoặc trường văn bản
@@ -849,20 +839,21 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 					double doubleValue = 0.0;
 					
 					// lặp qua từng dòng trong bảng
-					for (int rowIndex = 0; rowIndex < model1.getRowCount(); rowIndex++) {
-					    // lấy giá trị của ô trong cột được chỉ định
-					    String cellValue = model1.getValueAt(rowIndex, columnIndex1).toString();
-					    
-					    // chuyển đổi giá trị ô từ chuỗi sang số thực và thêm vào tổng
-					    doubleValue += Double.parseDouble(cellValue);
-					}
-
-					   
-					// hiển thị tổng trong một nhãn hoặc trường văn bản
-					txtTongTienPhong.setText(String.valueOf(doubleValue));
-
-					
-					txttongtienThanhToan.setText(String.valueOf(sum+doubleValue));
+//					for (int rowIndex = 0; rowIndex < model1.getRowCount(); rowIndex++) {
+//					    // lấy giá trị của ô trong cột được chỉ định
+//					    String cellValue = model1.getValueAt(rowIndex, columnIndex1).toString();
+//					    
+//					    // chuyển đổi giá trị ô từ chuỗi sang số thực và thêm vào tổng
+//					    doubleValue += Double.parseDouble(cellValue);
+//					}
+//
+//					   
+//					// hiển thị tổng trong một nhãn hoặc trường văn bản
+//					txtTongTienPhong.setText(String.valueOf(doubleValue));
+//					
+//					
+//					txttongtienThanhToan.setText(String.valueOf(sum+doubleValue));
+					f.dispose();
 				}
 			});
  
@@ -881,14 +872,14 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			f.getContentPane().add(btnCancale);
 			 int sum=0;
 			int rowCount = tablekhachhang.getRowCount();
-			for (int i = 0; i < rowCount; i++) {
-			    int col1Value =  Integer.parseInt(tablekhachhang.getValueAt(i, 1).toString()); // Lấy giá trị của cột col1
-			    int col2Value =Integer.parseInt(tablekhachhang.getValueAt(i, 2).toString()); // Lấy giá trị của cột col2
-			    int col3Value = col1Value * (col2Value - col1Value); // Tính giá trị mới của cột col3
-			    sum+=col3Value;
-			    
-			}
-			System.out.println("Giá trị mới của cột col3 tại dòng " + sum);
+//			for (int i = 0; i < rowCount; i++) {
+//			    int col1Value =  Integer.parseInt(tablekhachhang.getValueAt(i, 1).toString()); // Lấy giá trị của cột col1
+//			    Double col2Value =Double.parseDouble(tablekhachhang.getValueAt(i, 3).toString()); // Lấy giá trị của cột col2
+//			    int col3Value = col1Value * (col2Value - col1Value); // Tính giá trị mới của cột col3
+//			    sum+=col3Value;
+//			    
+//			}
+//			System.out.println("Giá trị mới của cột col3 tại dòng " + sum);
 		
 			f.setVisible(true);
 	    }

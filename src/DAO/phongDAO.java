@@ -23,7 +23,7 @@ public class phongDAO {
 			Statement statement= con.createStatement();
 			ResultSet rs =statement.executeQuery(sql);
 			while(rs.next()) {
-				dsphong.add(new  phong(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getString(5)));
+				dsphong.add(new  phong(rs.getString(1), rs.getDouble(2), rs.getInt(3), rs.getString(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -40,7 +40,7 @@ public class phongDAO {
 			statement.setString(1, tt);
 			ResultSet rs = statement.executeQuery();
 			while(rs.next()) {
-				dsphong.add(new  phong(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4), rs.getString(5)));
+				dsphong.add(new  phong(rs.getString(1),  rs.getDouble(2), rs.getInt(3), rs.getString(4)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

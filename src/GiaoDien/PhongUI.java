@@ -8,8 +8,15 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.chitietPhongDAO;
+import DAO.chitietdichVuDAO;
+import DAO.dichVuDAO;
+import DAO.hoadonDAO;
 import DAO.phongDAO;
 import database.ConnectDB;
+import entity.HoaDon;
+import entity.chitietDatPhong;
+import entity.chitietdichVu;
 import entity.phong;
 
 import javax.swing.JButton;
@@ -32,8 +39,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +55,11 @@ public class PhongUI extends JFrame {
 
 	private JPanel contentPane;
 	private phongDAO phongdaoo = new phongDAO();
-	/**
+	 private boolean isMenu2EventAdded = false;
+	private chitietdichVuDAO ctdvdao= new chitietdichVuDAO();
+	private chitietPhongDAO ctpdao= new chitietPhongDAO();
+	private static FormThongTinPhongVaThanhToan f;
+	private dichVuDAO dvdao= new dichVuDAO();	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -200,6 +215,37 @@ public class PhongUI extends JFrame {
 //							ConnectDB.getinstance();
 //							Connection con =ConnectDB.getConnection();
 //							String sql="select c. from chitietPhong c join ";
+				    	  try {
+							
+							String maKH=dt.combomaKH.getSelectedItem().toString();
+							String maNV=TrangDangNhapUI.getMaNV();
+							String maPhong=dt.txtmaphongdat.getText();
+							String trangthai="CTT";
+							
+							
+							if(kiemtraTonTaiCTT(maKH)==0) {
+								
+								HoaDon hd= new HoaDon(maKH, maNV, trangthai);
+								hoadonDAO.themHD(hd);
+							}
+							
+							
+							
+							String mahoadon= laymahoadon(maKH);
+						 
+							//
+							long millis=System.currentTimeMillis();  
+							java.sql.Date date=new java.sql.Date(millis);  
+							//
+							
+						chitietDatPhong ctdp=new chitietDatPhong(maPhong, mahoadon, 800,date);
+							ctpdao.insert(ctdp);
+							
+							
+							
+						} catch (Exception e2) {
+							// TODO: handle exception
+						}
 					}
 				});
 		    	 //
@@ -214,14 +260,114 @@ public class PhongUI extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        // Xử lý sự kiện ở đây
 //		    	panelPhong101.setBackground(new Color(238, 114, 96));
-		    	FormThongTinPhongVaThanhToan f=new FormThongTinPhongVaThanhToan();
-		    	f.setVisible(true);
+		    	JPanel panel = (JPanel) popupMenu.getInvoker();
+		    	 JLabel label1 = (JLabel) panel.getComponent(0);
 		    	
-		    	datPhong dt= new datPhong();
-		    	
-		    	f.txttenKH.setText(dt.combotenKH.getSelectedItem().toString());
+		             f = new FormThongTinPhongVaThanhToan();
+		             f.setVisible(true);
+		    	 
+		    	String makh= laymaKH(label1.getText());
+		    	f.txttenKH.setText(makh);
+		    	f.txttenKH.setText(laymaKH(label1.getText()));
+		    	f.modelkhachhang.setRowCount(0);
+				
+					ConnectDB.getinstance();
+					Connection con =ConnectDB.getConnection();
+					PreparedStatement stmt=null;
+					try {
+						String sql="  select * from chitietHoaDonPhong where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+						stmt=con.prepareStatement(sql);
+						stmt.setString(1, makh);
+						ResultSet rs =stmt.executeQuery();
+						while(rs.next()) {
+//							dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
+							Object []obj= {rs.getString(1), rs.getString(2),    rs.getString(3), rs.getDouble(4), rs.getDate(5), rs.getDate(6)};
+							f.modelkhachhang.addRow(obj);
+	
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				
+					String mahoadon= laymahoadon(makh);
+					String madv= dvdao.laytentheomaKh(f.comboBox.getSelectedItem().toString());
+					int solluong = 3;
+					
+					f.txtTongTienPhong.setText(Double.toString(ctpdao.tongtienphong(mahoadon)));
+					 
+					f.comboBox.addActionListener(new ActionListener() {
+			            public void actionPerformed(ActionEvent e) {
+			                String selectedOption = (String) f.comboBox.getSelectedItem();
+			                if (selectedOption.equals("Nước CoCa")) {
+			                    // Mở ra JFrame tương ứng với Option 1
+			                	  f.openOptionFrame("Nước CoCa",mahoadon,"DV101");
+			                }  if (selectedOption.equals("Nước Pepsi")) {
+			                    // Mở ra JFrame tương ứng với Option 2
+			                	f.openOptionFrame("Nước Pepsi",mahoadon,"DV102");
+			                }  if (selectedOption.equals("Nước 7UP")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Nước 7UP",mahoadon,"DV103");
+			                }
+			                if (selectedOption.equals("Cà Phê")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Cà Phê",mahoadon,"DV104");
+			                }
+			                if (selectedOption.equals("Bạc Xỉu")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Bạc Xỉu",mahoadon,"DV105");
+			                }
+			                if (selectedOption.equals("Bia Heneiken")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Bia Heneiken",mahoadon,"DV106");
+			                }
+			                if (selectedOption.equals("Bia Sài Gòn Bạc")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Bia Sài Gòn Bạc",mahoadon,"DV107");
+			                }
+			                if (selectedOption.equals("Bia 333")) {
+			                    // Mở ra JFrame tương ứng với Option 3
+			                	f.openOptionFrame("Bia 333",mahoadon,"DV108");
+			                	
+			                	
+			                }
+			            }
+			        });
+					f.txtTongTienPhong.setText(Double.toString(ctpdao.tongtienphong(mahoadon)));
+					
+					try {
+						String sql="  select ctdv.machitiethoadon,dv.tendichvu,dv.giadichvu,ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+						stmt=con.prepareStatement(sql);
+						stmt.setString(1, makh);
+						ResultSet rs =stmt.executeQuery();
+						while(rs.next()) {
+//							dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
+							Object []obj= {rs.getString(1), rs.getString(2),    rs.getDouble(3), rs.getInt(4), rs.getDouble(3)*rs.getInt(4)};
+							f.modelchitietdichVu.addRow(obj);
+	
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					f.txttongtiendichvu.setText(Double.toString(ctdvdao.tongtiendichvu(makh)));
+				
+				 
+					
+					f.txttongtienThanhToan.setText(Double.toString(ctdvdao.tongtiendichvu(makh)+ctpdao.tongtienphong(mahoadon)));
+					
+					
+				 
+//				f.btnThanhToan.addActionListener(new ActionListener() {
+//					
+//					@Override
+//					public void actionPerformed(ActionEvent e) {
+//						// TODO Auto-generated method stub
+//						phongdaoo.update("Phòng trống", label1.getText());
+//						JOptionPane.showMessageDialog(null, "OKKKKK");
+//					}
+//				});
 		    }
 		});
+		
 		
 		MouseListener mouseListener = new MouseAdapter() {
 		    @Override
@@ -247,6 +393,10 @@ public class PhongUI extends JFrame {
 		        }
 		    }
 		};
+		
+		
+		
+		
 //		panelPhong101.addMouseListener(new MouseAdapter() {
 //		    public void mousePressed(MouseEvent e) {
 //		        if (e.isPopupTrigger()) {
@@ -620,7 +770,7 @@ public class PhongUI extends JFrame {
 		//sk
 				panelPhong303.addMouseListener(mouseListener);
 				//
-		
+
 		JLabel lblTenPhong303 = new JLabel("303");
 		lblTenPhong303.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTenPhong303.setBounds(121, 28, 125, 27);
@@ -645,9 +795,8 @@ public class PhongUI extends JFrame {
 		//sk
 				panelPhong401.addMouseListener(mouseListener);
 				//
-		String a =TrangDangNhapUI.getMaNV();
 		
-		JLabel lblTenPhong401 = new JLabel(a);
+		JLabel lblTenPhong401 = new JLabel("401");
 		lblTenPhong401.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblTenPhong401.setBounds(132, 27, 125, 27);
 		panelPhong401.add(lblTenPhong401);
@@ -714,4 +863,99 @@ public class PhongUI extends JFrame {
 		});
 	}
 	
+	
+	public int kiemtraTonTaiCTT(String makh) {
+		 String jdbcUrl = "jdbc:sqlserver://localhost:1433;databasename=doAnCuoiKyJava";
+	        String username = "sa";
+	        String password = "sapassword";
+		int count=0;
+		 try {
+		      // Tạo kết nối đến cơ sở dữ liệu
+			 Connection conn = DriverManager.getConnection(jdbcUrl, username, password);
+
+		      // Tạo câu truy vấn SQL để kiểm tra sự trùng lặp của mã phòng
+		      String sql = "SELECT COUNT(*) FROM hoadon WHERE makh=? and trangthai='CTT'";
+
+		      // Tạo đối tượng PreparedStatement để thực hiện truy vấn
+		      PreparedStatement stmt = conn.prepareStatement(sql);
+
+		      // Thiết lập giá trị tham số cho câu truy vấn
+//		      String ma_phong_moi = "ABC123";
+		      stmt.setString(1, makh);
+		 
+		      // Thực hiện truy vấn và lấy kết quả trả về
+		      ResultSet rs = stmt.executeQuery();
+		      rs.next();
+		       count += rs.getInt(1);
+
+		      // Kiểm tra xem có bản ghi nào trùng với mã phòng mới không
+//		      if (count > 0) {
+//		        System.out.println("Mã phòng " + ma_phong_moi + " đã tồn tại trong cơ sở dữ liệu");
+//		      } else {
+//		        System.out.println("Mã phòng " + ma_phong_moi + " không trùng lặp với bất kỳ mã phòng nào trong cơ sở dữ liệu");
+//		      }
+		      
+		      // Đóng các tài nguyên đã sử dụng
+		      rs.close();
+		      stmt.close();
+		      conn.close();
+		      
+		      
+		      
+		    } catch (SQLException e) {
+		      e.printStackTrace();
+		    }
+		 return count;
+	}
+	
+	
+	public String  laymahoadon(String makh) {
+		 String jdbcUrl = "jdbc:sqlserver://localhost:1433;databasename=doAnCuoiKyJava";
+	        String username = "sa";
+	        String password = "sapassword";
+	        String columnValue="";
+	        PreparedStatement stmt=null;
+	        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password))
+	        		{	
+	        	String sql = "SELECT mahoadon FROM hoadon where trangthai='CTT' and makh=?";
+	        	stmt = conn.prepareStatement(sql);
+	        	stmt.setString(1, makh);
+	            
+	            ResultSet rs = stmt.executeQuery();
+	            
+	            while (rs.next()) {
+	                  columnValue += rs.getString("mahoadon");
+	               
+	            }
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return columnValue;
+	}
+	
+	public String  laymaKH(String maphong) {
+		 String jdbcUrl = "jdbc:sqlserver://localhost:1433;databasename=doAnCuoiKyJava";
+	        String username = "sa";
+	        String password = "sapassword";
+	        String columnValue="";
+	        PreparedStatement stmt=null;
+	        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password))
+	        		{	
+	        	String sql = "SELECT hd.makh FROM hoadon hd join chitietHoaDonPhong cthd on hd.mahoadon = cthd.mahoadon where maphong=? and trangthai='CTT'";
+	        	stmt = conn.prepareStatement(sql);
+	        	stmt.setString(1, maphong);
+	            
+	            ResultSet rs = stmt.executeQuery();
+	            
+	            while (rs.next()) {
+	                  columnValue += rs.getString("makh");
+	               
+	            }
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return columnValue;
+	}
 }

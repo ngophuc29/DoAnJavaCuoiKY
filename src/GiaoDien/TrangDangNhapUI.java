@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import database.ConnectDB;
 import database.ConnectDB;
@@ -29,6 +31,8 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class TrangDangNhapUI extends JFrame {
 
@@ -125,6 +129,14 @@ public class TrangDangNhapUI extends JFrame {
 		contentPane.add(lblNewLabel_2);
 		
 		JButton btnDangNhap = new JButton("Đăng Nhập");
+		btnDangNhap.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				 if (e.getKeyCode()==KeyEvent.VK_ENTER){
+					 JOptionPane.showMessageDialog(null, "hello");
+			        }
+			}
+		});
 		btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ConnectDB.getinstance();
@@ -169,6 +181,8 @@ public class TrangDangNhapUI extends JFrame {
 							// End Phân Quyền
 							
 							JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+							
+							dispose();
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Đăng nhập thất bại");
@@ -177,6 +191,26 @@ public class TrangDangNhapUI extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+			}
+		});
+		txttk.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				maNV=txttk.getText();
+				
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				maNV=txttk.getText();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				maNV=txttk.getText();
 			}
 		});
 		
@@ -246,8 +280,6 @@ txtpw.setEchoChar('*');
 		return maNV;
 	}
 
-	public static void setMaNV(String maNV) {
-		TrangDangNhapUI.maNV = maNV;
-	}
+	
 	 
 }

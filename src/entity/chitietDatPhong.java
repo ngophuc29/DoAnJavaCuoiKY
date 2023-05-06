@@ -21,6 +21,15 @@ public class chitietDatPhong {
 		this.giovao = giovao;
 		this.tongthoigian = tongthoigian;
 	}
+	public chitietDatPhong(  String maphong, String mahoadon, double giaphong,
+			Date giovao) {
+		super();
+		this.maphong = maphong;
+		this.mahoadon = mahoadon;
+		this.giaphong = giaphong;
+		this.giovao = giovao;
+		
+	}
 	public String getMachitietdatphong() {
 		return machitietdatphong;
 	}

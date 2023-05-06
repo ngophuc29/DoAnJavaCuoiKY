@@ -38,8 +38,8 @@ import javax.swing.JButton;
 public class datPhong extends JFrame {
 
 	private JPanel contentPane;
-	public JTextField txtmaKHtheoten;
-	public JTextField txtmaphongdat;
+	public JTextField txttenKH;
+	public static JTextField txtmaphongdat;
 	public JTextField txtgiovao;
 	public JTextField txtgiora;
 	public JTextField txttongthoigian;
@@ -50,7 +50,7 @@ public class datPhong extends JFrame {
 	 public TrangChuUI kkk;
 	public JLabel txtmanvintable; 
 	public JButton btnDatPhong;
-	public JComboBox combotenKH;
+	public JComboBox combomaKH;
 	private DAO.phongDAO phongDAO;
 	/**
 	 * Launch the application.
@@ -85,15 +85,15 @@ public class datPhong extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblMKh = new JLabel("Mã KH");
+		JLabel lblMKh = new JLabel("Tên KH");
 		lblMKh.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblMKh.setBounds(27, 27, 68, 26);
 		contentPane.add(lblMKh);
 		
-		txtmaKHtheoten = new JTextField();
-		txtmaKHtheoten.setColumns(10);
-		txtmaKHtheoten.setBounds(128, 31, 86, 20);
-		contentPane.add(txtmaKHtheoten);
+		txttenKH = new JTextField();
+		txttenKH.setColumns(10);
+		txttenKH.setBounds(128, 31, 86, 20);
+		contentPane.add(txttenKH);
 		
 		JLabel lblMNv_1 = new JLabel("Mã Phòng");
 		lblMNv_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -104,6 +104,8 @@ public class datPhong extends JFrame {
 		txtmaphongdat.setColumns(10);
 		txtmaphongdat.setBounds(128, 68, 86, 20);
 		contentPane.add(txtmaphongdat);
+		
+		
 		
 		JLabel lblMNv_1_1_1_1 = new JLabel("Giờ Vào");
 		lblMNv_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -146,14 +148,14 @@ public class datPhong extends JFrame {
 		btnDatPhong.setBounds(157, 191, 154, 42);
 		contentPane.add(btnDatPhong);
 		
-		JLabel lblNewLabel_2 = new JLabel("Tên KH:");
+		JLabel lblNewLabel_2 = new JLabel("Mã KH:");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblNewLabel_2.setBounds(224, 33, 46, 14);
 		contentPane.add(lblNewLabel_2);
 		
-		  combotenKH = new JComboBox();
-		combotenKH.setBounds(291, 30, 109, 22);
-		contentPane.add(combotenKH);
+		  combomaKH = new JComboBox();
+		combomaKH.setBounds(291, 30, 109, 22);
+		contentPane.add(combomaKH);
 		
 		  txtmanvintable = new JLabel("");
 		txtmanvintable.setBounds(128, 102, 86, 14);
@@ -162,21 +164,21 @@ public class datPhong extends JFrame {
 		
 		contentPane.add(txtmanvintable);
 		KHdao = new khachHangDAO();
-		for (KhachHang kh : KHdao.KHCTT()) {
-			Object obj= kh.getHoten();
-			combotenKH.addItem(obj);
+		for (KhachHang kh : KHdao.getAllKH()) {
+			Object obj= kh.getMakh();
+			combomaKH.addItem(obj);
 		}
-		String name=combotenKH.getItemAt(0).toString();
-		String customerId = KHdao.laymaKHtheoten(name);
-		txtmaKHtheoten.setText(customerId);
-		combotenKH.addItemListener(new ItemListener() {
+		String ma=combomaKH.getItemAt(0).toString();
+		String customerId = KHdao.laytentheomaKh(ma);
+		txttenKH.setText(customerId);
+		combomaKH.addItemListener(new ItemListener() {
 		    public void itemStateChanged(ItemEvent event) {
 		        if (event.getStateChange() == ItemEvent.SELECTED) {
 		            String name = event.getItem().toString();
-		            String customerId = KHdao.laymaKHtheoten(name);
+		            String customerId = KHdao.laytentheomaKh(name);
 		            
 		            // Cập nhật mã khách hàng vào label nào đó trên giao diện
-		            txtmaKHtheoten.setText(customerId);
+		            txttenKH.setText(customerId);
 		            //
 		            FormThongTinPhongVaThanhToan abc= new FormThongTinPhongVaThanhToan();
 		            abc.txttenKH.setText(name);

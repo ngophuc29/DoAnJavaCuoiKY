@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,5 +30,24 @@ public class dichVuDAO {
 		return dsdv;
 	}
 	
+	
+	
+	public String laytentheomaKh(String ma){
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		String ten="";
+		try {
+			String sql = "SELECT * FROM dichvu WHERE tendichvu=?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, ma);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()) {
+				 ten=rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ten;
+	}
 }
 ;

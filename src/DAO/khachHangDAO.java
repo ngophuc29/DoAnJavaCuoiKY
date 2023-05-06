@@ -45,6 +45,25 @@ public class khachHangDAO {
 		}
 		return maKH;
 	}
+	
+	public String laytentheomaKh(String ma){
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		String ten="";
+		try {
+			String sql = "SELECT * FROM khachhang WHERE makh=?";
+			PreparedStatement statement = con.prepareStatement(sql);
+			statement.setString(1, ma);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()) {
+				 ten=rs.getString(2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ten;
+	}
+	
 	public static boolean themDanhSachKH(KhachHang kh) {
 
 		ConnectDB.getinstance();
@@ -52,17 +71,17 @@ public class khachHangDAO {
 		PreparedStatement stmt = null;
 		int n=0;
 		try { 
-			stmt = con.prepareStatement("insert into KhachHang values (?,?,?,?,?,?,?,?,?,?)");
-			stmt.setString(1, kh.getMakh());
-			stmt.setString(2, kh.getHoten());
-			stmt.setString(3, kh.getSdt());
-			stmt.setString(4, kh.getCmnd());
-			stmt.setString(5, kh.getEmail());
-			stmt.setDate(6, kh.getNgaydky());
-			stmt.setDate(7, kh.getNgaysinh());
-			stmt.setString(8, kh.getGioitinh());
-			stmt.setString(9, kh.getMaloaiKhachHang());
-			stmt.setString(10, kh.getTrangthai());
+			stmt = con.prepareStatement("insert into KhachHang  ( hoten,sdt,cmnd,email,ngaydky,ngaysinh,gioitinh,maloaikhachnag,trangthai) values (?,?,?,?,?,?,?,?,?)");
+//			stmt.setString(1, kh.getMakh());
+			stmt.setString(1, kh.getHoten());
+			stmt.setString(2, kh.getSdt());
+			stmt.setString(3, kh.getCmnd());
+			stmt.setString(4, kh.getEmail());
+			stmt.setDate(5, kh.getNgaydky());
+			stmt.setDate(6, kh.getNgaysinh());
+			stmt.setString(7, kh.getGioitinh());
+			stmt.setString(8, kh.getMaloaiKhachHang());
+			stmt.setString(9, kh.getTrangthai());
 
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -146,5 +165,4 @@ public class khachHangDAO {
 		return dskh;
 	}
 	
-	 
 }
