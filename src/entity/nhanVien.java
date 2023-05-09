@@ -95,5 +95,11 @@ public class nhanVien {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	@Override
+	public String toString() {
+		return "nhanVien [manv=" + manv + ", tennv=" + tennv + ", sdt=" + sdt + ", cmnd=" + cmnd + ", diachi=" + diachi
+				+ ", chucvu=" + chucvu + ", gioitinh=" + gioitinh + ", ngaysinh=" + ngaysinh + ", ngayvaolam="
+				+ ngayvaolam + ", trangthailamviec=" + trangthailamviec + ", password=" + password + "]";
+	}
 	
 }

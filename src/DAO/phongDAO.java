@@ -71,4 +71,27 @@ public class phongDAO {
 		return n>0;
 		
 	}
+	public boolean update1(String phongtrong,String id) {
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		
+		
+		PreparedStatement stmt=null;
+		int n=0;
+		
+		
+		try {
+			stmt=con.prepareStatement(" update phong set trangThaiPhong =? from phong p join chitietHoaDonPhong cthd on p.maphong=cthd.maphong where mahoadon in(select mahoadon from hoadon where makh=? and trangthai='CTT')");
+			stmt.setString (1,phongtrong);
+			stmt.setString(2,id);
+			n= stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		return n>0;
+		
+	}
 }

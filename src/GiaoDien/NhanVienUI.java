@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
@@ -46,7 +47,8 @@ public class NhanVienUI extends JFrame {
 	private DefaultTableModel model;
 	
 	//
-	
+	private JButton btnThem;
+	private JButton btnXoa;
 	private JPanel contentPane1;
 	private JTextField txtma;
 	private JTextField txtten;
@@ -60,13 +62,18 @@ public class NhanVienUI extends JFrame {
 	private JTextField txtngaySinh;
 	private JTextField txtTrangThai;
 	private JButton btnThemnv;
-	private nhanVienDAO nvdao;
+	private nhanVienDAO nvdao= new nhanVienDAO();
 	private JTextField txtmanv;
 	private JTextField txttenNV;
 	private JTextField txtsdt;
 	private JTextField txtcmnd;
 	private JTextField txtdiachi;
 	private JTextField txtchucvuu;
+	private JRadioButton rdbtnam;
+	private JRadioButton rdbtnnu;
+	private JDateChooser dateNgayVaoLam;
+	private JDateChooser datengaysinh;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -96,6 +103,7 @@ public class NhanVienUI extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1880, 778);
+		setLocationRelativeTo(null);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(182, 208, 252));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -139,21 +147,37 @@ public class NhanVienUI extends JFrame {
 		}
 		
 		JButton btnThem = new JButton("Thêm");
-		btnThem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				 
-			}
-		});
+		
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnThem.setBounds(1294, 453, 216, 54);
 		contentPane.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
+		btnXoa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row=table.getSelectedRow();
+				if(row>=0) {
+					String manv= (String) table.getValueAt(row, 0);
+					if(nhanVienDAO.delete(manv)) {
+						model.removeRow(row);
+						
+					}
+				}
+				
+				
+			}
+		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnXoa.setBounds(1593, 453, 216, 54);
 		contentPane.add(btnXoa);
 		
+		
 		JButton btnSua = new JButton("Sửa");
+		btnSua.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnSua.setBounds(1294, 556, 216, 54);
 		contentPane.add(btnSua);
@@ -238,14 +262,14 @@ public class NhanVienUI extends JFrame {
 		lblNewLabel_1_2_1_2_1.setBounds(1303, 244, 98, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_1);
 		
-		JRadioButton rdbtnam = new JRadioButton("Nam");
+		 rdbtnam = new JRadioButton("Nam");
 		rdbtnam.setBackground(new Color(182, 208, 252));
 		rdbtnam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnam.setSelected(true);
 		rdbtnam.setBounds(1423, 258, 67, 23);
 		contentPane.add(rdbtnam);
 		
-		JRadioButton rdbtnnu = new JRadioButton("Nữ");
+		 rdbtnnu = new JRadioButton("Nữ");
 		rdbtnnu.setBackground(new Color(182, 208, 252));
 		rdbtnnu.setSelected(true);
 		rdbtnnu.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -290,6 +314,64 @@ public class NhanVienUI extends JFrame {
 		dateeNgaySinhh.setBounds(1688, 398, 141, 20);
 		contentPane.add(dateeNgaySinhh);
 		
+		btnThem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					String maNV = txtmanv.getText().toString();
+					String tenNV = txttenNV.getText().toString();
+					String sdt = txtsdt.getText().toString();
+					String cccd = txtcmnd.getText().toString();
+					String diachi = txtdiachi.getText().toString();
+					String chucvu = txtchucvuu.getText().toString();
+					String gioiTinh ="";
+					if(rdbtnam.isSelected()) {
+						gioiTinh+="Nam";
+					}
+					if(rdbtnnu.isSelected()) {
+						gioiTinh+="Nữ";
+					}
+					
+					String trangthai="Đang làm việc";
+					String loaiKH = "111";
+					 
+					 
+					// lay ngay thang
+					
+					Date datevaolam = dateNgayVaoLam.getDate();
+
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					String strDatevaolam = dateFormat.format(datevaolam);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatevaolam = java.sql.Date.valueOf(strDatevaolam);
+					
+					
+					//lay ngay sinh
+					
+					Date dateengaysinh= datengaysinh.getDate();
+
+					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+					 
+					String strDatengaysinh = dateFormat.format(dateengaysinh);
+
+					// Chuyển đổi chuỗi thành kiểu java.sql.Date
+					java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+					
+					
+						nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, null, null, trangthai, "1");
+						System.out.println(nv.toString());
+						nvdao.themDanhSachNV(nv);
+//						
+						String []obj= {maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, null, null, trangthai, "1"};
+						model.addRow(obj);
+//						nvdao.getAllnhanvien();
+								 
+				}  catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 	table.addMouseListener(new MouseListener() {
 			
 			@Override

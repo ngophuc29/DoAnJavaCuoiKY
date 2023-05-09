@@ -175,5 +175,6 @@ public class FrmHoaDon<Graphics2D> extends JFrame  implements ActionListener{
 		new FrmHoaDon(null, null, null, null, null).setVisible(true);
 		
 	}
+	
 
 }

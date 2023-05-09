@@ -46,4 +46,24 @@ public class hoadonDAO {
 		}
 		return n>0;
 	}
+	
+	public static boolean update(int tonggio,double tonghoadon,double tongthu,double tienphong,String trangthai,String mahoadon ) {
+		Connection con=ConnectDB.getinstance().getConnection();
+		PreparedStatement stmt=null;
+		int n=0;
+		try {
+			stmt=con.prepareStatement(" update hoadon set tonggioo=? , tonghoadon=?, tongthu=? , tienPhong=? ,trangthai=? where mahoadon=?");
+			stmt.setInt(1, tonggio);
+			stmt.setDouble(2, tonghoadon);
+			stmt.setDouble(3, tongthu);
+			stmt.setDouble(4, tienphong);
+			stmt.setString(5, trangthai);
+			stmt.setString(6, mahoadon);
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
 }

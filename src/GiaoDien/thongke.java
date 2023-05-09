@@ -99,6 +99,7 @@ public class thongke extends JFrame {
 		panel_1.setLayout(null);
 		
 		JLabel lblNewLabel_2 = new JLabel("              Tổng tiền");
+		lblNewLabel_2.setForeground(new Color(241, 70, 39));
 		lblNewLabel_2.setBackground(new Color(251, 80, 55));
 		lblNewLabel_2.setBounds(0, 0, 333, 41);
 		panel_1.add(lblNewLabel_2);
@@ -111,6 +112,7 @@ public class thongke extends JFrame {
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
 		JLabel lblNewLabel_2_1 = new JLabel("        Tổng thời gian ở");
+		lblNewLabel_2_1.setForeground(new Color(241, 70, 39));
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblNewLabel_2_1.setBackground(new Color(251, 80, 55));
 		lblNewLabel_2_1.setBounds(0, 0, 298, 41);

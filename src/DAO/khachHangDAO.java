@@ -125,17 +125,16 @@ public class khachHangDAO {
 		int n=0;
 		
 		try {
-			stmt = con.prepareStatement("update khachhang set hoten=?,sdt=?,cmnd=?,email=?,ngaydky=?,ngaysinh=?,gioitinh=?,maloaikhachhang=?,trangthai=?");
-			stmt.setString(1, kh.getMakh());
-			stmt.setString(2, kh.getHoten());
-			stmt.setString(3, kh.getSdt());
-			stmt.setString(4, kh.getCmnd());
-			stmt.setString(5, kh.getEmail());
-			stmt.setDate(6, kh.getNgaydky());
-			stmt.setDate(7, kh.getNgaysinh());
-			stmt.setString(8, kh.getGioitinh());
-			stmt.setString(9, kh.getMaloaiKhachHang());
-			stmt.setString(10, kh.getTrangthai());
+			stmt = con.prepareStatement("update khachhang set hoten=?,sdt=?,cmnd=?,email=?,ngaydky=?,ngaysinh=?,gioitinh=? where makh=?");
+			 
+			stmt.setString(1, kh.getHoten());
+			stmt.setString(2, kh.getSdt());
+			stmt.setString(3, kh.getCmnd());
+			stmt.setString(4, kh.getEmail());
+			stmt.setDate(5, kh.getNgaydky());
+			stmt.setDate(6, kh.getNgaysinh());
+			stmt.setString(7, kh.getGioitinh());
+			stmt.setString(8, kh.getMakh());
 			
 			n=stmt.executeUpdate();
 		} catch (Exception e) {

@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import DAO.nhanVienDAO;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,6 +26,8 @@ public class trangDoiPass extends JFrame {
 	private JTextField txtmkmoi;
 	private JTextField textField_2;
 	private JTextField txtmanv;
+	
+	private nhanVienDAO nvdao= new nhanVienDAO();
 
 	/**
 	 * Launch the application.
@@ -93,6 +98,10 @@ public class trangDoiPass extends JFrame {
 		JButton btnNewButton = new JButton("Lưu");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
+				nvdao.doimk(txtmkmoi.getText(), txtmanv.getText());
+				
 				JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành Công");
 				 
 			}

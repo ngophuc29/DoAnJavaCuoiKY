@@ -17,6 +17,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,6 +34,7 @@ import DAO.chitietPhongDAO;
 import DAO.chitietdichVuDAO;
 import DAO.khachHangDAO;
 import DAO.phongDAO;
+import database.ConnectDB;
 import entity.chitietDatPhong;
 import entity.chitietdichVu;
 
@@ -853,6 +859,27 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //					
 //					
 //					txttongtienThanhToan.setText(String.valueOf(sum+doubleValue));
+					String makh= txttenKH.getText();
+					ConnectDB.getinstance();
+					Connection con =ConnectDB.getConnection();
+					PreparedStatement stmt=null;
+					try {
+						modelchitietdichVu.setRowCount(0);
+						String sql="  select ctdv.machitiethoadon,dv.tendichvu,dv.giadichvu,ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+						stmt=con.prepareStatement(sql);
+						stmt.setString(1, makh);
+						ResultSet rs =stmt.executeQuery();
+						while(rs.next()) {
+//							dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
+							Object []obj= {rs.getString(1), rs.getString(2),    rs.getDouble(3), rs.getInt(4), rs.getDouble(3)*rs.getInt(4)};
+							modelchitietdichVu.addRow(obj);
+						}
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					String mahoadon=laymahoadon(makh);
+					txttongtiendichvu.setText(Double.toString(ctdvdao.tongtiendichvu(makh)));
+					txttongtienThanhToan.setText(Double.toString(ctdvdao.tongtiendichvu(makh)+ctdpdao.tongtienphong(mahoadon)));
 					f.dispose();
 				}
 			});
@@ -883,4 +910,28 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 			f.setVisible(true);
 	    }
+	 public String  laymahoadon(String makh) {
+		 String jdbcUrl = "jdbc:sqlserver://localhost:1433;databasename=doAnCuoiKyJava";
+	        String username = "sa";
+	        String password = "sapassword";
+	        String columnValue="";
+	        PreparedStatement stmt=null;
+	        try (Connection conn = DriverManager.getConnection(jdbcUrl, username, password))
+	        		{	
+	        	String sql = "SELECT mahoadon FROM hoadon where trangthai='CTT' and makh=?";
+	        	stmt = conn.prepareStatement(sql);
+	        	stmt.setString(1, makh);
+	            
+	            ResultSet rs = stmt.executeQuery();
+	            
+	            while (rs.next()) {
+	                  columnValue += rs.getString("mahoadon");
+	               
+	            }
+	            
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return columnValue;
+	}
 }

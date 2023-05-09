@@ -184,7 +184,7 @@ public class KhachhangUI extends JFrame {
 			}
 		});
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnLuu.setBounds(1554, 439, 216, 54);
+		btnLuu.setBounds(1602, 465, 200, 54);
 		contentPane.add(btnLuu);
 		
 		JButton btnKhchHng = new JButton("Khách Hàng");
@@ -202,61 +202,61 @@ public class KhachhangUI extends JFrame {
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Họ và tên KH :");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_1.setBounds(1307, 71, 99, 48);
+		lblNewLabel_1_1.setBounds(1306, 92, 99, 48);
 		contentPane.add(lblNewLabel_1_1);
 		
 		txthovaten = new JTextField();
 		txthovaten.setColumns(10);
-		txthovaten.setBounds(1416, 87, 174, 20);
+		txthovaten.setBounds(1415, 103, 274, 30);
 		contentPane.add(txthovaten);
 		
 		txtsdt = new JTextField();
 		txtsdt.setColumns(10);
-		txtsdt.setBounds(1374, 137, 102, 20);
+		txtsdt.setBounds(1415, 177, 212, 30);
 		contentPane.add(txtsdt);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("SĐT :");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_2.setBounds(1303, 121, 67, 48);
+		lblNewLabel_1_2.setBounds(1310, 166, 67, 48);
 		contentPane.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("CMND :");
 		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_1_1.setBounds(1497, 121, 99, 48);
+		lblNewLabel_1_1_1.setBounds(1307, 131, 67, 48);
 		contentPane.add(lblNewLabel_1_1_1);
 		
 		txtcmnd = new JTextField();
 		txtcmnd.setColumns(10);
-		txtcmnd.setBounds(1602, 137, 174, 20);
+		txtcmnd.setBounds(1415, 139, 174, 30);
 		contentPane.add(txtcmnd);
 		
 		JLabel lblNewLabel_1_2_1_1 = new JLabel("Email :");
 		lblNewLabel_1_2_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_2_1_1.setBounds(1301, 168, 67, 48);
+		lblNewLabel_1_2_1_1.setBounds(1310, 207, 67, 48);
 		contentPane.add(lblNewLabel_1_2_1_1);
 		
 		txtemail = new JTextField();
 		txtemail.setColumns(10);
-		txtemail.setBounds(1378, 184, 174, 20);
+		txtemail.setBounds(1415, 213, 174, 30);
 		contentPane.add(txtemail);
 		
 		JLabel lblNewLabel_1_2_1_2_1 = new JLabel("Giới Tính :");
 		lblNewLabel_1_2_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_2_1_2_1.setBounds(1585, 168, 67, 48);
+		lblNewLabel_1_2_1_2_1.setBounds(1614, 207, 67, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_1);
 		
 		 rdbtnam = new JRadioButton("Nam");
 		rdbtnam.setBackground(new Color(182, 208, 252));
 		rdbtnam.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		rdbtnam.setSelected(true);
-		rdbtnam.setBounds(1662, 182, 78, 23);
+		rdbtnam.setBounds(1687, 221, 54, 23);
 		contentPane.add(rdbtnam);
 		
 		 rdbtnnu = new JRadioButton("Nữ");
 		rdbtnnu.setBackground(new Color(182, 208, 252));
 		rdbtnnu.setSelected(true);
 		rdbtnnu.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnnu.setBounds(1740, 182, 78, 23);
+		rdbtnnu.setBounds(1748, 221, 54, 23);
 		contentPane.add(rdbtnnu);
 		
 		
@@ -267,12 +267,12 @@ public class KhachhangUI extends JFrame {
 		
 		JLabel lblNewLabel_1_2_1_2_2 = new JLabel("Ngày Nhận Phòng :");
 		lblNewLabel_1_2_1_2_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_2_1_2_2.setBounds(1301, 219, 121, 48);
+		lblNewLabel_1_2_1_2_2.setBounds(1310, 247, 151, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2);
 		
 		JLabel lblNewLabel_1_2_1_2_2_1 = new JLabel("Ngày Sinh :");
 		lblNewLabel_1_2_1_2_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1_2_1_2_2_1.setBounds(1531, 227, 121, 48);
+		lblNewLabel_1_2_1_2_2_1.setBounds(1541, 247, 121, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2_1);
 		
 		JButton btnThem = new JButton("Thêm");
@@ -348,7 +348,7 @@ riphet();
 			}
 		});
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnThem.setBounds(1296, 362, 113, 54);
+		btnThem.setBounds(1310, 382, 102, 54);
 		contentPane.add(btnThem);
 		
 		JButton btnXoa = new JButton("Xóa");
@@ -367,7 +367,7 @@ riphet();
 			}
 		});
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnXoa.setBounds(1439, 362, 113, 54);
+		btnXoa.setBounds(1440, 382, 102, 54);
 		contentPane.add(btnXoa);
 		
 		JButton btnSua = new JButton("Sửa");
@@ -376,7 +376,7 @@ riphet();
 				
 				int row=table.getSelectedRow();
 				
-				if(row>0) {
+				if(row>=0) {
 					String maKH = txtmakh.getText();
 					String tenKH = txthovaten.getText().toString();
 					String sdt = txtsdt.getText().toString();
@@ -424,12 +424,16 @@ riphet();
 					
 					if(khachHangDAO.update(kh)) {
 						
-						table.setValueAt(txthovaten, row, 1);
-						table.setValueAt(txtsdt, row, 2);
-						table.setValueAt(txtcmnd, row, 3);
-						table.setValueAt(txtemail, row, 4);
-						table.setValueAt(dateNhanPhong.getDate(), row, 5);
-						table.setValueAt(datangaysinh,row,6);
+						table.setValueAt(txthovaten.getText(), row, 1);
+						table.setValueAt(txtsdt.getText(), row, 2);
+						table.setValueAt(txtcmnd.getText(), row, 3);
+						table.setValueAt(txtemail.getText(), row, 4);
+						
+						java.sql.Date sqlDatengaynhaphpngsua = java.sql.Date.valueOf(strDatevaolam);
+						table.setValueAt(sqlDatengaynhaphpngsua, row, 5);
+//						String strsuadatenhanphong = dateFormat.format(datengaysinh);
+						java.sql.Date sqlDatengaysinhsua = java.sql.Date.valueOf(strDatengaysinh);
+						table.setValueAt(sqlDatengaysinhsua,row,6);
 //						table.setValueAt(txthovaten, row, 8);
 //						table.setValueAt(txthovaten, row, 9);
 						
@@ -439,7 +443,7 @@ riphet();
 			}
 		});
 		btnSua.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		btnSua.setBounds(1573, 362, 89, 54);
+		btnSua.setBounds(1570, 382, 102, 54);
 		contentPane.add(btnSua);
 		
 		JButton btnThoat = new JButton("Thoát");
@@ -449,7 +453,7 @@ riphet();
 			}
 		});
 		btnThoat.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnThoat.setBounds(1687, 363, 89, 54);
+		btnThoat.setBounds(1700, 382, 102, 54);
 		contentPane.add(btnThoat);
 		
 		JButton btnLocCTT = new JButton("Lọc Theo Trạng Thái");
@@ -468,7 +472,7 @@ riphet();
 			}
 		});
 		btnLocCTT.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnLocCTT.setBounds(1301, 440, 189, 54);
+		btnLocCTT.setBounds(1310, 466, 200, 54);
 		contentPane.add(btnLocCTT);
 		
 		JButton btntailai = new JButton("Cài lại");
@@ -485,6 +489,7 @@ riphet();
 					model.addRow(obj);
 				}
 				table.setModel(model);
+				xoaRong();
 			}
 		});
 		btntailai.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -492,13 +497,13 @@ riphet();
 		contentPane.add(btntailai);
 		
 		 dateNhanPhong = new JDateChooser();
-		dateNhanPhong.setBounds(1301, 288, 189, 30);
+		dateNhanPhong.setBounds(1310, 308, 200, 30);
 		contentPane.add(dateNhanPhong);
 		
 		dateNhanPhong.setDate(Calendar.getInstance().getTime());
 		
 		 datangaysinh = new JDateChooser();
-		datangaysinh.setBounds(1541, 286, 216, 32);
+		datangaysinh.setBounds(1541, 308, 200, 30);
 		contentPane.add(datangaysinh);
 		
 		table.addMouseListener(new MouseListener() {
@@ -666,4 +671,15 @@ riphet();
 		}
 		table.setModel(model);
 	}
+	
+	private void xoaRong() {
+		txtmakh.setText("");
+		txthovaten.setText("");
+		txtsdt.setText("");
+		txtcmnd.setText("");
+		txtemail.setText("");
+		rdbtnam.setSelected(true);
+		rdbtnnu.setSelected(false);
+	}
 }
+

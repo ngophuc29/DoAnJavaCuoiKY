@@ -50,6 +50,7 @@ import java.util.List;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class PhongUI extends JFrame {
 
@@ -59,7 +60,12 @@ public class PhongUI extends JFrame {
 	private chitietdichVuDAO ctdvdao= new chitietdichVuDAO();
 	private chitietPhongDAO ctpdao= new chitietPhongDAO();
 	private static FormThongTinPhongVaThanhToan f;
-	private dichVuDAO dvdao= new dichVuDAO();	/**
+	private dichVuDAO dvdao= new dichVuDAO();	
+	private hoadonDAO hddao= new hoadonDAO();
+	private chitietdichVuDAO ctdvdao1= new chitietdichVuDAO();
+	private chitietPhongDAO ctpdao1= new chitietPhongDAO();
+	/**
+ 	
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
@@ -186,8 +192,9 @@ public class PhongUI extends JFrame {
 		panelPhong101.add(lblLoaiPhong101);
 		
 		JLabel lblTrangThaiPhong101 = new JLabel("Phòng trống");
+		lblTrangThaiPhong101.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong101.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong101.setBounds(107, 103, 152, 34);
+		lblTrangThaiPhong101.setBounds(55, 103, 175, 34);
 		panelPhong101.add(lblTrangThaiPhong101);
 		
 		
@@ -297,6 +304,11 @@ public class PhongUI extends JFrame {
 					 
 					f.comboBox.addActionListener(new ActionListener() {
 			            public void actionPerformed(ActionEvent e) {
+			            	
+			            	ConnectDB.getinstance();
+							Connection con =ConnectDB.getConnection();
+							PreparedStatement stmt=null;
+							
 			                String selectedOption = (String) f.comboBox.getSelectedItem();
 			                if (selectedOption.equals("Nước CoCa")) {
 			                    // Mở ra JFrame tương ứng với Option 1
@@ -327,7 +339,21 @@ public class PhongUI extends JFrame {
 			                if (selectedOption.equals("Bia 333")) {
 			                    // Mở ra JFrame tương ứng với Option 3
 			                	f.openOptionFrame("Bia 333",mahoadon,"DV108");
-			                	
+			                		
+								try {
+									String sql="  select ctdv.machitiethoadon,dv.tendichvu,dv.giadichvu,ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+									stmt=con.prepareStatement(sql);
+									stmt.setString(1, makh);
+									ResultSet rs =stmt.executeQuery();
+									while(rs.next()) {
+//										dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
+										Object []obj= {rs.getString(1), rs.getString(2),    rs.getDouble(3), rs.getInt(4), rs.getDouble(3)*rs.getInt(4)};
+										f.modelchitietdichVu.addRow(obj);
+				
+									}
+								} catch (SQLException e1) {
+									e1.printStackTrace();
+								}
 			                	
 			                }
 			            }
@@ -356,15 +382,36 @@ public class PhongUI extends JFrame {
 					
 					
 				 
-//				f.btnThanhToan.addActionListener(new ActionListener() {
-//					
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						// TODO Auto-generated method stub
-//						phongdaoo.update("Phòng trống", label1.getText());
+				f.btnThanhToan.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						 panel.setBackground(new Color(153, 204, 153));
+						// TODO Auto-generated method stub
+						//label1.gettext() la de lay ma phong
+						phongdaoo.update1("Phòng trống", makh);
 //						JOptionPane.showMessageDialog(null, "OKKKKK");
-//					}
-//				});
+						
+						//update trang thai va them tien phong tien dich vu
+						hddao.update(24,  ctdvdao1.tongtiendichvu(makh) , ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon), ctpdao1.tongtienphong(mahoadon), "DTT", mahoadon);
+						phongDAO dsphong=new phongDAO();
+						List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
+						for (phong phong : ds1) {
+							  Component[] components =panelPhongUITable.getComponents();
+							    for (Component component : components) {
+							        if (component instanceof JPanel) {
+							          JPanel panel=(JPanel)component;
+							          JLabel label=(JLabel) panel.getComponent(0);
+							          JLabel label1=(JLabel) panel.getComponent(2);
+							            if(label.getText().equals(phong.getMaPhong())) {		            
+							            	panel.setBackground(new Color(153, 204, 153));
+							            	label1.setText("Phòng trống");
+							            }
+							        }
+							    }
+						}
+					}
+				});
 		    }
 		});
 		
@@ -379,14 +426,15 @@ public class PhongUI extends JFrame {
 						 
 						 if (e.isPopupTrigger()) {
 							 menuItem2.setEnabled(true);
+							 menuItem1.setEnabled(false);
 							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
 						 }
 					 }
 					 
 					 else {
-						 
 						 if (e.isPopupTrigger()) {
 							 menuItem2.setEnabled(false);
+							 menuItem1.setEnabled(true);
 							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
 						 }
 					 }
@@ -450,8 +498,9 @@ public class PhongUI extends JFrame {
 		panelPhong102.add(lblLoaiPhong102);
 		
 		JLabel lblTrangThaiPhong102 = new JLabel("Phòng trống");
+		lblTrangThaiPhong102.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong102.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong102.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong102.setBounds(60, 105, 175, 34);
 		panelPhong102.add(lblTrangThaiPhong102);
 		
 		JPanel panelPhong103 = new JPanel();
@@ -475,8 +524,9 @@ public class PhongUI extends JFrame {
 		panelPhong103.add(lblLoaiPhong103);
 		panelPhong103.addMouseListener(mouseListener);
 		JLabel lblTrangThaiPhong103 = new JLabel("Phòng đã có khách");
+		lblTrangThaiPhong103.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong103.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong103.setBounds(79, 102, 167, 34);
+		lblTrangThaiPhong103.setBounds(60, 103, 175, 34);
 		panelPhong103.add(lblTrangThaiPhong103);
 		
 		JPanel panelPhong104 = new JPanel();
@@ -500,8 +550,9 @@ public class PhongUI extends JFrame {
 		panelPhong104.add(lblLoaiPhong104);
 		
 		JLabel lblTrangThaiPhong104 = new JLabel("Phòng đang sửa chữa");
+		lblTrangThaiPhong104.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong104.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong104.setBounds(72, 102, 205, 34);
+		lblTrangThaiPhong104.setBounds(60, 103, 175, 34);
 		panelPhong104.add(lblTrangThaiPhong104);
 		
 		JPanel panelPhong202 = new JPanel();
@@ -525,8 +576,9 @@ public class PhongUI extends JFrame {
 		panelPhong202.add(lblLoaiPhong202);
 		
 		JLabel lblTrangThaiPhong202 = new JLabel("Phòng trống");
+		lblTrangThaiPhong202.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong202.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong202.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong202.setBounds(60, 103, 175, 34);
 		panelPhong202.add(lblTrangThaiPhong202);
 		
 		JPanel panelPhong203 = new JPanel();
@@ -548,8 +600,9 @@ public class PhongUI extends JFrame {
 		panelPhong203.add(lblLoaiPhong203);
 		
 		JLabel lblTrangThaiPhong203 = new JLabel("Phòng trống");
+		lblTrangThaiPhong203.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong203.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong203.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong203.setBounds(60, 103, 175, 34);
 		panelPhong203.add(lblTrangThaiPhong203);
 		
 		JPanel panelPhong204 = new JPanel();
@@ -574,8 +627,9 @@ public class PhongUI extends JFrame {
 		panelPhong204.add(lblLoaiPhong204);
 		
 		JLabel lblTrangThaiPhong204 = new JLabel("Phòng trống");
+		lblTrangThaiPhong204.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong204.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong204.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong204.setBounds(60, 103, 175, 34);
 		panelPhong204.add(lblTrangThaiPhong204);
 		
 		JPanel panelPhong304 = new JPanel();
@@ -600,8 +654,9 @@ public class PhongUI extends JFrame {
 		panelPhong304.add(lblLoaiPhong304);
 		
 		JLabel lblTrangThaiPhong304 = new JLabel("Phòng trống");
+		lblTrangThaiPhong304.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong304.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong304.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong304.setBounds(60, 103, 175, 34);
 		panelPhong304.add(lblTrangThaiPhong304);
 		
 		JPanel panelPhong402 = new JPanel();
@@ -626,8 +681,9 @@ public class PhongUI extends JFrame {
 		panelPhong402.add(lblLoaiPhong402);
 		
 		JLabel lblTrangThaiPhong402 = new JLabel("Phòng trống");
+		lblTrangThaiPhong402.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong402.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong402.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong402.setBounds(60, 103, 175, 34);
 		panelPhong402.add(lblTrangThaiPhong402);
 		
 		JPanel panelPhong403 = new JPanel();
@@ -652,8 +708,9 @@ public class PhongUI extends JFrame {
 		panelPhong403.add(lblLoaiPhong403);
 		
 		JLabel lblTrangThaiPhong403 = new JLabel("Phòng trống");
+		lblTrangThaiPhong403.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong403.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong403.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong403.setBounds(60, 103, 175, 34);
 		panelPhong403.add(lblTrangThaiPhong403);
 		
 		JPanel panelPhong404 = new JPanel();
@@ -678,8 +735,9 @@ public class PhongUI extends JFrame {
 		panelPhong404.add(lblLoaiPhong404);
 		
 		JLabel lblTrangThaiPhong404 = new JLabel("Phòng trống");
+		lblTrangThaiPhong404.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong404.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong404.setBounds(103, 102, 113, 34);
+		lblTrangThaiPhong404.setBounds(60, 103, 175, 34);
 		panelPhong404.add(lblTrangThaiPhong404);
 		
 		JPanel panelPhong201 = new JPanel();
@@ -704,8 +762,9 @@ public class PhongUI extends JFrame {
 		panelPhong201.add(lblLoaiPhong201);
 		
 		JLabel lblTrangThaiPhong201 = new JLabel("Phòng đã có khách");
+		lblTrangThaiPhong201.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong201.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong201.setBounds(79, 102, 167, 34);
+		lblTrangThaiPhong201.setBounds(55, 103, 175, 34);
 		panelPhong201.add(lblTrangThaiPhong201);
 		
 		JPanel panelPhong301 = new JPanel();
@@ -729,8 +788,9 @@ public class PhongUI extends JFrame {
 		panelPhong301.add(lblLoaiPhong301);
 		
 		JLabel lblTrangThaiPhong301 = new JLabel("Phòng đã có khách");
+		lblTrangThaiPhong301.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong301.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong301.setBounds(79, 102, 167, 34);
+		lblTrangThaiPhong301.setBounds(55, 102, 175, 34);
 		panelPhong301.add(lblTrangThaiPhong301);
 		
 		JPanel panelPhong302 = new JPanel();
@@ -756,8 +816,9 @@ public class PhongUI extends JFrame {
 		panelPhong302.add(lblLoaiPhong302);
 		
 		JLabel lblTrangThaiPhong302 = new JLabel("Phòng đã có khách");
+		lblTrangThaiPhong302.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong302.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong302.setBounds(79, 102, 167, 34);
+		lblTrangThaiPhong302.setBounds(60, 103, 175, 34);
 		panelPhong302.add(lblTrangThaiPhong302);
 		
 		JPanel panelPhong303 = new JPanel();
@@ -782,8 +843,9 @@ public class PhongUI extends JFrame {
 		panelPhong303.add(lblLoaiPhong303);
 		
 		JLabel lblTrangThaiPhong303 = new JLabel("Phòng đã có khách");
+		lblTrangThaiPhong303.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTrangThaiPhong303.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblTrangThaiPhong303.setBounds(79, 102, 167, 34);
+		lblTrangThaiPhong303.setBounds(60, 103, 175, 34);
 		panelPhong303.add(lblTrangThaiPhong303);
 		
 		JPanel panelPhong401 = new JPanel();
@@ -807,8 +869,9 @@ public class PhongUI extends JFrame {
 		panelPhong401.add(lblLoaiPhong401);
 		
 		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("Phòng đang sửa chữa");
+		lblNewLabel_1_1_1_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblNewLabel_1_1_1_1_1.setBounds(72, 102, 205, 34);
+		lblNewLabel_1_1_1_1_1.setBounds(55, 102, 175, 34);
 		panelPhong401.add(lblNewLabel_1_1_1_1_1);
 		phongDAO dsphong=new phongDAO();
 		List<phong> ds= dsphong.laytenPhongtheott("Phòng đã có khách");
