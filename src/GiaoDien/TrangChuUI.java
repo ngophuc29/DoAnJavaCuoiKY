@@ -23,7 +23,7 @@ public class TrangChuUI extends JFrame {
 	public JLabel txtquyendangnhap;
 	public JLabel txtmanvdn;
 	public JButton btnnhavien;
-	public datPhong ftt= new datPhong();
+	public DatPhong ftt= new DatPhong();
 	private static String loggedInUser;
 	public JButton btnPhng;
 	/**

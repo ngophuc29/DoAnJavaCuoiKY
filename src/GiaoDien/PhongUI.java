@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.html.parser.DTD;
 
 import DAO.chitietPhongDAO;
 import DAO.chitietdichVuDAO;
@@ -17,6 +18,7 @@ import database.ConnectDB;
 import entity.HoaDon;
 import entity.chitietDatPhong;
 import entity.chitietdichVu;
+import entity.dichVu;
 import entity.phong;
 
 import javax.swing.JButton;
@@ -52,11 +54,18 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+ 
+
 public class PhongUI extends JFrame {
 
 	private JPanel contentPane;
 	private phongDAO phongdaoo = new phongDAO();
-	 private boolean isMenu2EventAdded = false;
+	private boolean isMenu2EventAdded = false;
 	private chitietdichVuDAO ctdvdao= new chitietdichVuDAO();
 	private chitietPhongDAO ctpdao= new chitietPhongDAO();
 	private static FormThongTinPhongVaThanhToan f;
@@ -64,6 +73,8 @@ public class PhongUI extends JFrame {
 	private hoadonDAO hddao= new hoadonDAO();
 	private chitietdichVuDAO ctdvdao1= new chitietdichVuDAO();
 	private chitietPhongDAO ctpdao1= new chitietPhongDAO();
+	private SimpleDateFormat sdf;
+	private static FrmHoaDon frmhd;
 	/**
  	
 	 * Launch the application.
@@ -91,7 +102,7 @@ public class PhongUI extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1396, 809);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(182, 208, 252));
@@ -164,7 +175,7 @@ public class PhongUI extends JFrame {
 		JPopupMenu popupMenu = new JPopupMenu();
 		JMenuItem menuItem1 = new JMenuItem("Đặt Phòng");
 		JMenuItem menuItem2 = new JMenuItem("Chi Tiết Đặt Phòng");
-		 
+		JMenuItem menuItem3 = new JMenuItem("Dọn Phòng");
 		popupMenu.add(menuItem1);
 		popupMenu.add(menuItem2);
  
@@ -206,7 +217,7 @@ public class PhongUI extends JFrame {
 		    	 JPanel panel = (JPanel) popupMenu.getInvoker();
 		    	 JLabel label1 = (JLabel) panel.getComponent(0);
 		    	 //them form dat phong
-		    	 datPhong dt=new datPhong();
+		    	 DatPhong dt=new DatPhong();
 		    	 dt.setVisible(true);
 		    	 dt.txtmaphongdat.setText(label1.getText());
 		    	 dt.btnDatPhong.addActionListener(new ActionListener() {
@@ -251,7 +262,7 @@ public class PhongUI extends JFrame {
 							
 							
 						} catch (Exception e2) {
-							// TODO: handle exception
+							e2.printStackTrace();
 						}
 					}
 				});
@@ -268,33 +279,33 @@ public class PhongUI extends JFrame {
 		        // Xử lý sự kiện ở đây
 //		    	panelPhong101.setBackground(new Color(238, 114, 96));
 		    	JPanel panel = (JPanel) popupMenu.getInvoker();
-		    	 JLabel label1 = (JLabel) panel.getComponent(0);
+		    	JLabel label1 = (JLabel) panel.getComponent(0);
 		    	
-		             f = new FormThongTinPhongVaThanhToan();
-		             f.setVisible(true);
+		        f = new FormThongTinPhongVaThanhToan();
+		        f.setVisible(true);
 		    	 
 		    	String makh= laymaKH(label1.getText());
 		    	f.txttenKH.setText(makh);
 		    	f.txttenKH.setText(laymaKH(label1.getText()));
 		    	f.modelkhachhang.setRowCount(0);
 				
-					ConnectDB.getinstance();
-					Connection con =ConnectDB.getConnection();
-					PreparedStatement stmt=null;
-					try {
-						String sql="  select * from chitietHoaDonPhong where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
-						stmt=con.prepareStatement(sql);
-						stmt.setString(1, makh);
-						ResultSet rs =stmt.executeQuery();
-						while(rs.next()) {
-//							dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
-							Object []obj= {rs.getString(1), rs.getString(2),    rs.getString(3), rs.getDouble(4), rs.getDate(5), rs.getDate(6)};
-							f.modelkhachhang.addRow(obj);
+				ConnectDB.getinstance();
+				Connection con =ConnectDB.getConnection();
+				PreparedStatement stmt=null;
+				try {
+					String sql="  select * from chitietHoaDonPhong where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+					stmt=con.prepareStatement(sql);
+					stmt.setString(1, makh);
+					ResultSet rs =stmt.executeQuery();
+					while(rs.next()) {
+//						dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
+						Object []obj= {rs.getString(1), rs.getString(2),    rs.getString(3), rs.getDouble(4), rs.getDate(5), rs.getDate(6)};
+						f.modelkhachhang.addRow(obj);
 	
-						}
-					} catch (SQLException e1) {
-						e1.printStackTrace();
 					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 				
 					String mahoadon= laymahoadon(makh);
 					String madv= dvdao.laytentheomaKh(f.comboBox.getSelectedItem().toString());
@@ -349,7 +360,7 @@ public class PhongUI extends JFrame {
 //										dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
 										Object []obj= {rs.getString(1), rs.getString(2),    rs.getDouble(3), rs.getInt(4), rs.getDouble(3)*rs.getInt(4)};
 										f.modelchitietdichVu.addRow(obj);
-				
+										System.out.println(rs.getString(1));
 									}
 								} catch (SQLException e1) {
 									e1.printStackTrace();
@@ -358,7 +369,9 @@ public class PhongUI extends JFrame {
 			                }
 			            }
 			        });
-					f.txtTongTienPhong.setText(Double.toString(ctpdao.tongtienphong(mahoadon)));
+					
+//					
+//					f.txtTongTienPhong.setText(Double.toString(ctpdao.tongtienphong(mahoadon)));
 					
 					try {
 						String sql="  select ctdv.machitiethoadon,dv.tendichvu,dv.giadichvu,ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
@@ -368,8 +381,14 @@ public class PhongUI extends JFrame {
 						while(rs.next()) {
 //							dsdv.add(new  dichVu(rs.getString(1), rs.getString(2), rs.getDouble(3)));
 							Object []obj= {rs.getString(1), rs.getString(2),    rs.getDouble(3), rs.getInt(4), rs.getDouble(3)*rs.getInt(4)};
+							 
+							
 							f.modelchitietdichVu.addRow(obj);
 	
+							
+							//
+							
+							 
 						}
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -392,6 +411,37 @@ public class PhongUI extends JFrame {
 						phongdaoo.update1("Phòng trống", makh);
 //						JOptionPane.showMessageDialog(null, "OKKKKK");
 						
+						
+						//
+//						Date date = new Date();
+//						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//						String dateString = dateFormat.format(date);
+				        
+						LocalDateTime dateTime = LocalDateTime.now();
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+						String dateTimeString = dateTime.format(formatter);
+						
+						DatPhong dt= new DatPhong();
+						System.out.println(dt.txtgiovao.getText());
+						
+						
+						sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+						dvdao= new dichVuDAO();
+						HoaDon hdnew= new HoaDon(mahoadon, makh, "", label1.getText(),ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon),f.txtngaytraphong.getText());
+						frmhd = new FrmHoaDon(hdnew);
+						List<dichVu>ds=dvdao.hoadonlist(makh);
+						frmhd.modelhoadon.getDataVector().removeAllElements();
+						int i=1;
+						for (dichVu ctdv : ds) {
+							String obj[]= {i+"",ctdv.getMadichvu(), ctdv.getSoluong()+"",ctdv.getGiadichvu()+""};
+							frmhd.modelhoadon.addRow(obj);
+							i++;
+						}
+						frmhd.table.setModel(frmhd.modelhoadon);
+						
+						
+						//
+						
 						//update trang thai va them tien phong tien dich vu
 						hddao.update(24,  ctdvdao1.tongtiendichvu(makh) , ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon), ctpdao1.tongtienphong(mahoadon), "DTT", mahoadon);
 						phongDAO dsphong=new phongDAO();
@@ -409,6 +459,26 @@ public class PhongUI extends JFrame {
 							            }
 							        }
 							    }
+						}
+//					
+//						HoaDon hdnew= new HoaDon(mahoadon, makh, "", label1.getText(),ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon));
+//						frmhd = new FrmHoaDon(hdnew);
+						
+						
+						//
+//						dvdao= new dichVuDAO();
+//						List<dichVu>ds=dvdao.hoadonlist(makh);
+//						frmhd.modelhoadon.getDataVector().removeAllElements();
+//						for (dichVu ctdv : ds) {
+//							String obj[]= {1+"",ctdv.getMadichvu(),ctdv.getGiadichvu()+"",ctdv.getSoluong()+""};
+//							frmhd.modelhoadon.addRow(obj);
+//						}
+//						frmhd.table.setModel(frmhd.modelhoadon);
+						//
+						
+						if(!f.txttienKhachDua.getText().equals("")) {
+							
+							frmhd.setVisible(true);
 						}
 					}
 				});

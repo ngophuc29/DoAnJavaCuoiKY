@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import database.ConnectDB;
+import entity.HoaDon;
 import entity.KhachHang;
 import entity.chitietDatPhong;
 import entity.chitietdichVu;
@@ -88,12 +89,83 @@ public class chitietdichVuDAO {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                  sum += resultSet.getDouble(1);
-                System.out.println("Total salary for code 123: " + sum);
+//                System.out.println("Total salary for code 123: " + sum);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } 
 		return sum;
+	}
+	public int laysoluong(String makh) {
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int sum=0;
+        try {
+           
+            String sql = "select  ctdv.soluongdichvu  from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, makh); // set parameter value
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                 sum += resultSet.getDouble(1);
+//                System.out.println("laysoluong: " + sum);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+		return sum;
+	}
+	
+	public int laysoluongkhac(String makh) {
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int sum=0;
+        try {
+           
+            String sql = " select  ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT')";
+            preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, makh); // set parameter value
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                 sum += resultSet.getInt(1);
+//                System.out.println("laysoluong: " + sum);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+		return sum;
+	}
+	
+	public List<chitietdichVu> hoadonlist(String makh){
+		List<chitietdichVu> dshd=new ArrayList<chitietdichVu>();
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		PreparedStatement statement=null;
+		try {
+			String sql=" select ctdv.machitiethoadon,dv.tendichvu,dv.giadichvu,ctdv.soluongdichvu from chitiethoadondichvu ctdv join dichvu dv on ctdv.madichvu=dv.madichvu where mahoadon in (select mahoadon from hoadon where makh =? and trangthai='CTT') ";
+			  statement= con.prepareStatement(sql);
+			statement.setString(1, makh);
+			ResultSet rs =statement.executeQuery();
+			while(rs.next()) {
+				
+				String ma =rs.getString(1);
+				String ten=rs.getString(2);
+				double gia =rs.getDouble(3);
+				int soluong=rs.getInt(4);
+				
+				chitietdichVu ctdv= new chitietdichVu(ma, ten, gia, soluong);
+				dshd.add(ctdv);
+				System.out.println(ma);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dshd;
 	}
 }
 

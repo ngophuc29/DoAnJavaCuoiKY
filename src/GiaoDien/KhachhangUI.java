@@ -44,6 +44,7 @@ import java.awt.event.ActionEvent;
 import com.toedter.calendar.JCalendar;
 import java.time.LocalDate;
 import com.toedter.calendar.JDateChooser;
+import java.awt.SystemColor;
 public class KhachhangUI extends JFrame {
 
 	private JPanel contentPane;
@@ -130,20 +131,6 @@ public class KhachhangUI extends JFrame {
 		model.addColumn("Giới Tính");
 		model.addColumn("Loại Khách");
  
-//		model.addColumn("Trạng Thái");
-//		table = new JTable(model =new DefaultTableModel(
-//			new Object[][] {
-//				{"A01", "Nguy\u1EC5n Tunn", "0987654321", "89389231", "tuannguyn@gmail.com", "1/4/2023", "29/1/1998", "Nam", "Vip", "301"},
-//				{"A02", "Nguyễn Thúy Vy", "0873168712", "77823913", "vynguyen@gmail.com", "2/4/2023", "4/5/1998", "Nu", "Vip", "302"},
-//				{"A03", "Phan Văn Hoàn", "091241241", "31244421414", "hoanPhan@gmail.com", "3/4/2023", "29/5/1991", "Nam", "Vip", "303"},
-//				{"B01", "Phan Văn Phú", "097137124", "41341414", "phuphan@gmail.com", "5/4/2023", "29/6/1994", "Nam", "Thường", "103"},
-//				 
-//				{"B02", "Nguyễn Gia Bảo", "091841419", "79187498", "baonguyen@gmail.com", "5/4/2023", "29/6/1995", "Nam", "Thường", "201"},
-//			},
-//			new String[] {
-//				"M\u00E3 Kh", "H\u1ECD V\u00E0 T\u00EAn", "S\u0110T", "CMND", "Email", "Ng\u00E0y Thu\u00EA", "Ng\u00E0y Sinh", "Gi\u1EDBi T\u00EDnh", "Lo\u1EA1i Kh\u00E1ch", "S\u1ED1 Ph\u00F2ng"
-//			}
-//		));
 		table= new JTable(model);
 		 
 		scrollPane.setViewportView(table);
@@ -457,6 +444,7 @@ riphet();
 		contentPane.add(btnThoat);
 		
 		JButton btnLocCTT = new JButton("Lọc Theo Trạng Thái");
+		btnLocCTT.setForeground(new Color(0, 0, 0));
 		btnLocCTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

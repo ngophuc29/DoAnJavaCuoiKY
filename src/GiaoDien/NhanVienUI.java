@@ -7,11 +7,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
@@ -110,8 +112,11 @@ public class NhanVienUI extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+	                  
+	
+
 		JButton btnnhavien = new JButton("Nhân viên");
+		
 		btnnhavien.setIcon(new ImageIcon(NhanVienUI.class.getResource("/img/Administrator-icon.png")));
 		btnnhavien.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnnhavien.setBorderPainted(false);
@@ -170,7 +175,7 @@ public class NhanVienUI extends JFrame {
 		btnXoa.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnXoa.setBounds(1593, 453, 216, 54);
 		contentPane.add(btnXoa);
-		
+	
 		
 		JButton btnSua = new JButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {

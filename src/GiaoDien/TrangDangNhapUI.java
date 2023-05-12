@@ -158,7 +158,7 @@ public class TrangDangNhapUI extends JFrame {
 						}
 						else if(rs.next()) {
 							TrangChuUI tc= new TrangChuUI();
-							datPhong dt= new datPhong();
+							DatPhong dt= new DatPhong();
 							tc.setVisible(true);
 							tc.txtmanvdn.setText(txttk.getText());
 							dt.txtmanvintable.setText(txttk.getText());
@@ -222,7 +222,7 @@ public class TrangDangNhapUI extends JFrame {
 		JButton btnDoiMK = new JButton("Đổi mật khẩu");
 		btnDoiMK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				trangDoiPass tdk= new trangDoiPass();
+				TrangDoiPass tdk= new TrangDoiPass();
 				tdk.setVisible(true);
 //				dispose();
 			}

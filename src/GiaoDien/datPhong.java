@@ -35,23 +35,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
-public class datPhong extends JFrame {
-
-	private JPanel contentPane;
-	public JTextField txttenKH;
-	public static JTextField txtmaphongdat;
-	public JTextField txtgiovao;
-	public JTextField txtgiora;
-	public JTextField txttongthoigian;
-    private Timer timer;
-    private khachHangDAO KHdao;
-	  private SimpleDateFormat sdf;
-	  public String manvintable;
-	 public TrangChuUI kkk;
+public class DatPhong extends JFrame {
+	public JTextField txttenKH,txtgiovao,txtgiora,txttongthoigian;
+	public String manvintable;
+	public TrangChuUI kkk;
 	public JLabel txtmanvintable; 
 	public JButton btnDatPhong;
 	public JComboBox combomaKH;
+	public static JTextField txtmaphongdat;
 	private DAO.phongDAO phongDAO;
+	private khachHangDAO KHdao;
+	private Timer timer;
+	private SimpleDateFormat sdf;
+	private JPanel contentPane;
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +55,7 @@ public class datPhong extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					datPhong frame = new datPhong();
+					DatPhong frame = new DatPhong();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -71,7 +67,7 @@ public class datPhong extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public datPhong() {
+	public DatPhong() {
 		try {
 			ConnectDB.getinstance().connect();
 		} catch (SQLException e) {

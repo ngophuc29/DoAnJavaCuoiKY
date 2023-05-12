@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class trangDoiPass extends JFrame {
+public class TrangDoiPass extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtmkcu;
@@ -36,7 +36,7 @@ public class trangDoiPass extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					trangDoiPass frame = new trangDoiPass();
+					TrangDoiPass frame = new TrangDoiPass();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +48,7 @@ public class trangDoiPass extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public trangDoiPass() {
+	public TrangDoiPass() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 618, 436);
 		setLocationRelativeTo(null);
@@ -131,7 +131,7 @@ public class trangDoiPass extends JFrame {
 		contentPane.add(txtmanv);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(trangDoiPass.class.getResource("/img/iconregester.png")));
+		lblNewLabel_2.setIcon(new ImageIcon(TrangDoiPass.class.getResource("/img/iconregester.png")));
 		lblNewLabel_2.setBounds(10, 14, 48, 56);
 		contentPane.add(lblNewLabel_2);
 	}

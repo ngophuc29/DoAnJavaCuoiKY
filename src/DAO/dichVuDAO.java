@@ -10,6 +10,7 @@ import java.util.List;
 
 import database.ConnectDB;
 import entity.KhachHang;
+import entity.chitietdichVu;
 import entity.dichVu;
 
 public class dichVuDAO {
@@ -48,6 +49,34 @@ public class dichVuDAO {
 			e.printStackTrace();
 		}
 		return ten;
+	}
+	
+	public List<dichVu> hoadonlist(String makh){
+		List<dichVu> dshd=new ArrayList<dichVu>();
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		PreparedStatement statement=null;
+		try {
+			String sql="select tendichvu,soluongdichvu,giadichvu*soluongdichvu from dichvu d join chitiethoadondichvu ctdv on d.madichvu=ctdv.madichvu join hoadon hd on ctdv.mahoadon=hd.mahoadon where makh=? and trangthai='CTT'";
+			  statement= con.prepareStatement(sql);
+			statement.setString(1, makh);
+			ResultSet rs =statement.executeQuery();
+			while(rs.next()) {
+				
+				String ma =rs.getString(1);
+				int soluong=rs.getInt(2);
+				double gia =rs.getDouble(3);
+			 
+				
+				dichVu ctdv= new dichVu(ma,   soluong,gia);
+				dshd.add(ctdv);
+				System.out.println(ma);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dshd;
 	}
 }
 ;

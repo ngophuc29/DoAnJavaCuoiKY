@@ -92,6 +92,8 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 	private chitietdichVuDAO ctdvdao= new chitietdichVuDAO();
 	private chitietPhongDAO ctdpdao= new chitietPhongDAO();
 	
+	private static FrmHoaDon frmhd;
+	
 	public JButton btnThanhToan;
 	/**
 	 * Launch the application.
@@ -563,7 +565,10 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 						btnInHoaDon.setVisible(true);
 					}
 				}
+				
 			}
+			
+			
 		});
 		btnThanhToan.setForeground(new Color(255, 255, 255));
 		btnThanhToan.setBackground(new Color(128, 128, 255));
@@ -880,6 +885,12 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 					String mahoadon=laymahoadon(makh);
 					txttongtiendichvu.setText(Double.toString(ctdvdao.tongtiendichvu(makh)));
 					txttongtienThanhToan.setText(Double.toString(ctdvdao.tongtiendichvu(makh)+ctdpdao.tongtienphong(mahoadon)));
+					
+					
+					//test
+					 
+					
+					//
 					f.dispose();
 				}
 			});

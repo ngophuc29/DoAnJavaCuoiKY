@@ -30,8 +30,8 @@ import javax.swing.ImageIcon;
 public class DichVuUI extends JFrame {
 
 	private JPanel contentPane;
-	private JTable table;
-	private DefaultTableModel model;
+	public static JTable table;
+	public static DefaultTableModel model;
 	/**
 	 * Launch the application.
 	 */

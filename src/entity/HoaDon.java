@@ -3,9 +3,18 @@ package entity;
 import java.util.Date;
 
 public class HoaDon {
+	private String maChitiethoadon;
 	private String maHoadon;
 	private String maKH;
 	private String manv;
+	private String maphong;
+	private String giora;
+	public String getMaphong() {
+		return maphong;
+	}
+	public void setMaphong(String maphong) {
+		this.maphong = maphong;
+	}
 	
 	private int tonggio;
 	private double tonghoadon;
@@ -25,12 +34,32 @@ public class HoaDon {
 		this.tienPhong = tienPhong;
 		this.trangThai = trangThai;
 	}
+	public HoaDon(String maHoadon, String maKH) {
+		super();
+		this.maHoadon = maHoadon;
+		this.maKH = maKH;
+	}
 	public HoaDon( String maKH, String manv , String trangThai) {
 		super();
 		this.maKH = maKH;
 		this.manv = manv;
  
 		this.trangThai = trangThai;
+	}
+	public HoaDon(String maHoadon, String maKH, String manv, String maphong,double tienphong,String giora ) {
+		super();
+		this.maHoadon = maHoadon;
+		this.maKH = maKH;
+		this.manv = manv;
+		this.maphong = maphong;
+		this.tienPhong=tienphong;
+		this.giora=giora;
+	}
+	public String getGiora() {
+		return giora;
+	}
+	public void setGiora(String giora) {
+		this.giora = giora;
 	}
 	public String getMaHoadon() {
 		return maHoadon;

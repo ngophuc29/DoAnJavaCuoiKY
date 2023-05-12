@@ -17,7 +17,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.BevelBorder;
 import com.toedter.calendar.JDateChooser;
 
-public class thongke extends JFrame {
+public class ThongKe extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -29,7 +29,7 @@ public class thongke extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					thongke frame = new thongke();
+					ThongKe frame = new ThongKe();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class thongke extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public thongke() {
+	public ThongKe() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1185, 465);
 		contentPane = new JPanel();
@@ -106,7 +106,7 @@ public class thongke extends JFrame {
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		JPanel panel_1_1 = new JPanel();
-		panel_1_1.setBounds(630, 301, 298, 114);
+		panel_1_1.setBounds(624, 301, 298, 114);
 		contentPane.add(panel_1_1);
 		panel_1_1.setLayout(null);
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0)));
