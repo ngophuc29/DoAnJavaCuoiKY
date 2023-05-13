@@ -39,8 +39,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JComboBox;
 
 public class NhanVienUI extends JFrame {
 
@@ -58,7 +60,7 @@ public class NhanVienUI extends JFrame {
 	private JTextField txtCMND;
 	private JTextField txtDiaChi;
 	private JTextField txtEmail;
-	private JTextField txtchucvu;
+	private JComboBox txtcomboBox;
 	JSpinner spinner;
 	private JTextField txtNgayVaoLam;
 	private JTextField txtngaySinh;
@@ -70,11 +72,10 @@ public class NhanVienUI extends JFrame {
 	private JTextField txtsdt;
 	private JTextField txtcmnd;
 	private JTextField txtdiachi;
-	private JTextField txtchucvuu;
 	private JRadioButton rdbtnam;
 	private JRadioButton rdbtnnu;
-	private JDateChooser dateNgayVaoLam;
-	private JDateChooser datengaysinh;
+	private JDateChooser dateeNgayVaoLam;
+	private JDateChooser dateengaysinh;
 	
 	/**
 	 * Launch the application.
@@ -232,7 +233,7 @@ public class NhanVienUI extends JFrame {
 		txtsdt.setBounds(1390, 174, 120, 20);
 		contentPane.add(txtsdt);
 		
-		JLabel lblNewLabel_1_3 = new JLabel("CMND :");
+		JLabel lblNewLabel_1_3 = new JLabel("Căn Cước :");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_3.setBounds(1531, 165, 98, 34);
 		contentPane.add(lblNewLabel_1_3);
@@ -256,11 +257,6 @@ public class NhanVienUI extends JFrame {
 		lblNewLabel_1_3_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblNewLabel_1_3_1.setBounds(1531, 210, 98, 34);
 		contentPane.add(lblNewLabel_1_3_1);
-		
-		txtchucvuu = new JTextField();
-		txtchucvuu.setColumns(10);
-		txtchucvuu.setBounds(1644, 219, 165, 20);
-		contentPane.add(txtchucvuu);
 		
 		JLabel lblNewLabel_1_2_1_2_1 = new JLabel("Giới Tính :");
 		lblNewLabel_1_2_1_2_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -319,6 +315,19 @@ public class NhanVienUI extends JFrame {
 		dateeNgaySinhh.setBounds(1688, 398, 141, 20);
 		contentPane.add(dateeNgaySinhh);
 		
+		JComboBox txtcomboBox = new JComboBox();
+		txtcomboBox.setBounds(1645, 218, 164, 22);
+		contentPane.add(txtcomboBox);
+//			comboBox.setModel(new DefaultComboBoxModel(new String[] {"Nước CoCa", "Nước Nước Pepsi", "Nước 7UP", "Cà Phê", "Bạc Xĩu", "Bia Heneiken", "Bia Sài Gòn Bạc", "Bia 333"}));
+			txtcomboBox.addItem("Quản lí");
+			txtcomboBox.addItem("Nhân viên thu ngân");
+			txtcomboBox.addItem("Nhân viên hành lý và đứng cửa");
+			txtcomboBox.addItem("Nhân viên đặt phòng");
+			txtcomboBox.addItem("Nhân viên trực tổng đài ");
+			txtcomboBox.addItem("Nhân viên lễ tân");
+			txtcomboBox.addItem("Nhân viên phục vụ");
+			txtcomboBox.addItem("Nhân viên pha chế");
+		
 		btnThem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -327,7 +336,7 @@ public class NhanVienUI extends JFrame {
 					String sdt = txtsdt.getText().toString();
 					String cccd = txtcmnd.getText().toString();
 					String diachi = txtdiachi.getText().toString();
-					String chucvu = txtchucvuu.getText().toString();
+					String chucvu = txtcomboBox.getSelectedItem().toString();
 					String gioiTinh ="";
 					if(rdbtnam.isSelected()) {
 						gioiTinh+="Nam";
@@ -338,11 +347,11 @@ public class NhanVienUI extends JFrame {
 					
 					String trangthai="Đang làm việc";
 					String loaiKH = "111";
-					 
+					
 					 
 					// lay ngay thang
 					
-					Date datevaolam = dateNgayVaoLam.getDate();
+					Date datevaolam = dateeNgayVaoLam.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -354,7 +363,7 @@ public class NhanVienUI extends JFrame {
 					
 					//lay ngay sinh
 					
-					Date dateengaysinh= datengaysinh.getDate();
+					Date dateengaysinh= dateeNgaySinhh.getDate();
 
 					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
 					 
@@ -362,21 +371,25 @@ public class NhanVienUI extends JFrame {
 
 					// Chuyển đổi chuỗi thành kiểu java.sql.Date
 					java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
-					
-					
-						nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, null, null, trangthai, "1");
-						System.out.println(nv.toString());
-						nvdao.themDanhSachNV(nv);
+					if(validData()) {
+						nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1");
+						
+						if(nvdao.themDanhSachNV(nv)) {
+							Object []obj= {maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1"};
+							model.addRow(obj);
+						}
+						riphet();						
+					}
 //						
-						String []obj= {maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, null, null, trangthai, "1"};
-						model.addRow(obj);
+						
 //						nvdao.getAllnhanvien();
 								 
 				}  catch (Exception e2) {
-					// TODO: handle exception
+					e2.printStackTrace();
 				}
 			}
 		});
+		
 	table.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -401,7 +414,7 @@ public class NhanVienUI extends JFrame {
 //				 
 				txtcmnd.setText(model.getValueAt(row, 3).toString());
 				txtdiachi.setText(model.getValueAt(row, 4).toString());
-				txtchucvuu.setText(model.getValueAt(row, 5).toString());
+				txtcomboBox.setSelectedItem(model.getValueAt(row, 5).toString());
 //				txtemail.setText();
 				
 				try {
@@ -465,4 +478,99 @@ public class NhanVienUI extends JFrame {
 	 public DefaultTableModel getModel() {
 	        return model;
 	    }
+	 
+	 private boolean validData() {
+		 String maNV = txtmanv.getText().toString();
+			String tenNV = txttenNV.getText().toString();
+			String sdt = txtsdt.getText().toString();
+			String cccd = txtcmnd.getText().toString();
+			String diachi = txtdiachi.getText().toString();
+//			String chucvu = txtcomboBox.getSelectedItem().toString();
+//			String gioiTinh = cbogioiTinh.getSelectedItem().toString();
+			String gioiTinh ="";
+			if(rdbtnam.isSelected()) {
+				gioiTinh+="Nam";
+			}
+			if(rdbtnnu.isSelected()) {
+				gioiTinh+="Nữ";
+			}
+			
+			String trangthai="CTT";
+			String loaiKH = "111";
+			 
+			 
+			// lay ngay thang
+			
+			Date datevaolam = dateeNgayVaoLam.getDate();
+
+			// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String strDatevaolam = dateFormat.format(datevaolam);
+
+			// Chuyển đổi chuỗi thành kiểu java.sql.Date
+			java.sql.Date sqlDatevaolam = java.sql.Date.valueOf(strDatevaolam);
+			
+			
+			//lay ngay sinh
+			
+			Date datengaysinh= dateengaysinh.getDate();
+
+			// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+			 
+			String strDatengaysinh = dateFormat.format(datengaysinh);
+
+			// Chuyển đổi chuỗi thành kiểu java.sql.Date
+			java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+			
+				nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, null, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1");
+				
+				if(nvdao.themDanhSachNV(nv)) {
+					Object []obj= {maNV, tenNV, sdt, cccd, diachi, null, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1"};
+					model.addRow(obj);
+				}
+//				
+				
+//				nvdao.getAllnhanvien();
+			
+//			if(!(maSach.length() > 0 && maSach.matches("[A-Z]\\d{3}"))) {
+//				JOptionPane.showMessageDialog(this, "Error: ma sach theo mau : [A-Z]\\d{3}");
+//				return false;
+//			}
+			if(!(maNV.length() >0 && maNV.matches("[a-zA-Z' ]+"))) {
+//					JOp ( "Error: Ten nv khong duoc de trong ",tenKH);
+					JOptionPane.showMessageDialog(null, "Error: Tên nhân viên không được để trống");
+					return false;
+				}
+			if(!(tenNV.length() >0 && tenNV.matches("[a-zA-Z' ]+"))) {
+//				JOp ( "Error: Ten nv khong duoc de trong ",tenKH);
+				JOptionPane.showMessageDialog(null, "Error: Tên nhân viên không được để trống");
+				return false;
+			}
+			if(!(sdt.length() >0 && sdt.matches("^[0]+\\d{9}"))) {
+//				showMessage( "Error: Số điện thoại phải gồm 10 số ",sdt);
+				JOptionPane.showMessageDialog(null, "Error:  Số điện thoại phải gồm 10 số");
+				return false;
+			}
+			if(!(cccd.length() >0 && cccd.matches("\\d{12}"))) {
+//				showMessage( "Error: Số điện thoại phải gồm 10 số ",cccd);
+				JOptionPane.showMessageDialog(null, "Error:  CCCD phải gồm 12 số");
+				return false;
+			}
+			if(!(diachi.length() >0 && diachi.matches("\"[a-zA-Z' ]+\""))) {
+				JOptionPane.showMessageDialog(null, "Error:  Địa chỉ không được để trống");
+				return false;
+			}
+			return true;
+	 }
+	public void riphet() {
+			List<nhanVien>dsctt=nvdao.getAllnhanvien();
+			
+			model.getDataVector().removeAllElements();
+			for (nhanVien nv : dsctt) {
+				String []obj= {nv.getManv(),nv.getTennv(),nv.getSdt(),nv.getCmnd(),nv.getDiachi(),nv.getChucvu(),nv.getGioitinh(),nv.getNgaysinh()+"",nv.getNgayvaolam()+"",nv.getTrangthailamviec(), nv.getPassword()};
+				
+				model.addRow(obj);
+			}
+			table.setModel(model);
+		}
 }

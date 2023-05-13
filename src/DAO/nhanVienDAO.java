@@ -50,7 +50,6 @@ public class nhanVienDAO {
 			stmt.setDate(9, nv.getNgayvaolam());
 			stmt.setString(10, nv.getTrangthailamviec());
 			stmt.setString(11, nv.getPassword());
-
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception

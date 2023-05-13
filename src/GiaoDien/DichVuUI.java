@@ -68,7 +68,7 @@ public class DichVuUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1399, 868);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(242, 208, 183));
+		contentPane.setBackground(new Color(182, 208, 252));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -78,7 +78,7 @@ public class DichVuUI extends JFrame {
 		btnDchV.setIcon(new ImageIcon(DichVuUI.class.getResource("/img/Household-Bell-Service-icon.png")));
 		btnDchV.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnDchV.setBorderPainted(false);
-		btnDchV.setBackground(new Color(242, 208, 183));
+		btnDchV.setBackground(new Color(182, 208, 252));
 		btnDchV.setBounds(41, 28, 194, 48);
 		contentPane.add(btnDchV);
 		
@@ -118,14 +118,14 @@ public class DichVuUI extends JFrame {
 		contentPane.add(lblTrngThi);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Hỗ trợ");
-		rdbtnNewRadioButton.setBackground(new Color(242, 208, 183));
+		rdbtnNewRadioButton.setBackground(new Color(182, 208, 252));
 		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		rdbtnNewRadioButton.setBounds(56, 390, 90, 36);
 		contentPane.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNgngHotng = new JRadioButton("Ngừng Hoạt Động");
 		rdbtnNgngHotng.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdbtnNgngHotng.setBackground(new Color(242, 208, 183));
+		rdbtnNgngHotng.setBackground(new Color(182, 208, 252));
 		rdbtnNgngHotng.setBounds(147, 390, 148, 36);
 		contentPane.add(rdbtnNgngHotng);
 		

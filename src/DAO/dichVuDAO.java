@@ -78,5 +78,24 @@ public class dichVuDAO {
 		}
 		return dshd;
 	}
+	
+	
+	
+	public static boolean delete(String madichvu) {
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n=0;
+		
+		try {
+			stmt=con.prepareStatement("delete from dichvu where madichvu =?");
+			stmt.setString(1,madichvu);
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
 }
 ;

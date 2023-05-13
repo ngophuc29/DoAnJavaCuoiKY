@@ -130,7 +130,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Thong Tin Phong");
+		JLabel lblNewLabel = new JLabel("Thông Tin Phòng");
 		lblNewLabel.setForeground(new Color(255, 255, 255));
 		lblNewLabel.setBackground(new Color(255, 255, 255));
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -224,16 +224,16 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 //		
 		
 		modelkhachhang= new DefaultTableModel();
-		modelkhachhang.addColumn("Mã chi tiet dat phong");
-		modelkhachhang.addColumn("Mã Phong");
+		modelkhachhang.addColumn("Mã chi tiết đặt phòng");
+		modelkhachhang.addColumn("Mã phòng");
 //		modelkhachhang.addColumn("So Luong Phong");
-		modelkhachhang.addColumn("Ma hoa don");
+		modelkhachhang.addColumn("Ma hóa đơn");
 //		modelkhachhang.addColumn("Giờ Vào");
 //		modelkhachhang.addColumn("Giờ ra");
-		modelkhachhang.addColumn("Gia Phong");
-		modelkhachhang.addColumn("Gio vao ");
+		modelkhachhang.addColumn("Giá phòng");
+		modelkhachhang.addColumn("Giờ vào ");
 //		modelkhachhang.addColumn("Tổng Thu");
-		modelkhachhang.addColumn("Gio ra");
+		modelkhachhang.addColumn("Giờ ra");
 		tablekhachhang = new JTable(modelkhachhang);
 		tablekhachhang.getColumnModel().getColumn(1).setPreferredWidth(93);
 //		tablekhachhang.getColumnModel().getColumn(6).setPreferredWidth(83);
@@ -548,7 +548,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_8.setBounds(30, 431, 93, 14);
 		panel_2.add(lblNewLabel_8);
 		
-		  btnThanhToan = new JButton("Thanh Toán");
+		 btnThanhToan = new JButton("Thanh Toán");
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -570,6 +570,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			
 			
 		});
+		
 		btnThanhToan.setForeground(new Color(255, 255, 255));
 		btnThanhToan.setBackground(new Color(128, 128, 255));
 		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -585,28 +586,14 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		btnTraPhong.addActionListener(new ActionListener() {
 			 @Override
 			    public void actionPerformed(ActionEvent e) {
-				 
-				 //
-				 
-				// Lấy đối tượng TableModel từ JTable
 				 TableModel model = tablekhachhang.getModel();
-
-				 // Lấy số hàng trong JTable
+ 
 				 int rowCount = model.getRowCount();
-
-				 // Duyệt qua tất cả các hàng và set giá trị mới cho cột thứ 2
+ 
 				 for (int i = 0; i < rowCount; i++) {
 				     model.setValueAt(sdf.format(new Date()), i, 5);
 				 }
 				 txtngaytraphong.setText((sdf.format(new Date()).toString()));
-				 //
-//			        int selectedRow = tablekhachhang.getSelectedRow();
-//			        if (selectedRow != -1) {
-//			            TableModel model = tablekhachhang.getModel();
-//			            model.setValueAt("new value", selectedRow, 6); // thay "new value" bằng giá trị mới muốn set
-//			        }
-				 
-				 
 				 
 			    }
 		});

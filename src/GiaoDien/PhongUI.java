@@ -75,6 +75,9 @@ public class PhongUI extends JFrame {
 	private chitietPhongDAO ctpdao1= new chitietPhongDAO();
 	private SimpleDateFormat sdf;
 	private static FrmHoaDon frmhd;
+	
+	private static boolean ktra=false;
+	
 	/**
  	
 	 * Launch the application.
@@ -280,7 +283,7 @@ public class PhongUI extends JFrame {
 //		    	panelPhong101.setBackground(new Color(238, 114, 96));
 		    	JPanel panel = (JPanel) popupMenu.getInvoker();
 		    	JLabel label1 = (JLabel) panel.getComponent(0);
-		    	
+		    	ktra=false;
 		        f = new FormThongTinPhongVaThanhToan();
 		        f.setVisible(true);
 		    	 
@@ -405,10 +408,10 @@ public class PhongUI extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						 panel.setBackground(new Color(153, 204, 153));
+//						 panel.setBackground(new Color(153, 204, 153));
 						// TODO Auto-generated method stub
 						//label1.gettext() la de lay ma phong
-						phongdaoo.update1("Phòng trống", makh);
+						
 //						JOptionPane.showMessageDialog(null, "OKKKKK");
 						
 						
@@ -421,46 +424,55 @@ public class PhongUI extends JFrame {
 						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 						String dateTimeString = dateTime.format(formatter);
 						
-						DatPhong dt= new DatPhong();
-						System.out.println(dt.txtgiovao.getText());
+						
 						
 						
 						sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						dvdao= new dichVuDAO();
-						HoaDon hdnew= new HoaDon(mahoadon, makh, "", label1.getText(),ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon),f.txtngaytraphong.getText());
-						frmhd = new FrmHoaDon(hdnew);
-						List<dichVu>ds=dvdao.hoadonlist(makh);
-						frmhd.modelhoadon.getDataVector().removeAllElements();
-						int i=1;
-						for (dichVu ctdv : ds) {
-							String obj[]= {i+"",ctdv.getMadichvu(), ctdv.getSoluong()+"",ctdv.getGiadichvu()+""};
-							frmhd.modelhoadon.addRow(obj);
-							i++;
+						if(ktra==true) {
+							if(!f.txttienKhachDua.getText().equals("")  && !(Double.parseDouble(f.txttienKhachDua.getText())<Double.parseDouble(f.txttongtienThanhToan.getText()))) {
+								HoaDon hdnew= new HoaDon(mahoadon, makh, "", label1.getText(),ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon),f.txtngaytraphong.getText());
+								frmhd = new FrmHoaDon(hdnew);
+								List<dichVu>ds=dvdao.hoadonlist(makh);
+								frmhd.modelhoadon.getDataVector().removeAllElements();
+								int i=1;
+								for (dichVu ctdv : ds) {
+									String obj[]= {i+"",ctdv.getMadichvu(), ctdv.getSoluong()+"",ctdv.getGiadichvu()+""};
+									frmhd.modelhoadon.addRow(obj);
+									i++;
+								}
+								frmhd.table.setModel(frmhd.modelhoadon);
+								phongdaoo.update1("Phòng trống", makh);
+								
+								//
+								
+								//update trang thai va them tien phong tien dich vu
+								hddao.update(24,  ctdvdao1.tongtiendichvu(makh) , ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon), ctpdao1.tongtienphong(mahoadon), "DTT", mahoadon);
+								phongDAO dsphong=new phongDAO();
+								List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
+								for (phong phong : ds1) {
+									  Component[] components =panelPhongUITable.getComponents();
+									    for (Component component : components) {
+									        if (component instanceof JPanel) {
+									          JPanel panel=(JPanel)component;
+									          JLabel label=(JLabel) panel.getComponent(0);
+									          JLabel label1=(JLabel) panel.getComponent(2);
+									            if(label.getText().equals(phong.getMaPhong())) {		            
+									            	panel.setBackground(new Color(153, 204, 153));
+									            	label1.setText("Phòng trống");
+									            }
+									        }
+									    }
+								}
+//							
+								frmhd.setVisible(true);
+							}
+							
+						}else {
+							JOptionPane.showMessageDialog(null, "Vui lòng bấm trả phòng !!");
 						}
-						frmhd.table.setModel(frmhd.modelhoadon);
 						
 						
-						//
-						
-						//update trang thai va them tien phong tien dich vu
-						hddao.update(24,  ctdvdao1.tongtiendichvu(makh) , ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon), ctpdao1.tongtienphong(mahoadon), "DTT", mahoadon);
-						phongDAO dsphong=new phongDAO();
-						List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
-						for (phong phong : ds1) {
-							  Component[] components =panelPhongUITable.getComponents();
-							    for (Component component : components) {
-							        if (component instanceof JPanel) {
-							          JPanel panel=(JPanel)component;
-							          JLabel label=(JLabel) panel.getComponent(0);
-							          JLabel label1=(JLabel) panel.getComponent(2);
-							            if(label.getText().equals(phong.getMaPhong())) {		            
-							            	panel.setBackground(new Color(153, 204, 153));
-							            	label1.setText("Phòng trống");
-							            }
-							        }
-							    }
-						}
-//					
 //						HoaDon hdnew= new HoaDon(mahoadon, makh, "", label1.getText(),ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon));
 //						frmhd = new FrmHoaDon(hdnew);
 						
@@ -476,12 +488,41 @@ public class PhongUI extends JFrame {
 //						frmhd.table.setModel(frmhd.modelhoadon);
 						//
 						
-						if(!f.txttienKhachDua.getText().equals("")) {
-							
-							frmhd.setVisible(true);
-						}
+						
+						
+						
+						
 					}
 				});
+				//nut traphong
+				f.btnTraPhong.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						ktra=true;
+						
+						//test
+						
+//						if(f.txttienKhachDua.getText().equals("")) {
+//							f.txttienKhachDua.requestFocus();
+//							JOptionPane.showMessageDialog(null, "Nhập Số Tiền Khách Hàng Đưa !!!");
+//						}else {
+//							if(Double.parseDouble(f.txttienKhachDua.getText())<Double.parseDouble(f.txttongtienThanhToan.getText())) {
+//								 JOptionPane.showMessageDialog(null, "Khách Chưa Đưa Đủ Tiền");
+//							}
+//							else {
+//								JOptionPane.showMessageDialog(null, "Thanh Toán Thành Công");
+//								f.txtTienkhachTraLai.setText(Double.toString(Double.parseDouble(f.txttienKhachDua.getText())-Double.parseDouble(f.txttongtienThanhToan.getText())));
+////								btnInHoaDon.setVisible(true);
+//							}
+//						}
+						//
+						
+					}
+				});
+				
+				//end tra phong
 		    }
 		});
 		

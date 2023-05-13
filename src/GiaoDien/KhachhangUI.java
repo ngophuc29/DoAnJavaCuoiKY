@@ -653,7 +653,7 @@ riphet();
 		
 		model.getDataVector().removeAllElements();
 		for (KhachHang kh : dsctt) {
-			String []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getEmail(),kh.getNgaydky()+"",kh.getNgaysinh()+"",kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
+			String []obj= {kh.getMakh(),kh.getHoten(),kh.getSdt(),kh.getCmnd(),kh.getNgaydky()+"",kh.getNgaysinh()+"",kh.getGioitinh(),kh.getMaloaiKhachHang(), kh.getTrangthai()};
 			
 			model.addRow(obj);
 		}

@@ -98,7 +98,7 @@ public class ThongKe extends JFrame {
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
 		
-		JLabel lblNewLabel_2 = new JLabel("              Tổng tiền");
+		JLabel lblNewLabel_2 = new JLabel("             Tổng Tiền :");
 		lblNewLabel_2.setForeground(new Color(241, 70, 39));
 		lblNewLabel_2.setBackground(new Color(251, 80, 55));
 		lblNewLabel_2.setBounds(0, 0, 333, 41);
@@ -111,7 +111,7 @@ public class ThongKe extends JFrame {
 		panel_1_1.setLayout(null);
 		panel_1_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		
-		JLabel lblNewLabel_2_1 = new JLabel("        Tổng thời gian ở");
+		JLabel lblNewLabel_2_1 = new JLabel("      Tổng Thời Gian Ở :");
 		lblNewLabel_2_1.setForeground(new Color(241, 70, 39));
 		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblNewLabel_2_1.setBackground(new Color(251, 80, 55));

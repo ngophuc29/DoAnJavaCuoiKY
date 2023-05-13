@@ -306,9 +306,9 @@ public class FrmHoaDon  extends JFrame  implements ActionListener{
 			txtHD.setText(txtHD.getText() + "\t\t   SĐT: 0363435011\n");
 			txtHD.setText(txtHD.getText()+ "\t---------------------------------------\n");
 			txtHD.setText(txtHD.getText()+ "\t\t      HÓA ĐƠN\n\n");
-			txtHD.setText(txtHD.getText()+ "  Mã hóa đơn: "+hd.getMaHoadon()+"\t"+"        Ngày lập: "+formattedDate+"\n");
-			txtHD.setText(txtHD.getText()+ "  Phòng: "+hd.getMaphong()+"\t\t        "+"Giờ vào: \t"+formattedDate+"\n");
-			txtHD.setText(txtHD.getText()+ "  Mã khách hàng: "+hd.getMaKH()+"\t        "+"Giờ ra:  \t"+hd.getGiora()+"\n");
+			txtHD.setText(txtHD.getText()+ "  Mã hóa đơn: "+hd.getMaHoadon()+"\t"+"  Ngày lập: "+formattedDate+"\n");
+			txtHD.setText(txtHD.getText()+ "  Phòng: "+hd.getMaphong()+"\t\t   "+"Giờ vào:\t"+formattedDate+"\n");
+			txtHD.setText(txtHD.getText()+ "  Mã khách hàng: "+hd.getMaKH()+"\t  "+"Giờ ra:\t"+hd.getGiora()+"\n");
 			txtHD.setText(txtHD.getText()+ "\t---------------------------------------\n");
 			txtHD.setText(txtHD.getText()+ "  STT  Tên dịch vụ\t\tSL\t   Đơn giá\n");
 			
