@@ -9,13 +9,13 @@ public class thongke {
 	private Date ngaylap;
 	private int thoigianthue;
 	private double tongtien;
-	public thongke(String mahoadon, String maphong, String makhachhang, Date ngaylap, int thoigianthue, double tongtien) {
+	public thongke(String mahoadon, String maphong, String makhachhang, Date ngaylap , double tongtien) {
 		super();
 		this.mahoadon = mahoadon;
 		this.maphong = maphong;
 		this.makhachhang = makhachhang;
 		this.ngaylap = ngaylap;
-		this.thoigianthue = thoigianthue;
+	 
 		this.tongtien = tongtien;
 	}
 	public String getMahoadon() {

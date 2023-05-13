@@ -501,6 +501,9 @@ public class PhongUI extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
 						ktra=true;
+						Long a = System.currentTimeMillis();
+						Date cr=new Date(a);
+						ctpdao1.update(cr, mahoadon);
 						
 						//test
 						

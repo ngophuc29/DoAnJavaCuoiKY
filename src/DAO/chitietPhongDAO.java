@@ -6,12 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 import database.ConnectDB;
 import entity.KhachHang;
 import entity.chitietDatPhong;
 import entity.dichVu;
+
+ 
 
 public class chitietPhongDAO {
 
@@ -109,12 +112,33 @@ public class chitietPhongDAO {
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                  sum += resultSet.getDouble(1);
-                System.out.println("Total salary for code 123: " + sum);
+//                System.out.println("Total salary for code 123: " + sum);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } 
 		return sum;
 	}
+	
+	//
+	
+	public static boolean update(Date date,String mahoadon ) {
+		Connection con=ConnectDB.getinstance().getConnection();
+		PreparedStatement stmt=null;
+		int n=0;
+		try {
+			stmt=con.prepareStatement(" update chitietHoaDonPhong set giora=? where mahoadon=?");
+			stmt.setDate(1, date);
+			
+			stmt.setString(2, mahoadon);
+			 
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return n>0;
+	}
+	//
 }
 ;

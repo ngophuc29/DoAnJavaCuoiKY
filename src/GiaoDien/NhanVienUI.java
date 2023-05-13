@@ -75,7 +75,7 @@ public class NhanVienUI extends JFrame {
 	private JRadioButton rdbtnam;
 	private JRadioButton rdbtnnu;
 	private JDateChooser dateeNgayVaoLam;
-	private JDateChooser dateengaysinh;
+	private JDateChooser dateeNgaySinhh;
 	
 	/**
 	 * Launch the application.
@@ -307,11 +307,11 @@ public class NhanVienUI extends JFrame {
 		rdbdNghiViec.setBounds(1502, 337, 173, 42);
 		contentPane.add(rdbdNghiViec);
 		
-		JDateChooser dateeNgayVaoLam = new JDateChooser();
+		dateeNgayVaoLam = new JDateChooser();
 		dateeNgayVaoLam.setBounds(1416, 398, 141, 20);
 		contentPane.add(dateeNgayVaoLam);
 		dateeNgayVaoLam.setDate(Calendar.getInstance().getTime());
-		JDateChooser dateeNgaySinhh = new JDateChooser();
+		 dateeNgaySinhh = new JDateChooser();
 		dateeNgaySinhh.setBounds(1688, 398, 141, 20);
 		contentPane.add(dateeNgaySinhh);
 		
@@ -363,15 +363,18 @@ public class NhanVienUI extends JFrame {
 					
 					//lay ngay sinh
 					
-					Date dateengaysinh= dateeNgaySinhh.getDate();
-
-					// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
-					 
-					String strDatengaysinh = dateFormat.format(dateengaysinh);
-
-					// Chuyển đổi chuỗi thành kiểu java.sql.Date
-					java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+					
 					if(validData()) {
+						//
+						Date dateengaysinh= dateeNgaySinhh.getDate();
+
+						// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
+						 
+						String strDatengaysinh = dateFormat.format(dateengaysinh);
+
+						// Chuyển đổi chuỗi thành kiểu java.sql.Date
+						java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
+						//
 						nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, chucvu, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1");
 						
 						if(nvdao.themDanhSachNV(nv)) {
@@ -495,9 +498,7 @@ public class NhanVienUI extends JFrame {
 				gioiTinh+="Nữ";
 			}
 			
-			String trangthai="CTT";
-			String loaiKH = "111";
-			 
+		 
 			 
 			// lay ngay thang
 			
@@ -513,21 +514,9 @@ public class NhanVienUI extends JFrame {
 			
 			//lay ngay sinh
 			
-			Date datengaysinh= dateengaysinh.getDate();
-
-			// Định dạng ngày thành chuỗi theo định dạng yyyy-MM-dd
-			 
-			String strDatengaysinh = dateFormat.format(datengaysinh);
-
-			// Chuyển đổi chuỗi thành kiểu java.sql.Date
-			java.sql.Date sqlDatengaysinh = java.sql.Date.valueOf(strDatengaysinh);
 			
-				nhanVien nv = new nhanVien(maNV, tenNV, sdt, cccd, diachi, null, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1");
+			
 				
-				if(nvdao.themDanhSachNV(nv)) {
-					Object []obj= {maNV, tenNV, sdt, cccd, diachi, null, gioiTinh, sqlDatengaysinh, sqlDatevaolam, trangthai, "1"};
-					model.addRow(obj);
-				}
 //				
 				
 //				nvdao.getAllnhanvien();
@@ -536,7 +525,7 @@ public class NhanVienUI extends JFrame {
 //				JOptionPane.showMessageDialog(this, "Error: ma sach theo mau : [A-Z]\\d{3}");
 //				return false;
 //			}
-			if(!(maNV.length() >0 && maNV.matches("[a-zA-Z' ]+"))) {
+			if(!(maNV.length() >0 && maNV.matches("[a-zA-Z0-9' ]+"))) {
 //					JOp ( "Error: Ten nv khong duoc de trong ",maKH);
 					JOptionPane.showMessageDialog(null, "Error: Mã nhân viên không được để trống");
 					return false;
@@ -556,17 +545,22 @@ public class NhanVienUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Error:  CCCD phải gồm 12 số");
 				return false;
 			}
-			if(!(diachi.length() >0 && diachi.matches("\"[a-zA-Z' ]+\""))) {
+			if(!(diachi.length() >0 && diachi.matches("[a-zA-Z' ]+"))) {
 				JOptionPane.showMessageDialog(null, "Error:  Địa chỉ không được để trống");
 				return false;
 			}
+			if(dateeNgaySinhh.getDate()==null) {
+				JOptionPane.showMessageDialog(null, "Chon ngay sinh truoc ");
+				return false;
+			}
+			
 			return true;
 	 }
 	public void riphet() {
-			List<nhanVien>dsctt=nvdao.getAllnhanvien();
+			List<nhanVien>dsnv=nvdao.getAllnhanvien();
 			
 			model.getDataVector().removeAllElements();
-			for (nhanVien nv : dsctt) {
+			for (nhanVien nv : dsnv) {
 				String []obj= {nv.getManv(),nv.getTennv(),nv.getSdt(),nv.getCmnd(),nv.getDiachi(),nv.getChucvu(),nv.getGioitinh(),nv.getNgaysinh()+"",nv.getNgayvaolam()+"",nv.getTrangthailamviec(), nv.getPassword()};
 				
 				model.addRow(obj);
