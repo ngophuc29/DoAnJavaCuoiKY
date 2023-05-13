@@ -32,6 +32,30 @@ public class dichVuDAO {
 		return dsdv;
 	}
 	
+	public List<dichVu> layAllDichVu(String txttendvu){
+		List<dichVu> dsdv=new ArrayList<dichVu>();
+		ConnectDB.getinstance();
+		Connection con =ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+			try {
+				String sql = "select * from dichvu where tendichvu=?";
+				stmt=con.prepareStatement(sql);
+				stmt.setString(1,txttendvu);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					String ma = rs.getString(1);
+					String ten = rs.getString(2);
+					String phi = rs.getString(3);
+					dichVu dv = new dichVu(ma, ten, Double.parseDouble(phi));
+					dsdv.add(dv);
+					
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			return dsdv;
+	}
+	
 	
 	
 	public String laytentheomaKh(String ma){
@@ -155,5 +179,4 @@ public class dichVuDAO {
 		return n>0;
 	}
 	
-}
-;
+};

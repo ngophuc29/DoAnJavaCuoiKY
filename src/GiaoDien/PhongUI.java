@@ -178,10 +178,10 @@ public class PhongUI extends JFrame {
 		JPopupMenu popupMenu = new JPopupMenu();
 		JMenuItem menuItem1 = new JMenuItem("Đặt Phòng");
 		JMenuItem menuItem2 = new JMenuItem("Chi Tiết Đặt Phòng");
-		JMenuItem menuItem3 = new JMenuItem("Dọn Phòng");
+		JMenuItem menuItem3 = new JMenuItem("Sẵn sàng");
 		popupMenu.add(menuItem1);
 		popupMenu.add(menuItem2);
- 
+		popupMenu.add(menuItem3);
 		
 		//
 		
@@ -442,14 +442,14 @@ public class PhongUI extends JFrame {
 									i++;
 								}
 								frmhd.table.setModel(frmhd.modelhoadon);
-								phongdaoo.update1("Phòng trống", makh);
+								phongdaoo.update1("Đang chờ", makh);
 								
 								//
 								
 								//update trang thai va them tien phong tien dich vu
 								hddao.update(24,  ctdvdao1.tongtiendichvu(makh) , ctdvdao1.tongtiendichvu(makh)+ctpdao1.tongtienphong(mahoadon), ctpdao1.tongtienphong(mahoadon), "DTT", mahoadon);
 								phongDAO dsphong=new phongDAO();
-								List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
+								List<phong> ds1= dsphong.laytenPhongtheott("Đang Chờ");
 								for (phong phong : ds1) {
 									  Component[] components =panelPhongUITable.getComponents();
 									    for (Component component : components) {
@@ -458,8 +458,8 @@ public class PhongUI extends JFrame {
 									          JLabel label=(JLabel) panel.getComponent(0);
 									          JLabel label1=(JLabel) panel.getComponent(2);
 									            if(label.getText().equals(phong.getMaPhong())) {		            
-									            	panel.setBackground(new Color(153, 204, 153));
-									            	label1.setText("Phòng trống");
+									            	panel.setBackground(new Color(240,245,50));
+									            	label1.setText("Đang Chờ");
 									            }
 									        }
 									    }
@@ -529,6 +529,21 @@ public class PhongUI extends JFrame {
 		    }
 		});
 		
+		menuItem3.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Xử lý sự kiện ở đây
+		    	 JPanel panel = (JPanel) popupMenu.getInvoker();
+		    	 JLabel label1 = (JLabel) panel.getComponent(0);
+				//
+//		    	 JLabel label1 = (JLabel) panel.getComponent(0);
+		    	 panel.setBackground(new Color(153,204,153));
+		    	  phongdaoo.update("Phòng trống",label1.getText());
+		    	 //
+			}
+		});
+		
 		
 		MouseListener mouseListener = new MouseAdapter() {
 		    @Override
@@ -541,14 +556,24 @@ public class PhongUI extends JFrame {
 						 if (e.isPopupTrigger()) {
 							 menuItem2.setEnabled(true);
 							 menuItem1.setEnabled(false);
+							 menuItem3.setEnabled(false);
 							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
 						 }
 					 }
 					 
-					 else {
+					 else  if(panel.getBackground().equals(new Color(153, 204, 153))) {
 						 if (e.isPopupTrigger()) {
 							 menuItem2.setEnabled(false);
 							 menuItem1.setEnabled(true);
+							 menuItem3.setEnabled(false);
+							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
+						 }
+					 }
+					 else {
+						 if (e.isPopupTrigger()) {
+							 menuItem2.setEnabled(false);
+							 menuItem1.setEnabled(false);
+							 menuItem3.setEnabled(true);
 							 popupMenu.show(e.getComponent(), e.getX(), e.getY());
 						 }
 					 }
@@ -991,6 +1016,7 @@ public class PhongUI extends JFrame {
 		phongDAO dsphong=new phongDAO();
 		List<phong> ds= dsphong.laytenPhongtheott("Phòng đã có khách");
 		List<phong> ds1= dsphong.laytenPhongtheott("Phòng trống");
+		List<phong> ds2= dsphong.laytenPhongtheott("Đang chờ");
 		for (phong phong : ds) {
 			  Component[] components =panelPhongUITable.getComponents();
 			    for (Component component : components) {
@@ -1015,6 +1041,20 @@ public class PhongUI extends JFrame {
 			            if(label.getText().equals(phong.getMaPhong())) {		            
 			            	panel.setBackground(new Color(153, 204, 153));
 			            	label1.setText("Phòng trống");
+			            }
+			        }
+			    }
+		}
+		for (phong phong : ds2) {
+			  Component[] components =panelPhongUITable.getComponents();
+			    for (Component component : components) {
+			        if (component instanceof JPanel) {
+			          JPanel panel=(JPanel)component;
+			          JLabel label=(JLabel) panel.getComponent(0);
+			          JLabel label1=(JLabel) panel.getComponent(2);
+			            if(label.getText().equals(phong.getMaPhong())) {		            
+			            	panel.setBackground(new Color(240, 245, 50));
+			            	label1.setText("Đang chờ");
 			            }
 			        }
 			    }

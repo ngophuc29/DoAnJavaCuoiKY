@@ -70,7 +70,7 @@ public class DichVuUI extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1399, 868);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 208, 183));

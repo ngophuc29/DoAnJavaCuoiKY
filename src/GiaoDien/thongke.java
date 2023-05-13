@@ -133,6 +133,7 @@ public class ThongKe extends JFrame {
 		panel_1.add(tongtienthongkeee);
 		
 		JButton btnNewButton_1 = new FixButton("Thống kê");
+		btnNewButton_1.setForeground(new Color(255, 255, 255));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				thongkeDAO tkdao= new thongkeDAO();
@@ -183,12 +184,16 @@ public class ThongKe extends JFrame {
 //		tongtienthongkeee.setText(tkdao.tienthongkeee(null, null));
 		
 		
-		btnNewButton_1.setBackground(new Color(255, 255, 255));
+		btnNewButton_1.setBackground(new Color(102, 102, 255));
 		btnNewButton_1.setBounds(940, 148, 175, 49);
 		contentPane.add(btnNewButton_1);
 		
 		JButton btnNewButton_1_1 = new FixButton("Cài lại");
-		btnNewButton_1_1.setBackground(new Color(255, 255, 255));
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton_1_1.setBackground(new Color(102, 102, 255));
 		btnNewButton_1_1.setBounds(940, 232, 175, 49);
 		contentPane.add(btnNewButton_1_1);
 		
