@@ -537,8 +537,8 @@ public class NhanVienUI extends JFrame {
 //				return false;
 //			}
 			if(!(maNV.length() >0 && maNV.matches("[a-zA-Z' ]+"))) {
-//					JOp ( "Error: Ten nv khong duoc de trong ",tenKH);
-					JOptionPane.showMessageDialog(null, "Error: Tên nhân viên không được để trống");
+//					JOp ( "Error: Ten nv khong duoc de trong ",maKH);
+					JOptionPane.showMessageDialog(null, "Error: Mã nhân viên không được để trống");
 					return false;
 				}
 			if(!(tenNV.length() >0 && tenNV.matches("[a-zA-Z' ]+"))) {

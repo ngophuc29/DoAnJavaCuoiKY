@@ -1,3 +1,4 @@
+ 
 package DAO;
 
 import java.sql.Statement;
@@ -78,9 +79,38 @@ public class dichVuDAO {
 		}
 		return dshd;
 	}
+
+	public static boolean themDichVu(dichVu dv) {
+
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n=0;
+		try { 
+			stmt = con.prepareStatement("insert into dichVu  ( madichvu, tendichvu, giadichvu) values (?,?,?)");
+
+			stmt.setString(1, dv.getMadichvu());
+			stmt.setString(2, dv.getTendichvu());
+			stmt.setDouble(3, dv.getGiadichvu());
 	
-	
-	
+			
+
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e2) {
+				// TODO: handle exception
+				e2.printStackTrace();
+			}
+
+		}
+		return n>0;
+	}
+
 	public static boolean delete(String madichvu) {
 		ConnectDB.getinstance();
 		Connection con = ConnectDB.getConnection();
@@ -97,5 +127,33 @@ public class dichVuDAO {
 		}
 		return n>0;
 	}
+	
+
+	public static boolean update(dichVu dv) {
+		
+		ConnectDB.getinstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n=0;
+		
+		try {
+			stmt = con.prepareStatement("  update dichvu set giadichvu=? ,tendichvu=? where madichvu=?");
+			 
+			stmt.setDouble(1, dv.getGiadichvu());
+			stmt.setString(2,dv.getTendichvu());
+			
+			stmt.setString(3, dv.getMadichvu());
+			
+			n=stmt.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		
+		
+		return n>0;
+	}
+	
 }
 ;

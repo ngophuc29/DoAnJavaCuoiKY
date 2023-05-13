@@ -20,10 +20,15 @@ import entity.dichVu;
 
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 
@@ -51,13 +56,13 @@ public class DichVuUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtmadv;
+	private JTextField txttendv;
+	private JTextField txtpgidv;
 	private JTextField textField_3;
 
 	private JTable table_1;
-	private dichVuDAO dichvuDAO;
+	private dichVuDAO dichvuDAO= new dichVuDAO();
 	public DichVuUI() {
 		try {
 			ConnectDB.getinstance().connect();
@@ -68,7 +73,7 @@ public class DichVuUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1399, 868);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(182, 208, 252));
+		contentPane.setBackground(new Color(242, 208, 183));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -78,7 +83,7 @@ public class DichVuUI extends JFrame {
 		btnDchV.setIcon(new ImageIcon(DichVuUI.class.getResource("/img/Household-Bell-Service-icon.png")));
 		btnDchV.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnDchV.setBorderPainted(false);
-		btnDchV.setBackground(new Color(182, 208, 252));
+		btnDchV.setBackground(new Color(242, 208, 183));
 		btnDchV.setBounds(41, 28, 194, 48);
 		contentPane.add(btnDchV);
 		
@@ -87,30 +92,30 @@ public class DichVuUI extends JFrame {
 		lblNewLabel.setBounds(56, 83, 185, 30);
 		contentPane.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setBounds(53, 124, 188, 30);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtmadv = new JTextField();
+		txtmadv.setBounds(53, 124, 188, 30);
+		contentPane.add(txtmadv);
+		txtmadv.setColumns(10);
 		
 		JLabel lblTnDchV = new JLabel("Tên Dịch Vụ");
 		lblTnDchV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblTnDchV.setBounds(56, 165, 185, 30);
 		contentPane.add(lblTnDchV);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(53, 206, 188, 30);
-		contentPane .add(textField_1);
+		txttendv = new JTextField();
+		txttendv.setColumns(10);
+		txttendv.setBounds(53, 206, 188, 30);
+		contentPane .add(txttendv);
 		
 		JLabel lblPhDchV = new JLabel("Phí Dịch Vụ");
 		lblPhDchV.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPhDchV.setBounds(56, 261, 185, 30);
 		contentPane.add(lblPhDchV);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(53, 302, 188, 30);
-		contentPane.add(textField_2);
+		txtpgidv = new JTextField();
+		txtpgidv.setColumns(10);
+		txtpgidv.setBounds(53, 302, 188, 30);
+		contentPane.add(txtpgidv);
 		
 		JLabel lblTrngThi = new JLabel("Trạng Thái");
 		lblTrngThi.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -118,32 +123,91 @@ public class DichVuUI extends JFrame {
 		contentPane.add(lblTrngThi);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("Hỗ trợ");
-		rdbtnNewRadioButton.setBackground(new Color(182, 208, 252));
+		rdbtnNewRadioButton.setBackground(new Color(242, 208, 183));
 		rdbtnNewRadioButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		rdbtnNewRadioButton.setBounds(56, 390, 90, 36);
 		contentPane.add(rdbtnNewRadioButton);
 		
 		JRadioButton rdbtnNgngHotng = new JRadioButton("Ngừng Hoạt Động");
 		rdbtnNgngHotng.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rdbtnNgngHotng.setBackground(new Color(182, 208, 252));
+		rdbtnNgngHotng.setBackground(new Color(242, 208, 183));
 		rdbtnNgngHotng.setBounds(147, 390, 148, 36);
 		contentPane.add(rdbtnNgngHotng);
 		
-		JButton btnNewButton = new JButton("Thêm");
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBounds(56, 433, 89, 48);
-		contentPane.add(btnNewButton);
+		JButton them = new JButton("Thêm");
+		them.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			 String ma=txtmadv.getText();
+			 String ten=txttendv.getText();
+			 String phi = txtpgidv.getText();
+			 
+			 dichVu dv=new dichVu(ma, ten,Double.parseDouble(phi) );
+			 
+			 if(dichvuDAO.themDichVu(dv)) {
+				 Object []obj= {txtmadv.getText(),txttendv.getText(),txtpgidv.getText()};
+				 model.addRow(obj);
+			 }
+			 
+			}
+		});
+		them.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		them.setBounds(56, 433, 89, 48);
+		contentPane.add(them);
 		
-		JButton btnXa = new JButton("Xóa");
+		JButton btnXa = new FixButton("Xóa");
+		//
+		
+		
+		btnXa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnXa.setForeground(Color.WHITE);
+		btnXa.setFont(new Font("SansSerif", Font.BOLD, 20));
+		btnXa.setBackground(new Color(201,250,184));
+		btnXa.setBounds(10, 153, 300, 36);
+		//
 		btnXa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row>=0) {
+					String madichvu = (String) table.getValueAt(row, 0);
+					if(dichVuDAO.delete(madichvu)) {
+						model.removeRow(row);
+						xoaRong();
+					}
+				}
+				
 			}
+			
 		});
 		btnXa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnXa.setBounds(168, 433, 89, 48);
 		contentPane.add(btnXa);
 		
 		JButton btnSa = new JButton("Sửa");
+		btnSa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if(row>=0) {
+					String maDV = txtmadv.getText();
+					String tenDV = txttendv.getText().toString();
+					String phiDV = txtpgidv.getText().toString();
+					
+					dichVu dv = new dichVu(maDV,tenDV,Double.parseDouble(phiDV));
+					
+					
+					if(dichVuDAO.update(dv)) {
+						
+						table.setValueAt(txtmadv.getText(), row, 0);
+						table.setValueAt(txttendv.getText(), row, 1);
+						table.setValueAt(txtpgidv.getText(), row, 2);
+					
+						
+					}
+				}
+			
+				
+			}
+		});
 		btnSa.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnSa.setBounds(56, 503, 89, 48);
 		contentPane.add(btnSa);
@@ -209,7 +273,7 @@ public class DichVuUI extends JFrame {
 		 
 		table.setRowHeight(30);
 		scrollPane.setViewportView(table);
-		dichvuDAO = new dichVuDAO();
+//		dichvuDAO = new dichVuDAO();
 		for (dichVu dv : dichvuDAO.getAlldichvu()) {
 			Object []obj= {dv.getMadichvu(),dv.getTendichvu(),dv.getGiadichvu() };
 			model.addRow(obj);
@@ -223,6 +287,49 @@ public class DichVuUI extends JFrame {
 		});
 		btnthoat.setBounds(57, 573, 200, 30);
 		contentPane.add(btnthoat);
+		
+		
+		
+		table.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int row =table.getSelectedRow();
+				txtmadv.setText(table.getValueAt(row, 0).toString());
+				txttendv.setText(table.getValueAt(row, 1).toString());
+				txtpgidv.setText(table.getValueAt(row, 2).toString());
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	private void xoaRong() {
+		txtmadv.setText("");
+		txttendv.setText("");
+		txtpgidv.setText("");
 	}
 
 }

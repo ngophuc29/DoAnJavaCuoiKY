@@ -128,7 +128,7 @@ public class TrangDangNhapUI extends JFrame {
 		lblNewLabel_2.setBounds(227, 226, 166, 16);
 		contentPane.add(lblNewLabel_2);
 		
-		JButton btnDangNhap = new JButton("Đăng Nhập");
+		JButton btnDangNhap = new FixButton("Đăng Nhập");
 		btnDangNhap.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
