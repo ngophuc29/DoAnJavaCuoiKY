@@ -139,7 +139,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(new Color(128, 128, 255));
-		panel_3.setBounds(10, 11, 962, 31);
+		panel_3.setBounds(0, 0, 972, 42);
 		panel.add(panel_3);
 		
 		JPanel panel_3_1 = new JPanel();
@@ -147,7 +147,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		panel_3.add(panel_3_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("Khách hàng");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(20, 53, 95, 20);
 		panel.add(lblNewLabel_1);
 		
@@ -166,18 +166,18 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		//
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Ngày Trả Phòng");
-		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_1_1.setBounds(261, 53, 122, 20);
+		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_1.setBounds(261, 53, 138, 20);
 		panel.add(lblNewLabel_1_1);
 		
 		txtngaytraphong = new JTextField();
 		txtngaytraphong.setColumns(10);
 		txtngaytraphong.setBackground(SystemColor.menu);
-		txtngaytraphong.setBounds(393, 53, 183, 20);
+		txtngaytraphong.setBounds(409, 53, 183, 20);
 		panel.add(txtngaytraphong);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("Giá Ngày");
-		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_1.setBounds(602, 53, 74, 20);
 		panel.add(lblNewLabel_1_1_1);
 		
@@ -191,7 +191,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		panel.add(txtgiangay);
 		
 		JLabel lblNewLabel_1_1_1_1 = new JLabel("Giá Giờ");
-		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_1_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1_1_1.setBounds(809, 53, 74, 20);
 		panel.add(lblNewLabel_1_1_1_1);
 		
@@ -281,12 +281,12 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		JPanel panel_3_2 = new JPanel();
 		panel_3_2.setBackground(new Color(128, 128, 255));
-		panel_3_2.setBounds(10, 0, 962, 31);
+		panel_3_2.setBounds(0, 0, 982, 31);
 		panelChivietDichVu.add(panel_3_2);
 		panel_3_2.setLayout(null);
 		
 		JLabel lblChiTitDch = new JLabel("Chi tiết Dịch vụ");
-		lblChiTitDch.setBounds(0, -3, 170, 34);
+		lblChiTitDch.setBounds(10, -3, 160, 34);
 		lblChiTitDch.setForeground(Color.WHITE);
 		lblChiTitDch.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblChiTitDch.setBackground(Color.WHITE);
@@ -359,14 +359,9 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		panelChivietDichVu.add(lblNewLabel_3_1_1);
 		
 		JLabel lblNewLabel_4 = new JLabel("Thêm Dịch Vụ");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_4.setBounds(567, 42, 173, 36);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel_4.setBounds(567, 96, 173, 36);
 		panelChivietDichVu.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("Tìm Kiếm Dịch Vụ");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_5.setBounds(571, 120, 173, 25);
-		panelChivietDichVu.add(lblNewLabel_5);
 		
 		  comboBox = new JComboBox();
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -468,22 +463,22 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_3_1_2.setBounds(256, 53, 61, 36);
 		panel_2.add(lblNewLabel_3_1_2);
 		
-		JLabel lblNewLabel_6 = new JLabel("Hình Thức Thanh Toán");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_6.setBounds(30, 98, 153, 31);
+		JLabel lblNewLabel_6 = new JLabel("Hình Thức Thanh Toán :");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblNewLabel_6.setBounds(30, 98, 175, 31);
 		panel_2.add(lblNewLabel_6);
 		
 		JLabel stk = new JLabel("Số Tài Khoản :");
 		stk.setToolTipText("Ngân Hàng MB");
-		stk.setFont(new Font("Tahoma", Font.BOLD, 13));
-		stk.setBounds(35, 186, 101, 22);
+		stk.setFont(new Font("Tahoma", Font.BOLD, 15));
+		stk.setBounds(30, 186, 121, 22);
 		panel_2.add(stk);
 		
 		txtstk = new JTextField();
 		txtstk.setFont(new Font("Tahoma", Font.BOLD, 13));
 		txtstk.setEditable(false);
 		txtstk.setEnabled(false);
-		txtstk.setBounds(40, 217, 139, 20);
+		txtstk.setBounds(30, 229, 139, 20);
 		panel_2.add(txtstk);
 		txtstk.setColumns(10);
 		
@@ -504,13 +499,13 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 
 			}
 		});
-		hinhthucthanhtoan.setBounds(40, 140, 116, 22);
+		hinhthucthanhtoan.setBounds(30, 140, 116, 22);
 		panel_2.add(hinhthucthanhtoan);
 		
 		
 		
-		JLabel lblNewLabel_7 = new JLabel("Phụ Thu");
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel lblNewLabel_7 = new JLabel("Phụ Thu :");
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_7.setBounds(239, 98, 116, 31);
 		panel_2.add(lblNewLabel_7);
 		
@@ -519,24 +514,24 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		panel_2.add(txtphuThu);
 		txtphuThu.setColumns(10);
 		
-		JLabel lblNewLabel_6_1 = new JLabel("Tiền Khách Đưa");
-		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel lblNewLabel_6_1 = new JLabel("Tiền Khách Đưa :");
+		lblNewLabel_6_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_6_1.setBounds(30, 260, 153, 31);
 		panel_2.add(lblNewLabel_6_1);
 		
 		txttienKhachDua = new JTextField();
 		txttienKhachDua.setColumns(10);
-		txttienKhachDua.setBounds(30, 302, 128, 20);
+		txttienKhachDua.setBounds(30, 302, 139, 20);
 		panel_2.add(txttienKhachDua);
 		
-		JLabel lblNewLabel_6_1_1 = new JLabel("Tiền Trả Lại");
-		lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JLabel lblNewLabel_6_1_1 = new JLabel("Tiền Trả Lại :");
+		lblNewLabel_6_1_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblNewLabel_6_1_1.setBounds(30, 342, 153, 31);
 		panel_2.add(lblNewLabel_6_1_1);
 		
 		txtTienkhachTraLai = new JTextField();
 		txtTienkhachTraLai.setColumns(10);
-		txtTienkhachTraLai.setBounds(30, 381, 128, 20);
+		txtTienkhachTraLai.setBounds(30, 381, 139, 20);
 		panel_2.add(txtTienkhachTraLai);
 		
 		JTextArea textArea = new JTextArea();
@@ -548,7 +543,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		lblNewLabel_8.setBounds(30, 431, 93, 14);
 		panel_2.add(lblNewLabel_8);
 		
-		 btnThanhToan = new JButton("Thanh Toán");
+		 btnThanhToan = new FixButton("Thanh Toán");
 		btnThanhToan.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -573,7 +568,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		
 		btnThanhToan.setForeground(new Color(255, 255, 255));
 		btnThanhToan.setBackground(new Color(128, 128, 255));
-		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnThanhToan.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnThanhToan.setBounds(30, 637, 375, 47);
 		panel_2.add(btnThanhToan);
 		
@@ -582,7 +577,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 		String []testtablekhachhang1= {"1","2","4","5",sdf.format(new Date()),gioraa};
 		modelkhachhang.addRow(testtablekhachhang1);
 //		modelkhachhang.addRow(testtablekhachhang1);
-		  btnTraPhong = new JButton("Trả Phòng");
+		  btnTraPhong = new FixButton("Trả Phòng");
 		btnTraPhong.addActionListener(new ActionListener() {
 			 @Override
 			    public void actionPerformed(ActionEvent e) {
@@ -597,13 +592,13 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 				 
 			    }
 		});
-		btnTraPhong.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnTraPhong.setBounds(225, 702, 180, 44);
+		btnTraPhong.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnTraPhong.setBounds(252, 704, 153, 42);
 		panel_2.add(btnTraPhong);
 		
-		  btnInHoaDon = new JButton("In Hóa Đơn");
-		btnInHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		btnInHoaDon.setBounds(34, 704, 153, 42);
+		  btnInHoaDon = new FixButton("In Hóa Đơn");
+		btnInHoaDon.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnInHoaDon.setBounds(30, 704, 153, 42);
 		panel_2.add(btnInHoaDon);
 		
 	
@@ -680,7 +675,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			f.getContentPane().add(spinner);
 			spinner.setValue(1);
 			
-			  themdichvu = new JButton("Thêm");
+			  themdichvu = new FixButton("Thêm");
 			themdichvu.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			themdichvu.setBounds(93,159, 89, 42);
 			f.getContentPane().add(themdichvu);
@@ -886,7 +881,7 @@ public class FormThongTinPhongVaThanhToan extends JFrame {
 			
 			 
 			
-			JButton btnCancale = new JButton("Cancel");
+			JButton btnCancale = new FixButton("Cancel");
 			btnCancale.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					f.setVisible(false);

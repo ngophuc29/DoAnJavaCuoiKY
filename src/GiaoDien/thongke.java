@@ -62,7 +62,7 @@ public class ThongKe extends JFrame {
 		}
 		
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1185, 465);
 		setLocationRelativeTo(null);
 		contentPane = new JPanel();
@@ -132,7 +132,7 @@ public class ThongKe extends JFrame {
 		tongtienthongkeee.setBounds(257, 51, 142, 33);
 		panel_1.add(tongtienthongkeee);
 		
-		JButton btnNewButton_1 = new JButton("Thống kê");
+		JButton btnNewButton_1 = new FixButton("Thống kê");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				thongkeDAO tkdao= new thongkeDAO();
@@ -167,6 +167,7 @@ public class ThongKe extends JFrame {
 //				Date truoc =truoc.getDate();
 				List<thongke>list=tkdao.thongkeee(datetruoc, datesau);
 				
+				model.setRowCount(0);
 				for (thongke thongke : list) {
 					Object []obj= {thongke.getMahoadon(),thongke.getMaphong(),thongke.getMakhachhang(),thongke.getNgaylap(),thongke.getTongtien()};
 					model.addRow(obj);
@@ -186,7 +187,7 @@ public class ThongKe extends JFrame {
 		btnNewButton_1.setBounds(940, 148, 175, 49);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_1_1 = new JButton("Cài lại");
+		JButton btnNewButton_1_1 = new FixButton("Cài lại");
 		btnNewButton_1_1.setBackground(new Color(255, 255, 255));
 		btnNewButton_1_1.setBounds(940, 232, 175, 49);
 		contentPane.add(btnNewButton_1_1);

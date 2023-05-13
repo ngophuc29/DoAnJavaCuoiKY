@@ -133,7 +133,7 @@ public class FrmHoaDon  extends JFrame  implements ActionListener{
 		txtHD.setBounds(10, 11, 462, 233);
 		pMain.add(txtHD);
 		
-		JButton btnIn = new JButton("In Hóa Đơn");
+		JButton btnIn = new FixButton("In Hóa Đơn");
 		btnIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				  PrinterJob job = PrinterJob.getPrinterJob();
@@ -167,7 +167,7 @@ public class FrmHoaDon  extends JFrame  implements ActionListener{
 		btnIn.setBounds(265, 591, 122, 23);
 		pMain.add(btnIn);
 		
-		btnNewButton = new JButton("Hủy");
+		btnNewButton = new FixButton("Hủy");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -301,7 +301,7 @@ public class FrmHoaDon  extends JFrame  implements ActionListener{
 	        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	        String formattedDate = dateFormat.format(now);
 //	        String formattedDate1 = dateFormat.format(hd.getGiora());
-	        txtHD.setText("\t\t   KARAOKE FANTASY\n");
+	        txtHD.setText("\t\t   Khách Sạn Bình Dương\n");
 			txtHD.setText(txtHD.getText()+"      12 Nguyễn Văn Bảo, P.4, Gò Vấp, TP.Hồ Chí Minh\n");
 			txtHD.setText(txtHD.getText() + "\t\t   SĐT: 0363435011\n");
 			txtHD.setText(txtHD.getText()+ "\t---------------------------------------\n");

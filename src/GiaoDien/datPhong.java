@@ -139,7 +139,7 @@ public class DatPhong extends JFrame {
 		comboBoxLoaiHInhThue.addItem("Theo Giờ");
 		
 		
-		btnDatPhong = new JButton("Đặt Phòng");
+		btnDatPhong = new FixButton("Đặt Phòng");
 		
 		btnDatPhong.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnDatPhong.setBounds(157, 191, 154, 42);

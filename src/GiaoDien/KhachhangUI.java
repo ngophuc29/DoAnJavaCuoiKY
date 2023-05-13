@@ -165,7 +165,7 @@ public class KhachhangUI extends JFrame {
 //            }
 //        });
 		
-		JButton btnLuu = new JButton("Lưu");
+		JButton btnLuu = new FixButton("Lưu");
 		btnLuu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -174,7 +174,7 @@ public class KhachhangUI extends JFrame {
 		btnLuu.setBounds(1602, 465, 200, 54);
 		contentPane.add(btnLuu);
 		
-		JButton btnKhchHng = new JButton("Khách Hàng");
+		JButton btnKhchHng = new FixButton("Khách Hàng");
 		btnKhchHng.setIcon(new ImageIcon(KhachhangUI.class.getResource("/img/man-icon.png")));
 		btnKhchHng.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnKhchHng.setBorderPainted(false);
@@ -262,7 +262,7 @@ public class KhachhangUI extends JFrame {
 		lblNewLabel_1_2_1_2_2_1.setBounds(1541, 247, 121, 48);
 		contentPane.add(lblNewLabel_1_2_1_2_2_1);
 		
-		JButton btnThem = new JButton("Thêm");
+		JButton btnThem = new FixButton("Thêm");
 		btnThem.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
 
@@ -338,7 +338,7 @@ riphet();
 		btnThem.setBounds(1310, 382, 102, 54);
 		contentPane.add(btnThem);
 		
-		JButton btnXoa = new JButton("Xóa");
+		JButton btnXoa = new FixButton("Xóa");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row=table.getSelectedRow();
@@ -357,7 +357,7 @@ riphet();
 		btnXoa.setBounds(1440, 382, 102, 54);
 		contentPane.add(btnXoa);
 		
-		JButton btnSua = new JButton("Sửa");
+		JButton btnSua = new FixButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -433,7 +433,7 @@ riphet();
 		btnSua.setBounds(1570, 382, 102, 54);
 		contentPane.add(btnSua);
 		
-		JButton btnThoat = new JButton("Thoát");
+		JButton btnThoat = new FixButton("Thoát");
 		btnThoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -443,7 +443,7 @@ riphet();
 		btnThoat.setBounds(1700, 382, 102, 54);
 		contentPane.add(btnThoat);
 		
-		JButton btnLocCTT = new JButton("Lọc Theo Trạng Thái");
+		JButton btnLocCTT = new FixButton("Lọc Theo Trạng Thái");
 		btnLocCTT.setForeground(new Color(0, 0, 0));
 		btnLocCTT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -463,7 +463,7 @@ riphet();
 		btnLocCTT.setBounds(1310, 466, 200, 54);
 		contentPane.add(btnLocCTT);
 		
-		JButton btntailai = new JButton("Cài lại");
+		JButton btntailai = new FixButton("Cài lại");
 		btntailai.setIcon(new ImageIcon(KhachhangUI.class.getResource("/img/Button-Load-icon.png")));
 		btntailai.addActionListener(new ActionListener() {
 			

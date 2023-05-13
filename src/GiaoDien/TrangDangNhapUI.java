@@ -219,7 +219,7 @@ public class TrangDangNhapUI extends JFrame {
 		btnDangNhap.setBounds(192, 258, 134, 41);
 		contentPane.add(btnDangNhap);
 		
-		JButton btnDoiMK = new JButton("Đổi mật khẩu");
+		JButton btnDoiMK = new FixButton("Đổi mật khẩu");
 		btnDoiMK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TrangDoiPass tdk= new TrangDoiPass();

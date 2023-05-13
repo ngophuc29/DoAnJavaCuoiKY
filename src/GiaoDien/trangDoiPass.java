@@ -95,7 +95,7 @@ public class TrangDoiPass extends JFrame {
 		textField_2.setBounds(202, 230, 274, 39);
 		contentPane.add(textField_2);
 		
-		JButton btnNewButton = new JButton("Lưu");
+		JButton btnNewButton = new FixButton("Lưu");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -110,7 +110,7 @@ public class TrangDoiPass extends JFrame {
 		btnNewButton.setBounds(206, 299, 116, 39);
 		contentPane.add(btnNewButton);
 		
-		JButton btnNewButton_1 = new JButton("Quay lại");
+		JButton btnNewButton_1 = new FixButton("Quay lại");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

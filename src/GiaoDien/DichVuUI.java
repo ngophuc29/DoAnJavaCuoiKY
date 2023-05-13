@@ -70,7 +70,7 @@ public class DichVuUI extends JFrame {
 			e.printStackTrace();
 		}
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1399, 868);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(242, 208, 183));
@@ -79,7 +79,7 @@ public class DichVuUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnDchV = new JButton("Dịch Vụ");
+		JButton btnDchV = new FixButton("Dịch Vụ");
 		btnDchV.setIcon(new ImageIcon(DichVuUI.class.getResource("/img/Household-Bell-Service-icon.png")));
 		btnDchV.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnDchV.setBorderPainted(false);
@@ -88,7 +88,7 @@ public class DichVuUI extends JFrame {
 		contentPane.add(btnDchV);
 		
 		JLabel lblNewLabel = new JLabel("Mã Dịch Vụ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(56, 83, 185, 30);
 		contentPane.add(lblNewLabel);
 		
@@ -98,7 +98,7 @@ public class DichVuUI extends JFrame {
 		txtmadv.setColumns(10);
 		
 		JLabel lblTnDchV = new JLabel("Tên Dịch Vụ");
-		lblTnDchV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTnDchV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTnDchV.setBounds(56, 165, 185, 30);
 		contentPane.add(lblTnDchV);
 		
@@ -108,7 +108,7 @@ public class DichVuUI extends JFrame {
 		contentPane .add(txttendv);
 		
 		JLabel lblPhDchV = new JLabel("Phí Dịch Vụ");
-		lblPhDchV.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblPhDchV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPhDchV.setBounds(56, 261, 185, 30);
 		contentPane.add(lblPhDchV);
 		
@@ -118,7 +118,7 @@ public class DichVuUI extends JFrame {
 		contentPane.add(txtpgidv);
 		
 		JLabel lblTrngThi = new JLabel("Trạng Thái");
-		lblTrngThi.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTrngThi.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTrngThi.setBounds(56, 353, 185, 30);
 		contentPane.add(lblTrngThi);
 		
@@ -134,7 +134,8 @@ public class DichVuUI extends JFrame {
 		rdbtnNgngHotng.setBounds(147, 390, 148, 36);
 		contentPane.add(rdbtnNgngHotng);
 		
-		JButton them = new JButton("Thêm");
+		JButton them = new FixButton("Thêm");
+		them.setBackground(new Color(0, 255, 0));
 		them.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -151,7 +152,7 @@ public class DichVuUI extends JFrame {
 			 
 			}
 		});
-		them.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		them.setFont(new Font("Tahoma", Font.BOLD, 12));
 		them.setBounds(56, 433, 89, 48);
 		contentPane.add(them);
 		
@@ -161,8 +162,8 @@ public class DichVuUI extends JFrame {
 		
 		btnXa.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnXa.setForeground(Color.WHITE);
-		btnXa.setFont(new Font("SansSerif", Font.BOLD, 20));
-		btnXa.setBackground(new Color(201,250,184));
+		btnXa.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnXa.setBackground(Color.RED);
 		btnXa.setBounds(10, 153, 300, 36);
 		//
 		btnXa.addActionListener(new ActionListener() {
@@ -183,7 +184,8 @@ public class DichVuUI extends JFrame {
 		btnXa.setBounds(168, 433, 89, 48);
 		contentPane.add(btnXa);
 		
-		JButton btnSa = new JButton("Sửa");
+		JButton btnSa = new FixButton("Sửa");
+		btnSa.setBackground(new Color(75, 0, 130));
 		btnSa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();
@@ -208,17 +210,18 @@ public class DichVuUI extends JFrame {
 				
 			}
 		});
-		btnSa.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnSa.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnSa.setBounds(56, 503, 89, 48);
 		contentPane.add(btnSa);
 		
-		JButton btnLu = new JButton("Lưu");
-		btnLu.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		JButton btnLu = new FixButton("Lưu");
+		btnLu.setBackground(new Color(0, 255, 255));
+		btnLu.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnLu.setBounds(168, 503, 89, 48);
 		contentPane.add(btnLu);
 		
 		JLabel lblNewLabel_1 = new JLabel("Tìm Kiếm");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_1.setBounds(307, 48, 99, 23);
 		contentPane.add(lblNewLabel_1);
 		
@@ -227,13 +230,13 @@ public class DichVuUI extends JFrame {
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
-		JButton btnNewButton_1 = new JButton("Tìm ");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JButton btnNewButton_1 = new FixButton("Tìm ");
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_1.setBounds(1036, 39, 89, 32);
 		contentPane.add(btnNewButton_1);
 		
-		JButton btnNewButton_1_1 = new JButton("Hủy");
-		btnNewButton_1_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		JButton btnNewButton_1_1 = new FixButton("Hủy");
+		btnNewButton_1_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnNewButton_1_1.setBounds(1158, 39, 89, 32);
 		contentPane.add(btnNewButton_1_1);
 		
@@ -279,13 +282,14 @@ public class DichVuUI extends JFrame {
 			model.addRow(obj);
 			
 		}
-		JButton btnthoat = new JButton("Thoát");
+		JButton btnthoat = new FixButton("Thoát");
+		btnthoat.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnthoat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnthoat.setBounds(57, 573, 200, 30);
+		btnthoat.setBounds(57, 573, 200, 40);
 		contentPane.add(btnthoat);
 		
 		

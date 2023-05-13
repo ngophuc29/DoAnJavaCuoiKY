@@ -116,7 +116,7 @@ public class NhanVienUI extends JFrame {
 	                  
 	
 
-		JButton btnnhavien = new JButton("Nhân viên");
+		JButton btnnhavien = new FixButton("Nhân viên");
 		
 		btnnhavien.setIcon(new ImageIcon(NhanVienUI.class.getResource("/img/Administrator-icon.png")));
 		btnnhavien.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -152,13 +152,13 @@ public class NhanVienUI extends JFrame {
 			
 		}
 		
-		JButton btnThem = new JButton("Thêm");
+		JButton btnThem = new FixButton("Thêm");
 		
 		btnThem.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnThem.setBounds(1294, 453, 216, 54);
 		contentPane.add(btnThem);
 		
-		JButton btnXoa = new JButton("Xóa");
+		JButton btnXoa = new FixButton("Xóa");
 		btnXoa.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row=table.getSelectedRow();
@@ -178,7 +178,7 @@ public class NhanVienUI extends JFrame {
 		contentPane.add(btnXoa);
 	
 		
-		JButton btnSua = new JButton("Sửa");
+		JButton btnSua = new FixButton("Sửa");
 		btnSua.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -188,12 +188,12 @@ public class NhanVienUI extends JFrame {
 		btnSua.setBounds(1294, 556, 216, 54);
 		contentPane.add(btnSua);
 		
-		JButton btnLuu = new JButton("Lưu");
+		JButton btnLuu = new FixButton("Lưu");
 		btnLuu.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		btnLuu.setBounds(1593, 556, 216, 54);
 		contentPane.add(btnLuu);
 		
-		JButton Close = new JButton("Thoát");
+		JButton Close = new FixButton("Thoát");
 		Close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

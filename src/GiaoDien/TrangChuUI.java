@@ -65,7 +65,7 @@ public class TrangChuUI extends JFrame {
 		lblNewLabel.setBounds(23, 51, 258, 55);
 		contentPane.add(lblNewLabel);
 		
-		JButton btnHome = new JButton("Home");
+		JButton btnHome = new FixButton("Home");
 		btnHome.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/home-icon.png")));
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,7 +79,7 @@ public class TrangChuUI extends JFrame {
 		
 		
 		
-		  btnnhavien = new JButton("Nhân viên");
+		  btnnhavien = new FixButton("Nhân viên");
 		btnnhavien.setBackground(new Color(242, 208, 183));
 		btnnhavien.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Administrator-icon.png")));
 		btnnhavien.setFont(new Font("Tahoma", Font.PLAIN, 17));
@@ -99,7 +99,7 @@ public class TrangChuUI extends JFrame {
 		 
 		
 		
-		JButton btnKhchHng = new JButton("Khách Hàng");
+		JButton btnKhchHng = new FixButton("Khách Hàng");
 		btnKhchHng.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/man-icon.png")));
 		btnKhchHng.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -122,7 +122,7 @@ public class TrangChuUI extends JFrame {
 		btnKhchHng.setBounds(50, 321, 194, 48);
 		contentPane.add(btnKhchHng);
 		
-		btnPhng = new JButton("Phòng");
+		btnPhng = new FixButton("Phòng");
 		btnPhng.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Shoji2-paper-sliding-door-icon.png")));
 		btnPhng.setFont(new Font("Tahoma", Font.PLAIN, 17));
 	
@@ -142,7 +142,7 @@ public class TrangChuUI extends JFrame {
 		btnPhng.setBorderPainted(false);
 		
 		
-		JButton btnDchV = new JButton("Dịch Vụ");
+		JButton btnDchV = new FixButton("Dịch Vụ");
 		btnDchV.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Household-Bell-Service-icon.png")));
 		btnDchV.setFont(new Font("Tahoma", Font.PLAIN, 17));
 
@@ -179,9 +179,12 @@ public class TrangChuUI extends JFrame {
 			}
 		});
 		
-		JButton btnThngK = new JButton("Thống kê");
+		JButton btnThngK = new FixButton("Thống kê");
 		btnThngK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				ThongKe tk= new ThongKe();
+				tk.setVisible(true);
 			}
 		});
 		btnThngK.setIcon(new ImageIcon(TrangChuUI.class.getResource("/img/Numbers-icon.png")));
